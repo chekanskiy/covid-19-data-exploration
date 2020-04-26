@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+.ipynb_checkpoints/
+venv/
+jupyterhub.sqlite
+jupyterhub_config.py

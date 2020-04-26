@@ -1,0 +1,624 @@
+land,confirmed,dead,date,data
+Thuringia,2058,71,2020-04-25,Thuringia 2.058 35 96 71
+Mecklenburg-Western Pomerania,667,16,2020-04-25,Mecklenburg-Western Pomerania  667 6 41 16
+Bavaria,40547,1566,2020-04-25,Bavaria 40.547 608 310 1.566
+Berlin,5525,113,2020-04-25,Berlin 5.525 66 147 113
+Brandenburg,2627,97,2020-04-25,Brandenburg 2.627 91 105 97
+Bremen,719,27,2020-04-25,Bremen 719 12 105 27
+Hamburg,4400,139,2020-04-25,Hamburg 4.400 42 239 139
+Hesse,7837,305,2020-04-25,Hesse 7.837 125 125 305
+Lower Saxony,9691,377,2020-04-25,Lower Saxony 9.691 147 121 377
+North Rhine-Westphalia,31465,1084,2020-04-25,North Rhine-Westphalia 31.465 359 175 1.084
+Rhineland-Palatinate,5767,138,2020-04-25,Rhineland-Palatinate 5.767 36 141 138
+Saarland,2468,107,2020-04-25,Saarland 2.468 23 249 107
+Saxony,4406,141,2020-04-25,Saxony 4.406 29 108 141
+Saxony-Anhalt,1480,35,2020-04-25,Saxony-Anhalt 1.480 44 67 35
+Schleswig-Holstein,2612,95,2020-04-25,Schleswig-Holstein 2.612 55 90 95
+Baden-Wuerttemberg,30169,1189,2020-04-25,Baden-Wuerttemberg 30.169 377 273 1.189
+Mecklenburg-Western Pomerania,661,16,2020-04-24,Mecklenburg-Western Pomerania  661 2 41 16
+Thuringia,2023,65,2020-04-24,"Thuringia 2,023 91 94 65"
+North Rhine-Westphalia,31106,1052,2020-04-24,"North Rhine-Westphalia 31,106 522 173 1,052"
+Lower Saxony,9544,364,2020-04-24,"Lower Saxony 9,544 153 120 364"
+Berlin,5459,112,2020-04-24,"Berlin 5,459 135 146 112"
+Brandenburg,2536,90,2020-04-24,"Brandenburg 2,536 89 101 90"
+Bremen,707,27,2020-04-24,Bremen 707 35 104 27
+Hamburg,4358,122,2020-04-24,"Hamburg 4,358 72 237 122"
+Hesse,7712,296,2020-04-24,"Hesse 7,712 119 123 296"
+Bavaria,39939,1525,2020-04-24,"Bavaria 39,939 544 305 1,525"
+Rhineland-Palatinate,5731,136,2020-04-24,"Rhineland-Palatinate 5,731 88 140 136"
+Saarland,2445,105,2020-04-24,"Saarland 2,445 50 247 105"
+Saxony,4377,135,2020-04-24,"Saxony 4,377 50 107 135"
+Saxony-Anhalt,1436,35,2020-04-24,"Saxony-Anhalt 1,436 11 65 35"
+Schleswig-Holstein,2557,88,2020-04-24,"Schleswig-Holstein 2,557 27 88 88"
+Baden-Wuerttemberg,29792,1153,2020-04-24,"Baden-Wuerttemberg 29,792 349 269 1,153"
+North Rhine-Westphalia,30584,999,2020-04-23,"North Rhine-Westphalia 30,584 399 171 999"
+Thuringia,1932,61,2020-04-23,"Thuringia 1,932 60 90 61"
+Rhineland-Palatinate,5643,131,2020-04-23,"Rhineland-Palatinate 5,643 50 138 131"
+Mecklenburg-Western Pomerania,659,15,2020-04-23,Mecklenburg-Western Pomerania  659 3 41 15
+Saxony,4327,127,2020-04-23,"Saxony 4,327 54 106 127"
+Saarland,2395,99,2020-04-23,"Saarland 2,395 28 242 99"
+Brandenburg,2447,84,2020-04-23,"Brandenburg 2,447 58 97 84"
+Bremen,672,27,2020-04-23,Bremen 672 48 98 27
+Hamburg,4286,113,2020-04-23,"Hamburg 4,286 82 233 113"
+Hesse,7593,286,2020-04-23,"Hesse 7,593 213 121 286"
+Lower Saxony,9391,340,2020-04-23,"Lower Saxony 9,391 155 116 340"
+Bavaria,39395,1476,2020-04-23,"Bavaria 39,395 581 301 1,476"
+Berlin,5324,105,2020-04-23,"Berlin 5,324 12 142 105"
+Saxony-Anhalt,1425,34,2020-04-23,"Saxony-Anhalt 1,425 30 65 34"
+Schleswig-Holstein,2530,84,2020-04-23,"Schleswig-Holstein 2,530 34 87 84"
+Baden-Wuerttemberg,29443,1113,2020-04-23,"Baden-Wuerttemberg 29,443 545 266 1,113"
+Rhineland-Palatinate,5593,122,2020-04-22,"Rhineland-Palatinate 5,593 32 137 122"
+Thuringia,1872,71,2020-04-22,"Thuringia 1,872 74 87 71"
+Lower Saxony,9236,328,2020-04-22,"Lower Saxony 9,236 138 116 328"
+Mecklenburg-Western Pomerania,656,15,2020-04-22,Mecklenburg-Western Pomerania  656 1 41 15
+Saarland,2367,97,2020-04-22,"Saarland 2,367 39 239 97"
+North Rhine-Westphalia,30185,964,2020-04-22,"North Rhine-Westphalia 30,185 796 168 964"
+Schleswig-Holstein  *,2496,79,2020-04-22,"Schleswig-Holstein 2,496 82* 86 79"
+Saxony-Anhalt,1395,33,2020-04-22,"Saxony-Anhalt 1,395 12 63 33"
+Bremen,624,26,2020-04-22,Bremen 624 15 91 26
+Hamburg,4204,91,2020-04-22,"Hamburg 4,204 0 228 91"
+Hesse,7380,265,2020-04-22,"Hesse 7,380 149 118 265"
+Bavaria,38814,1424,2020-04-22,"Bavaria 38,814 504 297 1,424"
+Berlin,5312,105,2020-04-22,"Berlin 5,312 75 142 105"
+Saxony,4273,122,2020-04-22,"Saxony 4,273 20 105 122"
+Brandenburg,2389,74,2020-04-22,"Brandenburg 2,389 114 95 74"
+Baden-Wuerttemberg,28898,1063,2020-04-22,"Baden-Wuerttemberg 28,898 186 261 1,063"
+Saxony-Anhalt,1383,32,2020-04-21,"Saxony-Anhalt 1,383 14 63 32"
+Thuringia,1798,55,2020-04-21,"Thuringia 1,798 13 84 55"
+Rhineland-Palatinate,5561,116,2020-04-21,"Rhineland-Palatinate 5,561 38 136 116"
+Bavaria,38310,1336,2020-04-21,"Bavaria 38,310 461 293 1,336"
+North Rhine-Westphalia,29389,896,2020-04-21,"North Rhine-Westphalia 29,389 418 164 896"
+Mecklenburg-Western Pomerania,655,15,2020-04-21,Mecklenburg-Western Pomerania  655 2 41 15
+Schleswig-Holstein  -*,2414,70,2020-04-21,"Schleswig-Holstein 2,414 -12* 83 70"
+Saarland,2328,93,2020-04-21,"Saarland 2,328 14 235 93"
+Lower Saxony,9098,306,2020-04-21,"Lower Saxony 9,098 198 114 306"
+Saxony,4253,117,2020-04-21,"Saxony 4,253 24 104 117"
+Bremen,609,25,2020-04-21,Bremen 609 5 89 25
+Hamburg,4204,91,2020-04-21,"Hamburg 4,204 19 228 91"
+Hesse,7231,251,2020-04-21,"Hesse 7,231 54 115 251"
+Baden-Wuerttemberg,28712,1031,2020-04-21,"Baden-Wuerttemberg 28,712 459 259 1,031"
+Brandenburg,2275,67,2020-04-21,"Brandenburg 2,275 37 91 67"
+Berlin,5237,97,2020-04-21,"Berlin 5,237 41 140 97"
+Lower Saxony,8900,291,2020-04-20,"Lower Saxony 8,900 103 111 291"
+Saarland,2314,91,2020-04-20,"Saarland 2,314 11 234 91"
+Berlin,5196,94,2020-04-20,"Berlin 5,196 37 139 94"
+North Rhine-Westphalia,28971,857,2020-04-20,"North Rhine-Westphalia 28,971 500 162 857"
+Mecklenburg-Western Pomerania,653,15,2020-04-20,Mecklenburg-Western Pomerania  653 2 41 15
+Saxony-Anhalt,1369,30,2020-04-20,"Saxony-Anhalt 1,369 19 62 30"
+Bavaria,37849,1286,2020-04-20,"Bavaria 37,849 442 289 1,286"
+Schleswig-Holstein,2426,67,2020-04-20,"Schleswig-Holstein 2,426 9 84 67"
+Saxony,4229,109,2020-04-20,"Saxony 4,229 39 104 109"
+Rhineland-Palatinate,5523,107,2020-04-20,"Rhineland-Palatinate 5,523 91 135 107"
+Brandenburg,2238,66,2020-04-20,"Brandenburg 2,238 17 89 66"
+Baden-Wuerttemberg,28253,982,2020-04-20,"Baden-Wuerttemberg 28,253 370 255 982"
+Hesse,7177,240,2020-04-20,"Hesse 7,177 69 115 240"
+Hamburg,4185,91,2020-04-20,"Hamburg 4,185 18 227 91"
+Bremen,604,25,2020-04-20,Bremen 604 19 88 25
+Thuringia,1785,53,2020-04-20,"Thuringia 1,785 29 83 53"
+Hesse,7108,230,2020-04-19,"Hesse 7,108 192 113 230"
+Thuringia,1756,53,2020-04-19,"Thuringia 1,756 39 82 53"
+Bremen,585,25,2020-04-19,Bremen 585 18 86 25
+Hamburg,4167,91,2020-04-19,"Hamburg 4,167 49 226 91"
+Baden-Wuerttemberg,27883,968,2020-04-19,"Baden-Wuerttemberg 27,883 625 252 968"
+Schleswig-Holstein,2417,62,2020-04-19,"Schleswig-Holstein 2,417 30 83 62"
+Bavaria,37407,1256,2020-04-19,"Bavaria 37,407 526 286 1,256"
+Saxony,4190,107,2020-04-19,"Saxony 4,190 50 103 107"
+Saxony-Anhalt,1350,30,2020-04-19,"Saxony-Anhalt 1,350 35 61 30"
+Lower Saxony,8797,288,2020-04-19,"Lower Saxony 8,797 148 110 288"
+Berlin,5159,92,2020-04-19,"Berlin 5,159 93 138 92"
+Rhineland-Palatinate,5432,106,2020-04-19,"Rhineland-Palatinate 5,432 108 133 106"
+Brandenburg,2221,66,2020-04-19,"Brandenburg 2,221 60 88 66"
+Mecklenburg-Western Pomerania,651,15,2020-04-19,Mecklenburg-Western Pomerania  651 6 40 15
+North Rhine-Westphalia,28471,814,2020-04-19,"North Rhine-Westphalia 28,471 465 159 814"
+Saarland,2303,91,2020-04-19,"Saarland 2,303 14 233 91"
+Rhineland-Palatinate,5324,99,2020-04-18,"Rhineland-Palatinate 5,324 113 130 99"
+Bavaria,36881,1198,2020-04-18,"Bavaria 36,881 854 282 1,198"
+Mecklenburg-Western Pomerania,645,14,2020-04-18,Mecklenburg-Western Pomerania  645 11 40 14
+Lower Saxony,8649,281,2020-04-18,"Lower Saxony 8,649 207 108 281"
+Thuringia,1717,50,2020-04-18,"Thuringia 1,717 35 80 50"
+Berlin,5066,91,2020-04-18,"Berlin 5,066 121 135 91"
+Saarland,2289,86,2020-04-18,"Saarland 2,289 35 231 86"
+Baden-Wuerttemberg,27258,919,2020-04-18,"Baden-Wuerttemberg 27,258 715 246 919"
+Saxony,4140,103,2020-04-18,"Saxony 4,140 92 102 103"
+North Rhine-Westphalia,28006,791,2020-04-18,"North Rhine-Westphalia 28,006 976 156 791"
+Saxony-Anhalt,1315,29,2020-04-18,"Saxony-Anhalt 1,315 36 60 29"
+Schleswig-Holstein,2387,61,2020-04-18,"Schleswig-Holstein 2,387 38 82 61"
+Hamburg,4118,90,2020-04-18,"Hamburg 4,118 113 224 90"
+Brandenburg,2161,62,2020-04-18,"Brandenburg 2,161 41 86 62"
+Bremen,567,24,2020-04-18,Bremen 567 11 83 24
+Hesse,6916,212,2020-04-18,"Hesse 6,916 211 110 212"
+Lower Saxony,8442,274,2020-04-17,Lower Saxony 8.442 254 106 274
+Brandenburg,2120,60,2020-04-17,Brandenburg 2.120 62 84 60
+Baden-Wuerttemberg,26543,872,2020-04-17,Baden-Wuerttemberg 26.543 662 240 872
+Saarland,2254,76,2020-04-17,Saarland 2.254 53 228 76
+Rhineland-Palatinate,5211,92,2020-04-17,Rhineland-Palatinate 5.211 124 128 92
+Bremen,556,22,2020-04-17,Bremen 556 49 81 22
+Berlin,4945,84,2020-04-17,Berlin 4.945 97 132 84
+Hesse,6705,197,2020-04-17,Hesse 6.705 235 107 197
+Mecklenburg-Western Pomerania,634,13,2020-04-17,Mecklenburg-Western Pomerania  634 0 39 13
+Thuringia,1682,49,2020-04-17,Thuringia 1.682 81 78 49
+Schleswig-Holstein,2349,59,2020-04-17,Schleswig-Holstein 2.349 55 81 59
+Bavaria,36027,1137,2020-04-17,Bavaria 36.027 885 276 1.137
+Saxony-Anhalt,1279,28,2020-04-17,Saxony-Anhalt 1.279 31 58 28
+North Rhine-Westphalia,27030,726,2020-04-17,North Rhine-Westphalia 27.030 647 151 726
+Saxony,4048,95,2020-04-17,Saxony 4.048 93 99 95
+Hamburg,4005,84,2020-04-17,Hamburg 4.005 52 218 84
+Hamburg,3953,80,2020-04-16,"Hamburg 3,953 84 215 80"
+Bremen,507,21,2020-04-16,Bremen 507 7 74 21
+Saarland,2201,71,2020-04-16,"Saarland 2,201 56 222 71"
+Bavaria,35142,1049,2020-04-16,"Bavaria 35,142 848 269 1.049"
+Hesse,6470,187,2020-04-16,"Hesse 6,470 123 103 187"
+Saxony,3955,94,2020-04-16,"Saxony 3,955 136 97 94"
+Rhineland-Palatinate,5087,87,2020-04-16,"Rhineland-Palatinate 5,087 83 125 87"
+Saxony-Anhalt,1248,26,2020-04-16,"Saxony-Anhalt 1,248 25 57 26"
+Berlin,4848,74,2020-04-16,"Berlin 4,848 126 129 74"
+Schleswig-Holstein,2294,55,2020-04-16,"Schleswig-Holstein 2,294 49 79 55"
+Thuringia,1601,45,2020-04-16,"Thuringia 1,601 51 75 45"
+Lower Saxony,8188,248,2020-04-16,"Lower Saxony 8,188 169 103 248"
+Mecklenburg-Western Pomerania,634,13,2020-04-16,Mecklenburg-Western Pomerania  634 10 39 13
+Baden-Wuerttemberg,25881,802,2020-04-16,"Baden-Wuerttemberg 25,881 443 234 802"
+North Rhine-Westphalia,26383,663,2020-04-16,"North Rhine-Westphalia 26,383 548 147 663"
+Brandenburg,2058,54,2020-04-16,"Brandenburg 2,058 108 82 54"
+Saxony,3819,73,2020-04-15,
+Hesse,6347,173,2020-04-15,
+Rhineland-Palatinate,5004,77,2020-04-15,
+Bavaria,34294,954,2020-04-15,
+North Rhine-Westphalia,25835,607,2020-04-15,
+Thuringia,1550,38,2020-04-15,
+Schleswig-Holstein,2245,54,2020-04-15,
+Berlin,4722,62,2020-04-15,
+Saarland,2145,58,2020-04-15,
+Brandenburg,1950,42,2020-04-15,
+Saxony-Anhalt,1223,26,2020-04-15,
+Baden-Wuerttemberg,25438,767,2020-04-15,
+Lower Saxony,8019,224,2020-04-15,
+Bremen,500,21,2020-04-15,
+Mecklenburg-Western Pomerania,624,11,2020-04-15,
+Hamburg,3869,67,2020-04-15,
+Saxony-Anhalt,1207,25,2020-04-14,
+Lower Saxony,7885,211,2020-04-14,
+Thuringia,1504,31,2020-04-14,
+Saxony,3751,70,2020-04-14,
+Bavaria,33569,872,2020-04-14,
+Rhineland-Palatinate,4880,70,2020-04-14,
+Hamburg,3808,59,2020-04-14,
+Saarland,2112,52,2020-04-14,
+Schleswig-Holstein,2164,49,2020-04-14,
+Berlin,4668,56,2020-04-14,
+Baden-Wuerttemberg,25040,711,2020-04-14,
+North Rhine-Westphalia,25300,545,2020-04-14,
+Brandenburg,1916,40,2020-04-14,
+Bremen,492,20,2020-04-14,
+Hesse,6183,147,2020-04-14,
+Mecklenburg-Western Pomerania,619,11,2020-04-14,
+Saxony-Anhalt,1193,24,2020-04-13,
+Hamburg,3770,56,2020-04-13,
+Rhineland-Palatinate,4810,68,2020-04-13,
+Saxony,3655,68,2020-04-13,
+Bremen,486,17,2020-04-13,
+Mecklenburg-Western Pomerania,618,11,2020-04-13,
+Lower Saxony,7723,201,2020-04-13,
+Baden-Wuerttemberg,24570,677,2020-04-13,
+Bavaria,33015,820,2020-04-13,
+Berlin,4601,51,2020-04-13,
+Schleswig-Holstein,2134,44,2020-04-13,
+Brandenburg,1880,38,2020-04-13,
+Hesse,6114,135,2020-04-13,
+North Rhine-Westphalia,24883,518,2020-04-13,
+Saarland,2079,44,2020-04-13,
+Thuringia,1485,27,2020-04-13,
+Berlin,4567,50,2020-04-12,
+Thuringia,1464,25,2020-04-12,
+Hesse,5859,123,2020-04-12,
+Bremen,480,15,2020-04-12,
+Brandenburg,1857,38,2020-04-12,
+Hamburg,3742,56,2020-04-12,
+Schleswig-Holstein,2118,41,2020-04-12,
+Saarland,2058,43,2020-04-12,
+Bavaria,32282,786,2020-04-12,
+Rhineland-Palatinate,4734,64,2020-04-12,
+North Rhine-Westphalia,24267,495,2020-04-12,
+Lower Saxony,7602,189,2020-04-12,
+Baden-Wuerttemberg,24078,649,2020-04-12,
+Mecklenburg-Western Pomerania,605,11,2020-04-12,
+Saxony,3600,67,2020-04-12,
+Saxony-Anhalt,1166,21,2020-04-12,
+North Rhine-Westphalia,23644,472,2020-04-11,
+Bremen,469,15,2020-04-11,
+Saarland,2016,41,2020-04-11,
+Baden-Wuerttemberg,23617,622,2020-04-11,
+Saxony-Anhalt,1135,18,2020-04-11,
+Saxony,3565,65,2020-04-11,
+Mecklenburg-Western Pomerania,601,11,2020-04-11,
+Hamburg,3663,56,2020-04-11,
+Bavaria,31453,747,2020-04-11,
+Schleswig-Holstein,2065,39,2020-04-11,
+Hesse,5808,120,2020-04-11,
+Thuringia,1435,25,2020-04-11,
+Lower Saxony,7343,171,2020-04-11,
+Brandenburg,1764,37,2020-04-11,
+Berlin,4458,46,2020-04-11,
+Rhineland-Palatinate,4622,59,2020-04-11,
+Bremen,454,13,2020-04-10,Bremen 454 9 66 13
+North Rhine-Westphalia,23028,446,2020-04-10,"North Rhine-Westphalia 23,028 1,067 128 446"
+Thuringia,1416,24,2020-04-10,"Thuringia 1,416 65 66 24"
+Schleswig-Holstein,2029,38,2020-04-10,"Schleswig-Holstein 2,029 97 70 38"
+Berlin,4349,42,2020-04-10,"Berlin 4,349 147 116 42"
+Lower Saxony,7114,161,2020-04-10,"Lower Saxony 7,114 310 89 161"
+Saxony,3402,59,2020-04-10,"Saxony 3,402 141 83 59"
+Brandenburg,1691,37,2020-04-10,"Brandenburg 1,691 113 67 37"
+Rhineland-Palatinate,4440,51,2020-04-10,"Rhineland-Palatinate 4,440 104 109 51"
+Bavaria,30363,703,2020-04-10,"Bavaria 30,363 1,536 232 703"
+Saxony-Anhalt,1121,18,2020-04-10,"Saxony-Anhalt 1,121 46 51 18"
+Hamburg,3551,53,2020-04-10,"Hamburg 3,551 231 193 53"
+Baden-Wuerttemberg,22433,570,2020-04-10,"Baden-Wuerttemberg 22,433 830 203 570"
+Hesse,5694,111,2020-04-10,"Hesse 5,694 452 91 111"
+Mecklenburg-Western Pomerania,586,11,2020-04-10,Mecklenburg-Western Pomerania  586 14 36 11
+Saarland,1854,36,2020-04-10,"Saarland 1,854 161 187 36"
+Saxony,3261,52,2020-04-09,"Saxony 3,261 117 80 52"
+Hesse,5242,100,2020-04-09,"Hesse 5,242 277 84 100"
+Rhineland-Palatinate,4336,50,2020-04-09,"Rhineland-Palatinate 4,336 188 106 50"
+North Rhine-Westphalia,21961,384,2020-04-09,"North Rhine-Westphalia 21,961 1,032 122 384"
+Berlin,4202,37,2020-04-09,"Berlin 4,202 174 112 37"
+Lower Saxony,6804,141,2020-04-09,"Lower Saxony 6,804 419 85 141"
+Mecklenburg-Western Pomerania,572,11,2020-04-09,Mecklenburg-Western Pomerania  572 17 36 11
+Baden-Wuerttemberg,21603,519,2020-04-09,"Baden-Wuerttemberg 21,603 923 195 519"
+Saxony-Anhalt,1075,16,2020-04-09,"Saxony-Anhalt 1,075 55 49 16"
+Saarland,1693,23,2020-04-09,"Saarland 1,693 56 171 23"
+Schleswig-Holstein,1932,34,2020-04-09,"Schleswig-Holstein 1,932 105 67 34"
+Bremen,445,11,2020-04-09,Bremen 445 21 65 11
+Thuringia,1351,20,2020-04-09,"Thuringia 1,351 66 63 20"
+Brandenburg,1578,30,2020-04-09,"Brandenburg 1,578 106 63 30"
+Bavaria,28827,635,2020-04-09,"Bavaria 28,827 1,263 220 635"
+Hamburg,3320,44,2020-04-09,"Hamburg 3,320 155 180 44"
+Rhineland-Palatinate,4148,45,2020-04-08,"Rhineland-Palatinate 4,148 156 102 45"
+North Rhine-Westphalia,20929,348,2020-04-08,"North Rhine-Westphalia 20,929 709 117 348"
+Lower Saxony,6385,121,2020-04-08,"Lower Saxony 6,385 185 80 121"
+Baden-Wuerttemberg,20680,464,2020-04-08,"Baden-Wuerttemberg 20,680 539 187 464"
+Brandenburg,1472,22,2020-04-08,"Brandenburg 1,472 88 59 22"
+Bavaria,27564,564,2020-04-08,"Bavaria 27,564 1,401 211 564"
+Bremen,424,10,2020-04-08,Bremen 424 25 62 10
+Thuringia,1285,20,2020-04-08,"Thuringia 1,285 77 60 20"
+Berlin,4028,32,2020-04-08,"Berlin 4,028 183 107 32"
+Mecklenburg-Western Pomerania,555,11,2020-04-08,Mecklenburg-Western Pomerania  555 24 34 11
+Hamburg,3165,23,2020-04-08,"Hamburg 3,165 106 172 23"
+Hesse,4965,84,2020-04-08,"Hesse 4,965 128 79 84"
+Saarland,1637,23,2020-04-08,"Saarland 1,637 105 165 23"
+Saxony,3144,50,2020-04-08,"Saxony 3,144 147 77 50"
+Saxony-Anhalt,1020,16,2020-04-08,"Saxony-Anhalt 1,020 33 46 16"
+Schleswig-Holstein,1827,28,2020-04-08,"Schleswig-Holstein 1,827 97 63 28"
+North Rhine-Westphalia,20220,282,2020-04-07,"North Rhine-Westphalia 20,220 836 113 282"
+Saxony,2997,38,2020-04-07,"Saxony 2,997 94 73 38"
+Schleswig-Holstein,1730,24,2020-04-07,"Schleswig-Holstein 1,730 59 60 24"
+Rhineland-Palatinate,3992,34,2020-04-07,"Rhineland-Palatinate 3,992 110 98 34"
+Thuringia,1208,18,2020-04-07,"Thuringia 1,208 32 56 18"
+Lower Saxony,6200,111,2020-04-07,"Lower Saxony 6,200 240 78 111"
+Berlin,3845,28,2020-04-07,"Berlin 3,845 175 103 28"
+Baden-Wuerttemberg,20141,433,2020-04-07,"Baden-Wuerttemberg 20,141 746 182 433"
+Bavaria,26163,481,2020-04-07,"Bavaria 26,163 1,189 200 481"
+Bremen,399,9,2020-04-07,Bremen 399 2 58 9
+Saxony-Anhalt,987,12,2020-04-07,Saxony-Anhalt 987 31 45 12
+Saarland,1532,16,2020-04-07,"Saarland 1,532 49 155 16"
+Hesse,4837,73,2020-04-07,"Hesse 4,837 163 77 73"
+Brandenburg,1384,20,2020-04-07,"Brandenburg 1,384 39 55 20"
+Mecklenburg-Western Pomerania,531,8,2020-04-07,Mecklenburg-Western Pomerania  531 3 33 8
+Hamburg,3059,20,2020-04-07,"Hamburg 3,059 66 166 20"
+Berlin,3670,26,2020-04-06,"Berlin 3,670 57 98 26"
+Hamburg,2993,19,2020-04-06,"Hamburg 2,993 48 163 19"
+Bremen,397,8,2020-04-06,Bremen 397 3 58 8
+Mecklenburg-Western Pomerania,528,6,2020-04-06,Mecklenburg-Western Pomerania  528 5 33 6
+Baden-Wuerttemberg,19395,387,2020-04-06,"Baden-Wuerttemberg 19,395 781 175 387"
+North Rhine-Westphalia,19384,255,2020-04-06,"North Rhine-Westphalia 19,384 649 108 255"
+Bavaria,24974,437,2020-04-06,"Bavaria 24,974 1,128 191 437"
+Saarland,1483,14,2020-04-06,"Saarland 1,483 125 150 14"
+Rhineland-Palatinate,3882,32,2020-04-06,"Rhineland-Palatinate 3,882 219 95 32"
+Brandenburg,1345,19,2020-04-06,"Brandenburg 1,345 40 54 19"
+Lower Saxony,5960,92,2020-04-06,"Lower Saxony 5,960 248 75 92"
+Hesse,4674,61,2020-04-06,"Hesse 4,674 99 75 61"
+Saxony,2903,34,2020-04-06,"Saxony 2,903 162 71 34"
+Thuringia,1176,12,2020-04-06,"Thuringia 1,176 36 55 12"
+Saxony-Anhalt,956,12,2020-04-06,Saxony-Anhalt 956 37 43 12
+Schleswig-Holstein,1671,20,2020-04-06,"Schleswig-Holstein 1,671 40 58 20"
+Saarland,1358,14,2020-04-05,"Saarland 1,358 93 137 14"
+North Rhine-Westphalia,18735,245,2020-04-05,"North Rhine-Westphalia 18,735 850 104 245"
+Brandenburg,1305,17,2020-04-05,"Brandenburg 1,305 94 52 17"
+Bavaria,23846,396,2020-04-05,"Bavaria 23,846 1,938 182 396"
+Berlin,3613,24,2020-04-05,"Berlin 3,613 142 96 24"
+Hesse,4575,56,2020-04-05,"Hesse 4,575 296 73 56"
+Saxony,2741,32,2020-04-05,"Saxony 2,741 150 67 32"
+Thuringia,1140,10,2020-04-05,"Thuringia 1,140 68 53 10"
+Baden-Wuerttemberg,18614,367,2020-04-05,"Baden-Wuerttemberg 18,614 1,600 168 367"
+Mecklenburg-Western Pomerania,523,5,2020-04-05,Mecklenburg-Western Pomerania  523 22 32 5
+Lower Saxony,5712,89,2020-04-05,"Lower Saxony 5,712 141 72 89"
+Hamburg,2945,19,2020-04-05,"Hamburg 2,945 248 160 19"
+Bremen,394,6,2020-04-05,Bremen 394 40 58 6
+Saxony-Anhalt,919,12,2020-04-05,Saxony-Anhalt 919 23 42 12
+Schleswig-Holstein,1631,18,2020-04-05,"Schleswig-Holstein 1,631 72 56 18"
+Rhineland-Palatinate,3663,32,2020-04-05,"Rhineland-Palatinate 3,663 159 90 32"
+Schleswig-Holstein,1559,17,2020-04-04,"Schleswig-Holstein 1,559 116 54 17"
+North Rhine-Westphalia,17885,200,2020-04-04,"North Rhine-Westphalia 17,885 1,279 100 200"
+Baden-Wuerttemberg,17014,316,2020-04-04,"Baden-Wuerttemberg 17,014 955 154 316"
+Rhineland-Palatinate,3504,29,2020-04-04,"Rhineland-Palatinate 3,504 142 86 29"
+Saarland,1265,14,2020-04-04,"Saarland 1,265 186 128 14"
+Mecklenburg-Western Pomerania,501,5,2020-04-04,Mecklenburg-Western Pomerania  501 33 31 5
+Bremen,354,6,2020-04-04,Bremen 354 13 52 6
+Brandenburg,1211,12,2020-04-04,"Brandenburg 1,211 136 48 12"
+Lower Saxony,5571,85,2020-04-04,"Lower Saxony 5,571 490 70 85"
+Berlin,3471,22,2020-04-04,"Berlin 3,471 269 93 22"
+Bavaria,21908,349,2020-04-04,"Bavaria 21,908 1,671 168 349"
+Thuringia,1072,10,2020-04-04,"Thuringia 1,072 90 50 10"
+Saxony,2591,24,2020-04-04,"Saxony 2,591 255 64 24"
+Saxony-Anhalt,896,11,2020-04-04,Saxony-Anhalt 896 60 41 11
+Hesse,4279,42,2020-04-04,"Hesse 4,279 286 68 42"
+Hamburg,2697,16,2020-04-04,"Hamburg 2,697 101 146 16"
+Saxony,2336,21,2020-04-03,"Saxony 2,336 153 57 21"
+North Rhine-Westphalia,16606,178,2020-04-03,"North Rhine-Westphalia 16,606 1,179 93 178"
+Lower Saxony,5081,65,2020-04-03,"Lower Saxony 5,081 386 64 65"
+Hamburg,2596,16,2020-04-03,"Hamburg 2,596 190 141 16"
+Saarland,1079,12,2020-04-03,"Saarland 1,079 59 109 12"
+Baden-Wuerttemberg,16059,285,2020-04-03,"Baden-Wuerttemberg 16,059 1,397 145 285"
+Bavaria,20237,307,2020-04-03,"Bavaria 20,237 1,741 155 307"
+Mecklenburg-Western Pomerania,468,4,2020-04-03,Mecklenburg-Western Pomerania  468 30 29 4
+Thuringia,982,9,2020-04-03,Thuringia 982 57 46 9
+Rhineland-Palatinate,3362,26,2020-04-03,"Rhineland-Palatinate 3,362 230 82 26"
+Brandenburg,1075,9,2020-04-03,"Brandenburg 1,075 80 43 9"
+Bremen,341,6,2020-04-03,Bremen 341 14 50 6
+Berlin,3202,20,2020-04-03,"Berlin 3,202 232 85 20"
+Hesse,3993,33,2020-04-03,"Hesse 3,993 286 64 33"
+Saxony-Anhalt,836,11,2020-04-03,Saxony-Anhalt 836 32 38 11
+Schleswig-Holstein,1443,15,2020-04-03,"Schleswig-Holstein 1,443 108 50 15"
+Thuringia,925,7,2020-04-02,Thuringia 925 65 43 7
+Mecklenburg-Western Pomerania,438,3,2020-04-02,Mecklenburg-Western Pomerania  438 32 27 3
+Saarland,1020,11,2020-04-02,"Saarland 1,020 191 103 11"
+Saxony,2183,18,2020-04-02,"Saxony 2,183 149 54 18"
+Hesse,3707,27,2020-04-02,"Hesse 3,707 262 59 27"
+North Rhine-Westphalia,15427,161,2020-04-02,"North Rhine-Westphalia 15,427 1,076 86 161"
+Berlin,2970,19,2020-04-02,"Berlin 2,970 216 79 19"
+Brandenburg,995,7,2020-04-02,Brandenburg 995 114 40 7
+Baden-Wuerttemberg,14662,241,2020-04-02,"Baden-Wuerttemberg 14,662 1,252 132 241"
+Saxony-Anhalt,804,8,2020-04-02,Saxony-Anhalt 804 54 36 8
+Rhineland-Palatinate,3132,26,2020-04-02,"Rhineland-Palatinate 3,132 233 77 26"
+Bremen,327,6,2020-04-02,Bremen 327 16 48 6
+Bavaria,18496,268,2020-04-02,"Bavaria 18,496 1,999 141 268"
+Schleswig-Holstein,1335,11,2020-04-02,"Schleswig-Holstein 1,335 89 46 11"
+Lower Saxony,4695,45,2020-04-02,"Lower Saxony 4,695 313 59 45"
+Hamburg,2406,14,2020-04-02,"Hamburg 2,406 95 131 14"
+Baden-Wuerttemberg,13410,197,2020-04-01,"Baden-Wuerttemberg 13,410 1,076 121 197"
+Schleswig-Holstein,1246,10,2020-04-01,"Schleswig-Holstein 1,246 126 43 10"
+Brandenburg,881,4,2020-04-01,Brandenburg 881 83 35 4
+Hesse,3445,21,2020-04-01,"Hesse 3,445 162 55 21"
+Mecklenburg-Western Pomerania,406,3,2020-04-01,Mecklenburg-Western Pomerania  406 40 25 3
+Bremen,311,5,2020-04-01,Bremen 311 17 46 5
+Hamburg,2311,14,2020-04-01,"Hamburg 2,311 120 126 14"
+North Rhine-Westphalia,14351,134,2020-04-01,"North Rhine-Westphalia 14,351 1,126 80 134"
+Bavaria,16497,225,2020-04-01,"Bavaria 16,497 1,687 126 225"
+Thuringia,860,6,2020-04-01,Thuringia 860 76 40 6
+Saxony,2034,17,2020-04-01,"Saxony 2,034 152 50 17"
+Saarland,829,8,2020-04-01,Saarland 829 47 84 8
+Saxony-Anhalt,750,7,2020-04-01,Saxony-Anhalt 750 70 34 7
+Lower Saxony,4382,42,2020-04-01,"Lower Saxony 4,382 319 55 42"
+Rhineland-Palatinate,2899,23,2020-04-01,"Rhineland-Palatinate 2,899 173 71 23"
+Berlin,2754,16,2020-04-01,"Berlin 2,754 179 73 16"
+Saarland,782,7,2020-03-31,Saarland 782 76 79 7
+Bavaria,14810,162,2020-03-31,"Bavaria 14,810 821 113 162"
+Hamburg,2191,9,2020-03-31,"Hamburg 2,191 138 119 9"
+Brandenburg,798,2,2020-03-31,Brandenburg 798 37 32 2
+Schleswig-Holstein,1120,9,2020-03-31,"Schleswig-Holstein 1,120 71 39 9"
+Berlin,2575,13,2020-03-31,"Berlin 2,575 111 69 13"
+Thuringia,784,6,2020-03-31,Thuringia 784 65 37 6
+Saxony,1882,12,2020-03-31,"Saxony 1,882 87 46 12"
+Mecklenburg-Western Pomerania,366,1,2020-03-31,Mecklenburg-Western  366 10 23 1
+Lower Saxony,4063,34,2020-03-31,"Lower Saxony 4,063 331 51 34"
+Bremen,294,4,2020-03-31,Bremen 294 8 43 4
+North Rhine-Westphalia,13225,117,2020-03-31,"North Rhine-Westphalia 13,225 1,047 74 117"
+Saxony-Anhalt,680,6,2020-03-31,Saxony-Anhalt 680 88 31 6
+Baden-Wuerttemberg,12334,165,2020-03-31,"Baden-Wuerttemberg 12,334 1,391 111 165"
+Rhineland-Palatinate,2726,19,2020-03-31,"Rhineland-Palatinate 2,726 142 67 19"
+Hesse,3283,17,2020-03-31,"Hesse 3,283 192 52 17"
+Saxony,1795,9,2020-03-30,"Saxony 1,795 178 44 9"
+Lower Saxony,3732,26,2020-03-30,"Lower Saxony 3,732 282 47 26"
+Schleswig-Holstein,1049,7,2020-03-30,"Schleswig-Holstein 1,049 44 36 7"
+Brandenburg,761,2,2020-03-30,Brandenburg 761 40 30 2
+Saarland,706,7,2020-03-30,Saarland 706 146 71 7
+Baden-Wuerttemberg,10943,119,2020-03-30,"Baden-Wuerttemberg 10,943 1,149 99 119"
+Rhineland-Palatinate,2584,18,2020-03-30,"Rhineland-Palatinate 2,584 188 63 18"
+Bremen,286,2,2020-03-30,Bremen 286 11 42 2
+Berlin,2464,11,2020-03-30,"Berlin 2,464 104 66 11"
+Hesse,3091,13,2020-03-30,"Hesse 3,091 486 49 13"
+Saxony,592,2,2020-03-30,Saxony-Anhalt* 592 0 27 2
+Hamburg,2053,5,2020-03-30,"Hamburg 2,053 207 112 5"
+Mecklenburg-Western Pomerania,356,1,2020-03-30,Mecklenburg-Western  356 8 22 1
+Bavaria,13989,127,2020-03-30,"Bavaria 13,989 1,108 107 127"
+North Rhine-Westphalia,12178,101,2020-03-30,"North Rhine-Westphalia 12,178 778 68 101"
+Thuringia,719,5,2020-03-30,Thuringia 719 22 34 5
+North Rhine-Westphalia,11400,98,2020-03-29,"North Rhine-Westphalia 11,400 793 64 98"
+Saarland,560,2,2020-03-29,Saarland 560 10 57 2
+Saxony-Anhalt,592,2,2020-03-29,Saxony-Anhalt 592 134 27 2
+Baden-Wuerttemberg,9794,101,2020-03-29,"Baden-Wuerttemberg 9,794 13 88 101"
+Berlin,2360,9,2020-03-29,"Berlin 2,360 199 63 9"
+Bavaria,12881,107,2020-03-29,"Bavaria 12,881 1,731 99 107"
+Lower Saxony,3450,21,2020-03-29,"Lower Saxony 3,450 300 43 21"
+Hesse,2605,9,2020-03-29,"Hesse 2,605 1 42 9"
+Thuringia,697,5,2020-03-29,Thuringia 697 113 33 5
+,348,1,2020-03-29,348 40 22 1
+Rhineland-Palatinate,2396,12,2020-03-29,"Rhineland-Palatinate 2,396 184 59 12"
+Brandenburg,721,1,2020-03-29,Brandenburg 721 76 29 1
+Saxony,1617,9,2020-03-29,"Saxony 1,617 185 40 9"
+Hamburg,1846,4,2020-03-29,"Hamburg 1,846 81 100 4"
+Bremen,275,2,2020-03-29,Bremen 275 15 40 2
+Schleswig-Holstein,1005,6,2020-03-29,"Schleswig-Holstein 1,005 90 35 6"
+Hamburg,1765,2,2020-03-28,"Hamburg 1,765 72 96 2"
+Baden-Wuerttemberg,9781,101,2020-03-28,"Baden-Wuerttemberg 9,781 1,620 88 101"
+Saxony,1432,9,2020-03-28,"Saxony 1,432 127 35 9"
+North Rhine-Westphalia,10607,80,2020-03-28,"North Rhine-Westphalia 10,607 1,372 59 80"
+Lower Saxony,3150,12,2020-03-28,"Lower Saxony 3,150 340 39 12"
+Schleswig-Holstein,915,4,2020-03-28,Schleswig-Holstein 915 103 32 4
+Saxony-Anhalt,458,2,2020-03-28,Saxony-Anhalt 458 0 21 2
+Saarland,550,2,2020-03-28,Saarland 550 45 56 2
+Rhineland-Palatinate,2212,11,2020-03-28,"Rhineland-Palatinate 2,212 241 54 11"
+Bremen,260,2,2020-03-28,Bremen 260 19 38 2
+Brandenburg,645,1,2020-03-28,Brandenburg 645 108 26 1
+Bavaria,11150,77,2020-03-28,"Bavaria 11,150 1,669 85 77"
+,308,0,2020-03-28,308 49 19 0
+Berlin,2161,8,2020-03-28,"Berlin 2,161 206 58 8"
+Hesse,2604,9,2020-03-28,"Hesse 2,604 281 42 9"
+Thuringia,584,5,2020-03-28,Thuringia 584 42 27 5
+Schleswig-Holstein,812,4,2020-03-27,Schleswig-Holstein 812 137 28 4
+Berlin,1955,8,2020-03-27,"Berlin 1,955 299 52 8"
+North Rhine-Westphalia,9235,72,2020-03-27,"North Rhine-Westphalia 9,235 1,311 51 72"
+Bavaria,9481,55,2020-03-27,"Bavaria 9,481 1,488 73 55"
+Rhineland-Palatinate,1971,8,2020-03-27,"Rhineland-Palatinate 1,971 155 48 8"
+Baden-Wuerttemberg,8161,70,2020-03-27,"Baden-Wuerttemberg 8,161 878 74 70"
+Thuringia,542,4,2020-03-27,Thuringia 542 74 25 4
+Saxony-Anhalt,458,2,2020-03-27,Saxony-Anhalt 458 40 21 2
+Saxony,1305,7,2020-03-27,"Saxony 1,305 164 32 7"
+Lower Saxony,2810,10,2020-03-27,"Lower Saxony 2,810 463 35 10"
+Hesse,2323,7,2020-03-27,"Hesse 2,323 166 37 7"
+Hamburg,1693,2,2020-03-27,"Hamburg 1,693 428 92 2"
+Bremen,241,1,2020-03-27,Bremen 241 30 35 1
+Brandenburg,537,1,2020-03-27,Brandenburg 537 60 21 1
+,259,0,2020-03-27,259 15 16
+Saarland,505,2,2020-03-27,Saarland 505 72 51 2
+North Rhine-Westphalia,7924,53,2020-03-26,North Rhine-Westphalia 7.924 727 44 53
+Saarland,433,2,2020-03-26,Saarland 433 30 44 2
+Berlin,1656,4,2020-03-26,Berlin 1.656 228 44 4
+Hamburg,1265,0,2020-03-26,Hamburg 1.265 3 69
+Thuringia,468,3,2020-03-26,Thuringia 468 74 22 3
+Schleswig-Holstein,675,3,2020-03-26,Schleswig-Holstein 675 98 23 3
+Brandenburg,477,1,2020-03-26,Brandenburg 477 48 19 1
+Mecklenburg-Western Pomerania,244,0,2020-03-26,Mecklenburg-Western  244 26 15
+Hesse,2157,6,2020-03-26,Hesse 2.157 403 34 6
+Baden-Wuerttemberg,7283,56,2020-03-26,Baden-Wuerttemberg 7.283 1.214 66 56
+Saxony,1141,7,2020-03-26,Saxony 1.141 182 28 7
+Saxony-Anhalt,418,1,2020-03-26,Saxony-Anhalt 418 43 19 1
+Rhineland-Palatinate,1816,6,2020-03-26,Rhineland-Palatinate 1.816 225 44 6
+Lower Saxony,2347,8,2020-03-26,Lower Saxony 2.347 207 29 8
+Bavaria,7993,47,2020-03-26,Bavaria 7.993 1.435 61 47
+Bremen,211,1,2020-03-26,Bremen 211 11 31 1
+Berlin,1428,0,2020-03-25,"Berlin 1,428 38 2"
+Hesse,1754,0,2020-03-25,"Hesse 1,754 28 4"
+Schleswig-Holstein,577,0,2020-03-25,Schleswig-Holstein 577 20 3
+Bavaria,6558,0,2020-03-25,"Bavaria 6,558 50 37"
+Rhineland-Palatinate,1591,0,2020-03-25,"Rhineland-Palatinate 1,591 39 5"
+Brandenburg,429,0,2020-03-25,Brandenburg 429 17 1
+Baden-Wuerttemberg,6069,0,2020-03-25,"Baden-Württemberg 6,069 55 37"
+Thuringia,394,0,2020-03-25,Thuringia 394 18 1
+Hamburg,1262,0,2020-03-25,"Hamburg 1,262 69"
+Bremen,200,0,2020-03-25,Bremen 200 29
+,218,0,2020-03-25,218 14
+North Rhine-Westphalia,7197,0,2020-03-25,"North Rhine-Westphalia 7,197 40 43"
+Saxony,959,0,2020-03-25,Saxony 959 24 6
+Saxony-Anhalt,375,0,2020-03-25,Saxony-Anhalt 375 17 1
+Saarland,403,0,2020-03-25,Saarland 403 41 2
+Lower Saxony,2140,0,2020-03-25,"Lower Saxony 2,140 27 7"
+Mecklenburg-Western Pomerania,199,0,2020-03-24,Mecklenburg-Western  199 27 12
+Rhineland-Palatinate,1370,5,2020-03-24,"Rhineland-Palatinate 1,370 193 34 5"
+North Rhine-Westphalia,6318,33,2020-03-24,"North Rhine-Westphalia 6,318 703 35 33"
+Lower Saxony,1764,6,2020-03-24,"Lower Saxony 1,764 281 22 6"
+Bavaria,5754,30,2020-03-24,"Bavaria 5,754 862 44 30"
+Hesse,1620,4,2020-03-24,"Hesse 1,620 273 26 4"
+Berlin,1220,1,2020-03-24,"Berlin 1,220 143 33 1"
+Thuringia,327,1,2020-03-24,Thuringia 327 78 15 1
+Baden-Wuerttemberg,5348,30,2020-03-24,"Baden-Württemberg 5,348 1,537 48 30"
+Saxony,811,1,2020-03-24,Saxony 811 158 20 1
+Hamburg,1043,0,2020-03-24,"Hamburg 1,043 100 57"
+Saxony-Anhalt,321,0,2020-03-24,Saxony-Anhalt 321 109 15
+Schleswig-Holstein,478,2,2020-03-24,Schleswig-Holstein 478 95 17 2
+Saarland,337,1,2020-03-24,Saarland 337 137 34 1
+Bremen,183,0,2020-03-24,Bremen 183 13 27
+Brandenburg,343,0,2020-03-24,Brandenburg 343 55 14
+Baden-Wuerttemberg,3811,21,2020-03-23,"Baden-Württemberg 3,811 4 34 21"
+Lower Saxony,1483,4,2020-03-23,"Lower Saxony 1,483 177 19 4"
+Rhineland-Palatinate,1177,2,2020-03-23,"Rhineland-Palatinate 1,177 124 29 2"
+Bremen,170,0,2020-03-23,Bremen 170 5 25
+Saxony-Anhalt,212,0,2020-03-23,Saxony-Anhalt 212 1 10
+Bavaria,4892,26,2020-03-23,"Bavaria 4,892 1,242 37 26"
+,172,0,2020-03-23,172 0 11
+Saxony,653,0,2020-03-23,Saxony 653 47 16
+Berlin,1077,1,2020-03-23,"Berlin 1,077 53 29 1"
+Schleswig-Holstein,383,1,2020-03-23,Schleswig-Holstein 383 36 13 1
+Saarland,200,0,2020-03-23,Saarland 200 13 20
+Brandenburg,288,0,2020-03-23,Brandenburg 288 14 11
+North Rhine-Westphalia,5615,28,2020-03-23,"North Rhine-Westphalia 5,615 2,070 31 28"
+Hamburg,943,0,2020-03-23,Hamburg 943 71 51
+Thuringia,249,0,2020-03-23,Thuringia 249 33 12
+Hesse,1347,3,2020-03-23,"Hesse 1,347 172 21 3"
+Hamburg,872,0,2020-03-22,Hamburg 872 +285 47
+Berlin,1024,1,2020-03-22,"Berlin 1,024 +158 27 1"
+Mecklenburg-Western Pomerania,172,0,2020-03-22,Mecklenburg-Western Pomerania  172 +7 11
+Baden-Wuerttemberg,3807,21,2020-03-22,"Baden-Württemberg 3,807 +139 34 21"
+Bavaria,3650,21,2020-03-22,"Bavaria 3,650 +690 28 21"
+Bremen,165,0,2020-03-22,Bremen 165 +23 24
+Thuringia,216,0,2020-03-22,Thuringia 216 +29 10
+Hesse,1175,2,2020-03-22,"Hesse 1,175 +95 19 2"
+Lower Saxony,1306,1,2020-03-22,"Lower Saxony 1,306 +283 16 1"
+North Rhine-Westphalia,3545,6,2020-03-22,"North Rhine-Westphalia 3,545 +3 20 6"
+Saarland,187,0,2020-03-22,Saarland 187 +0 19
+Saxony,606,0,2020-03-22,Saxony 606 +39 15
+Saxony-Anhalt,211,0,2020-03-22,Saxony-Anhalt 211 +23 10
+Schleswig-Holstein,347,1,2020-03-22,Schleswig-Holstein 347 +39 12 1
+Rhineland-Palatinate,1053,2,2020-03-22,"Rhineland-Palatinate 1,053 +115 26 2"
+Brandenburg,274,0,2020-03-22,Brandenburg 274 +20 11
+Saxony,567,0,2020-03-21,Saxony 567 + 173 14
+Mecklenburg-Western Pomerania,165,0,2020-03-21,Mecklenburg-Western Pomerania  165 + 34 10
+Brandenburg,254,0,2020-03-21,Brandenburg 254 + 62 10
+Lower Saxony,1023,0,2020-03-21,"Lower Saxony 1,023 + 220 13"
+Berlin,866,1,2020-03-21,Berlin 866 + 135 23 1
+Bremen,142,0,2020-03-21,Bremen 142 + 21 21
+Baden-Wuerttemberg,3668,16,2020-03-21,"Baden-Württemberg 3,668 + 922 33 16"
+Hamburg,587,0,2020-03-21,Hamburg 587 + 1 32
+North Rhine-Westphalia,3542,6,2020-03-21,"North Rhine-Westphalia 3,542 + 45 20 6"
+Bavaria,2960,19,2020-03-21,"Bavaria 2,960 + 559 23 19"
+Hesse,1080,2,2020-03-21,"Hesse 1,080 + 267 17 2"
+Saarland,187,0,2020-03-21,Saarland 187 + 41 19
+Rhineland-Palatinate,938,1,2020-03-21,Rhineland-Palatinate 938 + 137 23 1
+Schleswig-Holstein,308,1,2020-03-21,Schleswig-Holstein 308 + 42 11 1
+Thuringia,187,0,2020-03-21,Thuringia 187 + 38 9
+Saxony-Anhalt,188,1,2020-03-21,Saxony-Anhalt 188 + 8 9 1
+Brandenburg,192,0,2020-03-20,Brandenburg 192 + 58 8 0
+Berlin,731,0,2020-03-20,Berlin 731 + 158 20 0
+Saxony,394,0,2020-03-20,Saxony 394 + 119 10 0
+Thuringia,149,0,2020-03-20,Thuringia 149 + 51 7 0
+Bremen,121,0,2020-03-20,Bremen 121 + 41 18 0
+Hamburg,586,0,2020-03-20,Hamburg 586 + 154 32 0
+Hesse,813,1,2020-03-20,Hesse 813 + 131 13 1
+Schleswig-Holstein,266,1,2020-03-20,Schleswig-Holstein 266 + 64 9 1
+Saxony-Anhalt,180,0,2020-03-20,Saxony-Anhalt 180 + 40 8 0
+Bavaria,2401,12,2020-03-20,"Bavaria 2,401 + 709 18 12"
+Baden-Wuerttemberg,2746,10,2020-03-20,"Baden-Württemberg 2,746 + 591 25 10"
+Mecklenburg-Western Pomerania,131,0,2020-03-20,Mecklenburg-Western Pomerania  131 + 33 8 0
+Rhineland-Palatinate,801,1,2020-03-20,Rhineland-Palatinate 801 + 164 20 1
+Lower Saxony,803,0,2020-03-20,Lower Saxony 803 + 134 10 0
+Saarland,146,0,2020-03-20,Saarland 146 + 47 15 0
+North Rhine-Westphalia,3497,6,2020-03-20,"North Rhine-Westphalia 3,497 + 464 20 6"
+North Rhine-Westphalia,3033,6,2020-03-19,North Rhine-Westphalia 3.033 + 661 16.91 6
+Mecklenburg-Western Pomerania,98,0,2020-03-19,Mecklenburg-Western Pomerania  98 + 42 6.09 0
+Saxony,275,0,2020-03-19,Saxony 275 + 77 6.74 0
+Baden-Wuerttemberg,2155,6,2020-03-19,Baden-Württemberg 2.155 + 546 19.47 6
+Bavaria,1692,8,2020-03-19,Bavaria 1.692 + 449 12.94 8
+Saxony-Anhalt,140,0,2020-03-19,Saxony-Anhalt 140 + 35 6.34 0
+Schleswig-Holstein,202,0,2020-03-19,Schleswig-Holstein 202 + 43 6.97 0
+Thuringia,98,0,2020-03-19,Thuringia 98 + 24 4.57 0
+Berlin,573,0,2020-03-19,Berlin 573 + 182 15.29 0
+Brandenburg,134,0,2020-03-19,Brandenburg 134 + 42 5.33 0
+Bremen,80,0,2020-03-19,Bremen 80 + 11 11.71 0
+Hamburg,432,0,2020-03-19,Hamburg 432 + 74 23.46 0
+Hesse,682,0,2020-03-19,Hesse 682 + 250 10.88 0
+Rhineland-Palatinate,637,0,2020-03-19,Rhineland-Palatinate 637 + 163 15.59 0
+Lower Saxony,669,0,2020-03-19,Lower Saxony 669 + 191 8.38 0
+Saarland,99,0,2020-03-19,Saarland 99 + 11 9.99 0
+Thuringia,74,0,2020-03-18,
+Hesse,432,0,2020-03-18,
+North Rhine-Westphalia,2372,6,2020-03-18,
+Saxony,198,0,2020-03-18,
+Mecklenburg-Western Pomerania,56,0,2020-03-18,
+Hamburg,358,0,2020-03-18,
+Schleswig-Holstein,159,0,2020-03-18,
+Saxony-Anhalt,105,0,2020-03-18,
+Bavaria,1243,4,2020-03-18,
+Rhineland-Palatinate,474,0,2020-03-18,
+Berlin,391,0,2020-03-18,
+Lower Saxony,478,0,2020-03-18,
+Brandenburg,92,0,2020-03-18,
+Bremen,69,0,2020-03-18,
+Saarland,88,0,2020-03-18,
