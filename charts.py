@@ -15,8 +15,19 @@ def highlight_weekends(df, ax):
     return ax
 
 
-def plot_line(df, columns=list, date_cutoff='2020-03-15'):
-    df = df.loc[df.index >= date_cutoff, columns]
+def plot_line(df, columns=list, date_cutoff='2020-03-15', resample=False):
+    """
+
+    :param df:
+    :param columns:
+    :param date_cutoff:
+    :param resample: For example: W-MON
+    :return:
+    """
+    df = df.loc[df.index >= date_cutoff, columns].copy()
+
+    if resample:
+        df = df.resample(resample).mean()
 
     plt.figure(figsize=(20, 5))
     plt.xticks(rotation=45)
@@ -30,11 +41,11 @@ def plot_line(df, columns=list, date_cutoff='2020-03-15'):
     highlight_weekends(df, ax)
 
 
-def plot_bar(df, column, date_cutoff='2020-03-15'):
+def plot_bar(df, columns=list, date_cutoff='2020-03-15'):
 
     df = df.loc[df.index >= date_cutoff]
     df['dates'] = df.index.date
 
     plt.figure(figsize=(20, 5))
     plt.xticks(rotation=45)
-    ax = sns.barplot(x='dates', y=column, hue='weekend', data=df)
+    ax = sns.barplot(x='dates', y=columns, hue='weekend', data=df)

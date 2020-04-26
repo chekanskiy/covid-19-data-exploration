@@ -84,6 +84,13 @@ def add_variables_apple(df):
     df = add_lag(df, 'walking', 6)
     df = add_lag(df, 'driving', 6)
 
-    df['change_%_transit_l6'] = df['transit_l6'] / df['transit_l6'].shift(1)
-    df['change_%_walking_l6'] = df['walking_l6'] / df['walking_l6'].shift(1)
-    df['change_%_driving_l6'] = df['driving_l6'] / df['driving_l6'].shift(1)
+    df['change_pct_transit_l6'] = df['transit_l6'] / df['transit_l6'].shift(1)
+    df['change_pct_walking_l6'] = df['walking_l6'] / df['walking_l6'].shift(1)
+    df['change_pct_driving_l6'] = df['driving_l6'] / df['driving_l6'].shift(1)
+    
+    df['change_pct_transit'] = df['transit'] / df['transit'].shift(1)
+    df['change_pct_walking'] = df['walking'] / df['walking'].shift(1)
+    df['change_pct_driving'] = df['driving'] / df['driving'].shift(1)
+
+    return df
+
