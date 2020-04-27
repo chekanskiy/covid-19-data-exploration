@@ -23,7 +23,7 @@ def add_weekday_weekend(df):
     return df
 
 
-def add_variables_covid(df, column='confirmed'):
+def add_variables_covid(df, column='confirmed', population=False):
     df = add_weekday_weekend(df)
 
     df = add_lag(df, column, 1)  # df.loc[:,'confirmed_l1'] = df.loc[:,'confirmed'].shift(1)
@@ -53,7 +53,6 @@ def add_variables_covid(df, column='confirmed'):
     df.loc[:, f'doubling_days_avg3'] = np.round(df.loc[:, f'doubling_days'].rolling(3, win_type='triang').mean(), 0)
     df.loc[:, f'doubling_days_3w_avg3'] = np.round(df.loc[:, f'doubling_days_3w'].rolling(3, win_type='triang').mean(),
                                                    0)
-
     # cleanup temp cols
     df.drop([f'{column}_l1',
              f'{column}_avg3_l1',
@@ -62,6 +61,10 @@ def add_variables_covid(df, column='confirmed'):
              f'{column}_change_avg3_l1',
              #              '', '', '', '', '', ''
              ], axis=1, inplace=True)
+
+    if population:
+        df[f'{column}_per_mil'] = df[f'{column}'] / round(population / 1000000, 1)
+        df[f'{column}_change_per_100k'] = df[f'{column}_change'] / round(population / 100000, 1)
 
     df = df.round(3)
 
