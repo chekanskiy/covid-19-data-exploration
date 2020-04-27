@@ -6,8 +6,8 @@ def doubling_time(r):
     return round(np.log(2) / np.log(1+r),4)
 
 
-def add_doubling_time(df, r_col, suffix=''):
-    df['doubling_days' + suffix] = df[r_col].apply(doubling_time).apply(lambda x: x if x > 0 else 0).apply(lambda x: x if x < 100 else 100)
+def add_doubling_time(df, r_col, prefix, suffix=''):
+    df[prefix + '_doubling_days' + suffix] = df[r_col].apply(doubling_time).apply(lambda x: x if x > 0 else 0).apply(lambda x: x if x < 100 else 100)
     return df
 
 
@@ -47,11 +47,11 @@ def add_variables_covid(df, column='confirmed', population=False):
     df[f'{column}_change_acceleration'] = 1 - df[f'{column}_change'] / df[f'{column}_change_l1']
     df[f'{column}_change_acceleration_avg3'] = 1 - df[f'{column}_change_avg3'] / df[f'{column}_change_avg3_l1']
 
-    df = add_doubling_time(df, 'confirmed_change_pct')
-    df = add_doubling_time(df, 'confirmed_change_pct_3w', suffix='_3w')
+    df = add_doubling_time(df, f'{column}_change_pct', prefix=column)
+    df = add_doubling_time(df, f'{column}_change_pct_3w', suffix='_3w', prefix=column)
 
-    df.loc[:, f'doubling_days_avg3'] = np.round(df.loc[:, f'doubling_days'].rolling(3, win_type='triang').mean(), 0)
-    df.loc[:, f'doubling_days_3w_avg3'] = np.round(df.loc[:, f'doubling_days_3w'].rolling(3, win_type='triang').mean(),
+    df.loc[:, f'{column}_doubling_days_avg3'] = np.round(df.loc[:, f'{column}_doubling_days'].rolling(3, win_type='triang').mean(), 0)
+    df.loc[:, f'{column}_doubling_days_3w_avg3'] = np.round(df.loc[:, f'{column}_doubling_days_3w'].rolling(3, win_type='triang').mean(),
                                                    0)
     # cleanup temp cols
     df.drop([f'{column}_l1',
@@ -96,4 +96,22 @@ def add_variables_apple(df):
     df['change_pct_driving'] = df['driving'] / df['driving'].shift(1)
 
     return df
+
+
+def add_day_since(df, colunm, cutoff):
+    df['day_since'] = 0
+    df['day_since'] = df.apply(lambda x: x['day_since'] + 1 if x[colunm] > cutoff else 0, axis=1)
+    df['day_since'] = df['day_since'].cumsum()
+    return df
+
+
+def join_series_day_since(dfs: dict, column):
+    list_to_join = []
+    for k in dfs.keys():
+        df = dfs[k].loc[dfs[k].day_since > 0, [column] + ['day_since']]
+        df.columns = [k] + ['day_since']
+        df.set_index('day_since', inplace=True)
+        list_to_join.append(df)
+
+    return pd.concat(list_to_join, axis=1)
 
