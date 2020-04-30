@@ -15,7 +15,8 @@ def highlight_weekends(df, ax):
     return ax
 
 
-def plot_line(df, columns=list, date_cutoff=False, resample=False, title="", log_x=False, log_y=False):
+def plot_line(df, columns, date_cutoff=False, resample=False, title="",
+              log_x=False, log_y=False, figsize=(20, 5)):
     """
 
     :param df:
@@ -32,10 +33,11 @@ def plot_line(df, columns=list, date_cutoff=False, resample=False, title="", log
     if resample:
         df = df.resample(resample).mean()
 
-    plt.figure(figsize=(20, 5))
+    plt.figure(figsize=figsize)
     plt.xticks(rotation=45)
 
-    ax = sns.lineplot(data=df)
+    palette = sns.color_palette("mako_r", len(columns))  # Set2
+    ax = sns.lineplot(data=df, markers=True, dashes=False, palette=palette)
     ax.set(xticks=df.index)
     ax.set(title=title)
 
@@ -51,11 +53,16 @@ def plot_line(df, columns=list, date_cutoff=False, resample=False, title="", log
         highlight_weekends(df, ax)
 
 
-def plot_bar(df, columns=list, date_cutoff='2020-03-15',title=""):
-
-    df = df.loc[df.index >= date_cutoff]
-    df['dates'] = df.index.date
-
+def plot_bar(df, columns=list, date_cutoff=False,title=""):
     plt.figure(figsize=(20, 5))
     plt.xticks(rotation=45)
-    ax = sns.barplot(x='dates', y=columns, hue='weekend', data=df).set_title(title)
+
+    if date_cutoff:
+        df = df.loc[df.index >= date_cutoff]
+        df['dates'] = df.index.date
+        ax = sns.barplot(x='dates', y=columns, hue='weekend', data=df).set_title(title)
+    else:
+        df['dates'] = df.index
+        ax = sns.barplot(x='dates', y=columns, data=df).set_title(title)
+
+

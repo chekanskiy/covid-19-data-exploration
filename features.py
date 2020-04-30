@@ -51,8 +51,12 @@ def add_variables_covid(df, column='confirmed', population=False):
     df = add_doubling_time(df, f'{column}_change_pct_3w', suffix='_3w', prefix=column)
 
     df.loc[:, f'{column}_doubling_days_avg3'] = np.round(df.loc[:, f'{column}_doubling_days'].rolling(3, win_type='triang').mean(), 0)
-    df.loc[:, f'{column}_doubling_days_3w_avg3'] = np.round(df.loc[:, f'{column}_doubling_days_3w'].rolling(3, win_type='triang').mean(),
-                                                   0)
+    df.loc[:, f'{column}_doubling_days_3w_avg3'] = np.round(df.loc[:, f'{column}_doubling_days_3w'].rolling(3, win_type='triang').mean(), 0)
+
+    if column == 'confirmed':
+        df.loc[:, f'{column}_active_cases'] = df[f'{column}'] - df[f'{column}'].shift(14)
+        df.loc[:, f'{column}_peak'] = np.log(df[f'{column}'] / df[f'{column}'].shift(14))
+
     # cleanup temp cols
     df.drop([f'{column}_l1',
              f'{column}_avg3_l1',
@@ -63,8 +67,8 @@ def add_variables_covid(df, column='confirmed', population=False):
              ], axis=1, inplace=True)
 
     if population:
-        df[f'{column}_per_mil'] = df[f'{column}'] / round(population / 1000000, 1)
-        df[f'{column}_change_per_100k'] = df[f'{column}_change'] / round(population / 100000, 1)
+        df[f'{column}_per_100k'] = df[f'{column}'] / round(population / 100000, 3)
+        df[f'{column}_change_per_100k'] = df[f'{column}_change'] / round(population / 100000, 3)
 
     df = df.round(3)
 
@@ -87,13 +91,13 @@ def add_variables_apple(df):
     df = add_lag(df, 'walking', 6)
     df = add_lag(df, 'driving', 6)
 
-    df['change_pct_transit_l6'] = df['transit_l6'] / df['transit_l6'].shift(1)
-    df['change_pct_walking_l6'] = df['walking_l6'] / df['walking_l6'].shift(1)
-    df['change_pct_driving_l6'] = df['driving_l6'] / df['driving_l6'].shift(1)
+    df['change_transit_l6'] = df['transit_l6'] - df['transit_l6'].shift(1)
+    df['change_walking_l6'] = df['walking_l6'] - df['walking_l6'].shift(1)
+    df['change_pct_driving_l6'] = df['driving_l6'] - df['driving_l6'].shift(1)
     
-    df['change_pct_transit'] = df['transit'] / df['transit'].shift(1)
-    df['change_pct_walking'] = df['walking'] / df['walking'].shift(1)
-    df['change_pct_driving'] = df['driving'] / df['driving'].shift(1)
+    df['change_transit'] = df['transit'] - df['transit'].shift(1)
+    df['change_walking'] = df['walking'] - df['walking'].shift(1)
+    df['change_driving'] = df['driving'] - df['driving'].shift(1)
 
     return df
 
