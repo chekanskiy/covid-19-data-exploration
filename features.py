@@ -54,8 +54,8 @@ def add_variables_covid(df, column='confirmed', population=False):
     df.loc[:, f'{column}_doubling_days_3w_avg3'] = np.round(df.loc[:, f'{column}_doubling_days_3w'].rolling(3, win_type='triang').mean(), 0)
 
     if column == 'confirmed':
-        df.loc[:, f'{column}_active_cases'] = df[f'{column}'] - df[f'{column}'].shift(14)
-        df.loc[:, f'{column}_peak'] = np.log(df[f'{column}'] / df[f'{column}'].shift(14))
+        df.loc[:, f'{column}_active_cases'] = df[f'{column}'] - df[f'{column}'].shift(12)
+        df.loc[:, f'{column}_peak'] = np.log(df[f'{column}'] / df[f'{column}'].shift(12))
 
     # cleanup temp cols
     df.drop([f'{column}_l1',
