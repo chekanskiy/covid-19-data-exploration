@@ -55,7 +55,7 @@ def plot_line(df, columns, date_cutoff=False, resample=False, title="",
     return ax
 
 
-def plot_bar(df, columns=list, date_cutoff=False,title=""):
+def plot_bar(df, columns, date_cutoff=False,title=""):
     plt.figure(figsize=(20, 5))
     plt.xticks(rotation=45)
 
@@ -99,3 +99,16 @@ def plot_peak(df, columns, date_cutoff=False, title="",
         ax.set_xscale('log')
     if log_y:
         ax.set_yscale('log')
+
+
+def print_charts_country(df, region, date_cutoff='2020-03-15'):
+    plot_bar(df, columns='confirmed', title=f'{region}: Total Cases', date_cutoff=date_cutoff)
+    plot_bar(df, columns='confirmed_change', title=f'{region}: Daily Cases', date_cutoff=date_cutoff)
+    plot_bar(df, title=f'{region}: Active Cases', columns='confirmed_active_cases', date_cutoff=date_cutoff)
+    plot_line(df, title=f'{region}: Daily Cases Change, %', columns=['confirmed_change_pct', 'confirmed_change_pct_3w'],
+              date_cutoff=date_cutoff)
+    plot_line(df, title=f'{region}: Doubling Days, Confirmed',
+              columns=['confirmed_doubling_days', 'confirmed_doubling_days_3w_avg3'], date_cutoff=date_cutoff)
+    plot_line(df, title=f'{region}: Doubling Days, Dead',
+              columns=['dead_doubling_days', 'dead_doubling_days_3w_avg3'], date_cutoff=date_cutoff)
+

@@ -7,7 +7,7 @@ def add_forecast_prophet(df_in, column, window=60, ):
     df = df_in.loc[:, [column]].dropna()
     df['ds'] = df.index
     df.columns = ['y', 'ds']
-    m = Prophet()
+    m = Prophet(weekly_seasonality=False, daily_seasonality=False, yearly_seasonality=False)
     m.fit(df)
     future = m.make_future_dataframe(periods=window)
     forecast = m.predict(future)
