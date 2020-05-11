@@ -23,6 +23,13 @@ def add_weekday_weekend(df):
     return df
 
 
+def add_day_since(df, colunm, cutoff):
+    df[f'{colunm}_day_since_{cutoff}'] = 0
+    df[f'{colunm}_day_since_{cutoff}'] = df.apply(lambda x: x[f'{colunm}_day_since_{cutoff}'] + 1 if x[colunm] > cutoff else 0, axis=1)
+    df[f'{colunm}_day_since_{cutoff}'] = df[f'{colunm}_day_since_{cutoff}'].cumsum()
+    return df
+
+
 def add_variables_covid(df, column='confirmed', population=False):
     df = add_weekday_weekend(df)
 
@@ -56,6 +63,8 @@ def add_variables_covid(df, column='confirmed', population=False):
     if column == 'confirmed':
         df.loc[:, f'{column}_active_cases'] = df[f'{column}'] - df[f'{column}'].shift(12)
         df.loc[:, f'{column}_peak'] = np.log(df[f'{column}'] / df[f'{column}'].shift(12))
+        
+    df = add_day_since(df, column, 10)
 
     # cleanup temp cols
     df.drop([f'{column}_l1',
@@ -76,46 +85,66 @@ def add_variables_covid(df, column='confirmed', population=False):
 
 
 def add_variables_apple(df):
-    df.loc[:, 'transit_avg3'] = np.round(
-        df.loc[:, 'transit'].rolling(3, win_type='triang').mean(), 0)
-    df.loc[:, 'walking_avg3'] = np.round(
-        df.loc[:, 'walking'].rolling(3, win_type='triang').mean(), 0)
-    df.loc[:, 'driving_avg3'] = np.round(
-        df.loc[:, 'driving'].rolling(3, win_type='triang').mean(), 0)
-
-    df = add_lag(df, 'transit', 1)
-    df = add_lag(df, 'walking', 1)
-    df = add_lag(df, 'driving', 1)
-
-    df = add_lag(df, 'transit', 6)
-    df = add_lag(df, 'walking', 6)
-    df = add_lag(df, 'driving', 6)
-
-    df['change_transit_l6'] = df['transit_l6'] - df['transit_l6'].shift(1)
-    df['change_walking_l6'] = df['walking_l6'] - df['walking_l6'].shift(1)
-    df['change_pct_driving_l6'] = df['driving_l6'] - df['driving_l6'].shift(1)
-    
-    df['change_transit'] = df['transit'] - df['transit'].shift(1)
-    df['change_walking'] = df['walking'] - df['walking'].shift(1)
-    df['change_driving'] = df['driving'] - df['driving'].shift(1)
+    if 'transit' in df.columns:
+        df.loc[:, 'transit_avg3'] = np.round(
+            df.loc[:, 'transit'].rolling(3, win_type='triang').mean(), 0)
+        df = add_lag(df, 'transit', 1)
+        df = add_lag(df, 'transit', 6)
+        df['change_transit_l6'] = df['transit_l6'] - df['transit_l6'].shift(1)
+        df['change_transit'] = df['transit'] - df['transit'].shift(1)
+        
+    if 'walking' in df.columns:
+        df.loc[:, 'walking_avg3'] = np.round(
+            df.loc[:, 'walking'].rolling(3, win_type='triang').mean(), 0)
+        df = add_lag(df, 'walking', 1)
+        df = add_lag(df, 'walking', 6)
+        df['change_walking_l6'] = df['walking_l6'] - df['walking_l6'].shift(1)
+        df['change_walking'] = df['walking'] - df['walking'].shift(1)
+        
+    if 'driving' in df.columns:
+        df.loc[:, 'driving_avg3'] = np.round(
+            df.loc[:, 'driving'].rolling(3, win_type='triang').mean(), 0)
+        df = add_lag(df, 'driving', 1)
+        df = add_lag(df, 'driving', 6)
+        df['change_pct_driving_l6'] = df['driving_l6'] - df['driving_l6'].shift(1)
+        df['change_driving'] = df['driving'] - df['driving'].shift(1)
 
     return df
 
 
-def add_day_since(df, colunm, cutoff):
-    df['day_since'] = 0
-    df['day_since'] = df.apply(lambda x: x['day_since'] + 1 if x[colunm] > cutoff else 0, axis=1)
-    df['day_since'] = df['day_since'].cumsum()
-    return df
-
-
-def join_series_day_since(dfs: dict, column):
-    list_to_join = []
+def join_series_day_since(dfs: dict, column, day_since_column):
+    max_days = 0
     for k in dfs.keys():
-        df = dfs[k].loc[dfs[k].day_since > 0, [column] + ['day_since']]
-        df.columns = [k] + ['day_since']
-        df.set_index('day_since', inplace=True)
-        list_to_join.append(df)
+        max_days_since = max(dfs[k].loc[:, day_since_column])
+        if max_days < max_days_since:
+            max_days = max_days_since
+    df_index = pd.DataFrame(index=list(range(1, max_days + 1)))
+    list_to_join = [df_index]
+    for k in dfs.keys():
+        df = dfs[k].loc[dfs[k][day_since_column] > 0, [column, day_since_column]]
+        df.columns = [k, day_since_column]
+        df.set_index(day_since_column, inplace=True)
+        df_index = df_index.join(df, how='outer')
 
-    return pd.concat(list_to_join, axis=1)
+    return df_index.drop_duplicates()
 
+
+def join_series_date(dfs: dict, column):
+    max_days = datetime.date(2020, 1, 1)
+    min_days = datetime.date(2020, 3, 15)
+    for k in dfs.keys():
+        max_days_since = max(dfs[k].index)
+        min_days_since = min(dfs[k].index)
+        if max_days < max_days_since:
+            max_days = max_days_since
+        if min_days > min_days_since:
+            min_days = min_days_since
+    df_index = pd.DataFrame(index=list(pd.date_range(min_days, max_days)))
+    list_to_join = [df_index]
+    for k in dfs.keys():
+        df = dfs[k].loc[:,[column]]
+        df.columns = [k]
+#         df.set_index('day_since', inplace=True)
+        df_index = df_index.join(df, how='outer')
+
+    return df_index.drop_duplicates()
