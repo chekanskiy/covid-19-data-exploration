@@ -69,7 +69,7 @@ app.layout = html.Div(
                        ),
                 html.P(
                       id="description",
-                      children="† Tracking the progress of COVID-19 pandemic in Germany per State.",
+                      children="Tracking the progress of COVID-19 pandemic for each federal state",
                   ),
                     ]
         ),
@@ -186,26 +186,37 @@ app.layout = html.Div(
                 html.Div(
                     id="right-column",
                     children=[
-                        html.P(id="chart-selector", children="Select chart:"),
+                        html.P(id="chart-selector", children="Change metric to display:"),
                         dcc.Dropdown(
                             options=[
                                 {
-                                    "label": "Daily Increase in Cases",
+                                    "label": "New Cases: Daily",
                                     "value": "confirmed_change",
                                 },
                                 {
-                                    "label": "Daily Deaths",
+                                    "label": "New Cases: Daily per 100k of Population",
+                                    "value": "confirmed_change_per_100k",
+                                },
+                                {
+                                    "label": "New Cases: Daily as % of Rolling 3 Week Sum",
+                                    "value": "confirmed_change_pct_3w",
+                                },
+                                {
+                                    "label": "New Cases: Days to Double Rolling 3 Week Sum",
+                                    "value": "confirmed_doubling_days_3w_avg3",
+                                },
+                                {
+                                    "label": "Deaths: Daily",
                                     "value": "dead_change",
                                 },
                                 {
-                                    "label": "Daily Deaths per 100k of population",
+                                    "label": "Deaths: Daily per 100k of Population",
                                     "value": "dead_change_per_100k",
                                 },
                                 {
-                                    "label": "Daily Cases / SUM(Cases over last 3 Weeks)",
-                                    "value": "confirmed_change_pct_3w",
+                                    "label": "Deaths: Days to Double Total Number",
+                                    "value": "dead_doubling_days",
                                 },
-
                             ],
                             value="confirmed_change",
                             id="chart-dropdown",
