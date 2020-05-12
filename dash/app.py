@@ -12,6 +12,8 @@ from func_features import join_series_day_since
 from chart_line_animated1 import plot_lines_plotly_animated
 from chart_line_static1 import plot_lines_plotly
 
+YEARS = [2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015]
+
 df_rki = pd.read_csv('data_rki_prepared.csv')
 df_rki.set_index('date', inplace=True)
 
@@ -50,6 +52,28 @@ app.layout = html.Div(
                 html.Div(
                     id="left-column",
                     children=[
+html.Div(
+                            id="slider-container",
+                            children=[
+                                html.P(
+                                    id="slider-text",
+                                    children="Drag the slider to change the year:",
+                                ),
+                                dcc.Slider(
+                                    id="years-slider",
+                                    min=min(YEARS),
+                                    max=max(YEARS),
+                                    value=min(YEARS),
+                                    marks={
+                                        str(year): {
+                                            "label": str(year),
+                                            "style": {"color": "#7fafdf"},
+                                        }
+                                        for year in YEARS
+                                    },
+                                ),
+                            ],
+                        ),
                         html.Div(
                             id="heatmap-container",
                             children=[
@@ -62,7 +86,7 @@ app.layout = html.Div(
                             figure=plot_lines_plotly(
                                    df_rki,
                                    "Confirmed Cases per 100k of Population",
-                                   show_doubling=True, doubling_days=7, showlegend=True)
+                                   show_doubling=True, doubling_days=7, showlegend=False)
                                 )
                                     ])
                             ]

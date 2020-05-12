@@ -193,16 +193,16 @@ def plot_lines_plotly(df, title, show_doubling=True, doubling_days=7, showlegend
         #                                   showarrow=False))
 
         # labeling the right_side of the plot
-        # x = max(df[col].dropna().index)
-        # y = df.loc[max(df[col].dropna().index), col]
-        # annotations.append(dict(xref='paper',
-        #                         x=0.95,
-        #                         y=y,
-        #                         xanchor='left', yanchor='middle',
-        #                         text=col,  # f"{col}: {int(y)}",
-        #                         font=dict(family='Arial',
-        #                                   size=12),
-        #                         showarrow=False))
+        x = max(df[col].dropna().index)
+        y = df.loc[max(df[col].dropna().index), col]
+        annotations.append(dict(xref='paper',
+                                x=0.95,
+                                y=y,
+                                xanchor='left', yanchor='middle',
+                                text=col,  # f"{col}: {int(y)}",
+                                font=dict(family='Arial',
+                                          size=12),
+                                showarrow=False))
 
     # Title
     # annotations.append(dict(xref='paper', yref='paper', x=0, y=1,
@@ -216,7 +216,7 @@ def plot_lines_plotly(df, title, show_doubling=True, doubling_days=7, showlegend
     # Source
     annotations.append(dict(xref='paper', yref='paper', x=0.5, y=-0.04,
                             xanchor='center', yanchor='top',
-                            text="<a href=”https://www.rki.de/”> Data Source: Robert Koch Institute</a><br><i>Charts: Sergey Chekanskiy</i>",
+                            text="<a href='https://www.rki.de/'> Data Source: Robert Koch Institute</a><br><i><a href='https://www.linkedin.com/in/sergeychekanskiy'>Charts: Sergey Chekanskiy</a></i>",
                             font=dict(family='Arial',
                                       size=12,
                                       color='#7fafdf'),
