@@ -317,6 +317,10 @@ p {
     font-size: 2rem;
 }
 
+#heatmap-subtitle {
+    font-size: 1.5rem;
+}
+
 #description {
     font-size: 1.5rem;
     border-left: #2cfec1 solid 1rem;
@@ -330,8 +334,8 @@ p {
     margin-bottom: 2rem;
 }
 
-#slider-text, #chart-selector {
-    margin-bottom: 2rem !important;
+#dropdown-states, #chart-selector {
+    margin-bottom: 1rem !important;
     font-size: 2rem;
 }
 
@@ -436,6 +440,15 @@ input[type="button"].button-primary:focus {
     background-color: #1EAEDB;
     border-color: #1EAEDB;
 }
+
+
+.dot {
+   height: 25px;
+   width: 25px;
+   background-color: #bbb;
+   border-radius: 50%;
+   display: inline-block;
+ }
 
 
 /* Forms
@@ -642,12 +655,13 @@ hr {
 /* Slider
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-#slider-container {
+#dropdown-container {
     background-color: #252e3f;
-    padding: 2rem 6rem 4rem 4rem;
+    padding: 2rem 6rem 4rem 3rem;
     height: 8rem;
 }
 
+/*
 .rc-slider-dot-active, .rc-slider-handle {
     border-color: #2cfec1 !important;
 }
@@ -659,6 +673,8 @@ hr {
 .rc-slider-rail {
     background-color: #1d2731 !important
 }
+
+*/
 
 /* Heatmap
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -672,7 +688,12 @@ hr {
     padding: 1rem;
 }
 
-#county-choropleth {
+#heatmap-subtitle {
+    margin: 0;
+    padding: 1rem;
+}
+
+#left-main-chart {
     margin: 0;
     flex-grow: 1;
 }
@@ -687,7 +708,7 @@ hr {
 }
 
 @media (max-width: 550px) {
-    #county-choropleth .annotation-text{
+    #left-main-chart .annotation-text{
         font-size: 1.2rem !important;
     }
 }
@@ -712,8 +733,6 @@ hr {
         align-content: center;
         flex: 6 60%;
     }
-}
-
 
 /* Graph
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
