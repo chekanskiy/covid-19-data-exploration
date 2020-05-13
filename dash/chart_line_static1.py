@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 from plotly.validators.scatter.marker import SymbolValidator
 
 
-def plot_lines_plotly(df, title, show_doubling=True, doubling_days=7, showlegend=False):
+def plot_lines_plotly(df, title=False, show_doubling=True, doubling_days=7, showlegend=False):
     _doubling_column = f'double_x{doubling_days}'
     if show_doubling:
         def double_every_x_days(day, days_doubling):
@@ -211,14 +211,15 @@ def plot_lines_plotly(df, title, show_doubling=True, doubling_days=7, showlegend
                                 showarrow=False))
 
     # Title
-    # annotations.append(dict(xref='paper', yref='paper', x=0, y=1,
-    #                         xanchor='left', yanchor='bottom',
-    #                         text=title,
-    #                         font=dict(family='Garamond',
-    #                                   size=30,
-    #                                   color='#7fafdf' #'rgb(37,37,37)'
-    #                                   ),
-    #                         showarrow=False))
+    if title:
+        annotations.append(dict(xref='paper', yref='paper', x=0, y=1,
+                                xanchor='left', yanchor='bottom',
+                                text=title,
+                                font=dict(family='Garamond',
+                                          size=30,
+                                          color='#7fafdf' #'rgb(37,37,37)'
+                                          ),
+                                showarrow=False))
     # Source
     annotations.append(dict(xref='paper', yref='paper', x=0.5, y=-0.06,
                             xanchor='center', yanchor='top',

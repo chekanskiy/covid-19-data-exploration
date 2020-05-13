@@ -247,7 +247,6 @@ app.layout = html.Div(
 def update_left_main_chart(selected_states):
     figure = plot_lines_plotly(
         df_rki.loc[:, selected_states],
-        "Daily Confirmed Cases per 100k of Population",
         show_doubling=False, doubling_days=7, showlegend=False)
 
     return figure
