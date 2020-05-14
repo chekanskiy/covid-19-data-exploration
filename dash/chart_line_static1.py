@@ -8,7 +8,7 @@ from plotly import colors
 def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Temps * 3,
                       title=False, show_doubling=True, doubling_days=7, showlegend=False):
 
-    df = df_unfiltered.loc[df_unfiltered.land.isin(lands), ['land', column]].dropna()
+    df = df_unfiltered.loc[df_unfiltered.land.isin(lands), ['land', column, 'date']].dropna()
     del df_unfiltered
     _doubling_column = f'double_x{doubling_days}'
 
@@ -231,6 +231,36 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
                                               color=_colors[i]),
                                     showarrow=False))
 
+            # ======================================= ANNOTATE DATA OUTLIERS ========================
+            annotation_style_outliers = dict(
+                xref="x",
+                yref="y",
+                showarrow=True,
+                arrowhead=2,
+                arrowsize=1.2,
+                arrowwidth=1.2,
+                arrowcolor=_gray_color,
+                # bordercolor=_gray_color,
+                # borderwidth=2,
+                # borderpad=4,
+                # bgcolor=_gray_color,  # "#ff7f0e"
+                opacity=0.5,
+                ax=0,
+                ay=-40,
+                font=dict(family='Garamond',
+                          size=12,
+                          color=_gray_color
+                          ),
+            )
+            if l == 'Hamburg':
+                annotation = annotation_style_outliers
+                annotation['text'] = 'Recorded old cases'
+                x = df.loc[(df.date == '2020-05-12') & (df.land == l), [column]].index[0]
+                annotation['x'] = x
+                annotation['y'] = df.loc[(df.index == x) & (df.land == l), column].values[0]
+                annotations.append(annotation)
+            # =================================== END ANNOTATE DATA OUTLIERS ========================
+
     # Title
     if title:
         annotations.append(dict(xref='paper', yref='paper', x=0, y=1,
@@ -245,7 +275,7 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
     annotations.append(dict(xref='paper', yref='paper', x=0.5, y=-0.06,
                             xanchor='center', yanchor='top',
                             text="<a href='https://www.rki.de/'> Data Source: Robert Koch Institute</a><br><i><a href='https://www.linkedin.com/in/sergeychekanskiy'>Charts: Sergey Chekanskiy</a></i>",
-                            font=dict(family='Arial',
+                            font=dict(family='Garamond',
                                       size=12,
                                       color='#7fafdf'),
                             showarrow=False))
