@@ -175,7 +175,7 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
         margin=dict(
             autoexpand=True,
             l=10,
-            r=10,
+            r=100,
             t=10,
             b=100,
         ),
@@ -187,7 +187,7 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
         paper_bgcolor="#1f2630",  # "#F4F4F8",
         plot_bgcolor="#1f2630",  # 'white'
         font=dict(color='#2cfec1'),
-        autosize=False,
+        autosize=True,
         # width=800,
         # height=500,
     )
@@ -213,15 +213,6 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
                                               color=_gray_color, ),
                                     showarrow=False))
         else:
-            # labeling the left_side of the plot
-            #     y = df.loc[(df.land == l) & (df.index == min_index), column].values[0]
-            #     annotations.append(dict(xref='paper', x=0.07, y=y,
-            #                                   xanchor='right', yanchor='middle',
-            #                                   text=col + ' {}'.format(y),
-            #                                   font=dict(family='Arial',
-            #                                             size=10),
-            #                                   showarrow=False))
-
             # labeling the right_side of the plot
             y = df.loc[(df.land == l) & (df.index == max_index), column].values[0]
             annotations.append(dict(xref='paper',
