@@ -1,43 +1,57 @@
-import numpy as np
+from numpy import log10, datetime64, dtype
+import pandas as pd
 import plotly
 import plotly.graph_objects as go
 from plotly.validators.scatter.marker import SymbolValidator
 
 
-def plot_lines_plotly(df, title=False, show_doubling=True, doubling_days=7, showlegend=False):
+def plot_lines_plotly(df_unfiltered, lands, column, title=False, show_doubling=True, doubling_days=7, showlegend=False):
+
+    df = df_unfiltered.loc[df_unfiltered.land.isin(lands), ['land', column]].dropna()  # .sort_values('confirmed_change')
+
     _doubling_column = f'double_x{doubling_days}'
+
     if show_doubling:
-        def double_every_x_days(day, days_doubling):
-            r = 1 * 2 ** (day / days_doubling)
+        def double_every_x_days(day, days_doubling, start_value=1):
+            r = start_value * 2 ** (day / days_doubling)
             return r
 
-        df['day'] = range(1, len(df.index) + 1)
-        df[_doubling_column] = df['day'].apply(lambda x: double_every_x_days(x, doubling_days))
-        del df['day']
+        date_range = pd.date_range(df_unfiltered.dropna().index.min(), df_unfiltered.dropna().index.max())
+        df_index = pd.DataFrame(columns=['date', 'land', column],
+                                data={'date': date_range, 'land': _doubling_column},
+                                )
+        df_index['rn'] = df_index.groupby('land')['date'].rank(method='first', ascending=True)
+        df_index[column] = df_index['rn'].apply(lambda x: double_every_x_days(x, doubling_days))
+        df_index['date'] = df_index['date'].astype('datetime64[ns]')
+        df_index.set_index('date', inplace=True, drop=False)
+        df_index.sort_index(inplace=True, ascending=True)
+        del df_index['rn']
+        # del df_index['date']
+        df = df.append(df_index, ignore_index=False, verify_integrity=False, sort=True)
+        # df = df.rename_axis('dates_index').sort_values(by=['land', 'dates_index'], ascending=[True, True])
+
+    del df_unfiltered
 
     # Create traces
     fig = go.Figure()
 
-    _labels = [c for c in df.columns if c != _doubling_column]
+    _labels = df['land'].unique()
 
     #     max_x_range = len(df.index)
-    try:
-        _max_y_range = max(df.loc[:, _labels].max()) * 1.05
-    except ValueError:
-        _max_y_range = max(df[_doubling_column]) * 1.05
+    _max_y_range = df.loc[df.land != _doubling_column, column].max()
 
     _colors = plotly.colors.diverging.Temps * 3  # ['rgb(67,67,67)', 'rgb(115,115,115)', 'rgb(49,130,189)', 'rgb(189,189,189)']
     _symbols = [x for i, x in enumerate(SymbolValidator().values) if i % 2 != 0]  # all markers
     _gray_color = 'rgb(204, 204, 204)'
 
-    _mode_size = [8] * len(df.columns)  # [8, 8, 12, 8]
-    _line_size = [1] * len(df.columns)  # [2, 2, 4, 2]
+    _mode_size = [8] * len(_labels)  # [8, 8, 12, 8]
+    _line_size = [1] * len(_labels)  # [2, 2, 4, 2]
 
-    for i, col in enumerate(df.columns):
+    for i, l in enumerate(_labels):
         # Adding Doubling x7 line
-        if col == _doubling_column:
-            fig.add_trace(go.Scatter(x=df.index,
-                                     y=df[col],
+        if l == _doubling_column:
+            fig.add_trace(go.Scatter(x=df.loc[df.land == l].index,
+                                     y=df.loc[df.land == l, column],
                                      mode='lines',
                                      marker=dict(color=_gray_color,
                                                  size=_mode_size[i] - 2,
@@ -48,7 +62,7 @@ def plot_lines_plotly(df, title=False, show_doubling=True, doubling_days=7, show
                                                      width=1
                                                  )
                                                  ),
-                                     name=col,
+                                     name=l,
                                      line=dict(color=_gray_color,
                                                width=_line_size[i],
                                                dash='dot', ),
@@ -57,8 +71,8 @@ def plot_lines_plotly(df, title=False, show_doubling=True, doubling_days=7, show
 
         # Adding all other lines
         else:
-            fig.add_trace(go.Scatter(x=df.index,
-                                     y=df[col],
+            fig.add_trace(go.Scatter(x=df.loc[df.land == l].index,
+                                     y=df.loc[df.land == l, column],
                                      mode='lines+markers',
                                      marker=dict(color=_colors[i],
                                                  size=_mode_size[i] - 3,
@@ -69,18 +83,19 @@ def plot_lines_plotly(df, title=False, show_doubling=True, doubling_days=7, show
                                                      width=1
                                                  )
                                                  ),
-                                     name=col,
+                                     name=l,
                                      line=dict(color=_colors[i],
                                                width=_line_size[i]),
                                      connectgaps=False,
                                      ))
 
             # endpoints
+            min_index, max_index = df.loc[df.land == l].index.min(), df.loc[df.land == l].index.max()
             fig.add_trace(go.Scatter(
-                x=[min(df[col].dropna().index), max(df[col].dropna().index)],
-                y=[df.loc[min(df[col].dropna().index), col], df.loc[max(df[col].dropna().index), col]],
+                x=[min_index, max_index],
+                y=[df.loc[(df.index == min_index) & (df.land == l)], df.loc[(df.index == max_index) & (df.land == l)]],
                 mode='markers',
-                name=col,
+                name=l,
                 marker=dict(color=_colors[i], size=_mode_size[i] + 2, ),
                 showlegend=False,
             ))
@@ -94,7 +109,7 @@ def plot_lines_plotly(df, title=False, show_doubling=True, doubling_days=7, show
                       method='update',
                       args=[{'visible': [True, True]},
                             {  # 'title': 'Log scale',
-                                'yaxis': {'type': 'log', 'range': [0, np.log10(_max_y_range)],
+                                'yaxis': {'type': 'log', 'range': [0, log10(_max_y_range)],
                                           'showgrid': False,
                                           'zeroline': False,
                                           'showline': False,
@@ -174,11 +189,16 @@ def plot_lines_plotly(df, title=False, show_doubling=True, doubling_days=7, show
     # ANNOTATIONS
     annotations = []
     # Adding labels
-    for i, col in enumerate(df.columns):
-        if col == _doubling_column:
+    for i, l in enumerate(_labels):
+        min_index, max_index = df.loc[df.land == l].index.min(), df.loc[df.land == l].index.max()
+        if l == _doubling_column:
             # labeling x7 line
-            y = 52  # df.loc[int(max(df.index/2)), 'x7']
-            x = 40  # int(max(df.index)/2)
+            x = (min_index + (max_index - min_index) / 2)
+            try:
+                x = str(x.date())
+            except:
+                pass
+            y = df.loc[(df.land == l) & (df.index == x), column].values[0]
             annotations.append(dict(xref='x', x=x, y=y,
                                     xanchor='center', yanchor='middle',
                                     text="double every 7 days",
@@ -186,29 +206,27 @@ def plot_lines_plotly(df, title=False, show_doubling=True, doubling_days=7, show
                                               size=12,
                                               color=_gray_color, ),
                                     showarrow=False))
-            continue
+        else:
+            # labeling the left_side of the plot
+            #     y = df.loc[(df.land == l) & (df.index == min_index), column].values[0]
+            #     annotations.append(dict(xref='paper', x=0.07, y=y,
+            #                                   xanchor='right', yanchor='middle',
+            #                                   text=col + ' {}'.format(y),
+            #                                   font=dict(family='Arial',
+            #                                             size=10),
+            #                                   showarrow=False))
 
-        # labeling the left_side of the plot
-        #     y = df.loc[min(df[col].dropna().index),col]
-        #     annotations.append(dict(xref='paper', x=0.07, y=y,
-        #                                   xanchor='right', yanchor='middle',
-        #                                   text=col + ' {}'.format(y),
-        #                                   font=dict(family='Arial',
-        #                                             size=10),
-        #                                   showarrow=False))
-
-        # labeling the right_side of the plot
-        # x = max(df[col].dropna().index)
-        y = df.loc[max(df[col].dropna().index), col]
-        annotations.append(dict(xref='paper',
-                                x=0.95,
-                                y=y,
-                                xanchor='left', yanchor='middle',
-                                text=col,  # f"{col}: {int(y)}",
-                                font=dict(family='Arial',
-                                          size=12,
-                                          color=_colors[i]),
-                                showarrow=False))
+            # labeling the right_side of the plot
+            y = df.loc[(df.land == l) & (df.index == max_index), column].values[0]
+            annotations.append(dict(xref='paper',
+                                    x=0.95,
+                                    y=y,
+                                    xanchor='left', yanchor='middle',
+                                    text=l,  # f"{col}: {int(y)}",
+                                    font=dict(family='Arial',
+                                              size=12,
+                                              color=_colors[i]),
+                                    showarrow=False))
 
     # Title
     if title:

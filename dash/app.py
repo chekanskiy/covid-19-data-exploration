@@ -37,14 +37,14 @@ STATES = {'BW': 'Baden-Wuerttemberg',
 
 df_rki_orig = pd.read_csv('data_rki_prepared.csv')
 df_rki_orig['date'] = df_rki_orig['date'].astype('datetime64[ns]')
-df_rki_orig.set_index('date', inplace=True)
+df_rki_orig.set_index('date', inplace=True, drop=False)
 
 # df_rki = join_series_day_since(df_rki, 'confirmed_change_per_100k', 'confirmed_day_since_10')
 # df_rki = df_rki.rolling(7).mean().round(2).dropna().sort_index()
 # .loc[1:, ['Hamburg', 'Bremen', 'Bavaria', 'Berlin',]]
 
-df_rki = join_series_date(df_rki_orig, 'confirmed_change_per_100k')
-df_rki = df_rki.rolling(7).mean().round(2).dropna().sort_index(ascending=False)
+# df_rki = join_series_date(df_rki_orig, 'confirmed_change_per_100k')
+# df_rki = df_rki.rolling(7).mean().round(2).dropna().sort_index(ascending=False)
 
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -242,12 +242,13 @@ app.layout = html.Div(
 
 @app.callback(
     Output('left-main-chart', 'figure'),
-    [Input('dropdown-states', 'value')
+    [Input('chart-dropdown', 'value'),
+     Input('dropdown-states', 'value')
     ])
-def update_left_main_chart(selected_states):
+def update_left_main_chart(selected_column, selected_states):
     figure = plot_lines_plotly(
-        df_rki.loc[:, selected_states],
-        show_doubling=False, doubling_days=7, showlegend=False)
+        # df_rki.loc[:, selected_states],
+        df_rki_orig, selected_states, selected_column,  show_doubling=True, doubling_days=7, showlegend=False)
 
     return figure
 
