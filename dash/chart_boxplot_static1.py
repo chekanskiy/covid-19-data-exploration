@@ -4,7 +4,8 @@ from plotly import colors
 
 
 def plot_box_plotly_static(df, column, lands, _colors=colors.diverging.Temps * 3):
-    df = df.loc[df.land.isin(lands), ['land', column]]  # .sort_values('confirmed_change')
+    df = df.loc[df.land.isin(lands), ['date','land', column]]  # .sort_values('confirmed_change')
+    df.set_index('date', inplace=True, drop=False)
     df_today = df.loc[df.index == df.index.max(), ['land', column]]  # .sort_values('confirmed_change')
 
     fig = go.Figure()

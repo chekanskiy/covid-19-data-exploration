@@ -37,7 +37,8 @@ STATES = {'BW': 'Baden-Wuerttemberg',
 
 df_rki_orig = pd.read_csv('data_rki_prepared.csv')
 df_rki_orig['date'] = df_rki_orig['date'].astype('datetime64[ns]')
-df_rki_orig.set_index('date', inplace=True, drop=False)
+# df_rki_orig.set_index('date', inplace=True, drop=False)
+# df_rki_orig.rename_axis('date_index')
 
 # df_rki = join_series_day_since(df_rki, 'confirmed_change_per_100k', 'confirmed_day_since_10')
 # df_rki = df_rki.rolling(7).mean().round(2).dropna().sort_index()
@@ -57,7 +58,7 @@ COLORS = {
     'text': '#2cfec1'
 }
 
-BASE_FIGUE = dict(
+BASE_FIGURE = dict(
                 data=[dict(x=0, y=0)],
                 layout=dict(
                     paper_bgcolor=COLORS['background'],
@@ -66,6 +67,19 @@ BASE_FIGUE = dict(
                     margin=dict(t=75, r=50, b=100, l=50),
                             ),
                     )
+
+FEATURE_DROP_DOWN = {
+    "confirmed_change": "Cases: Daily",
+    "confirmed": "Cases: Total",
+    "confirmed_active_cases": "Cases: Active",
+    "confirmed_change_per_100k": "Cases: Daily per 100k of Population",
+    "confirmed_change_pct_3w": "Cases: Daily as % of Rolling 3 Week Sum",
+    "confirmed_doubling_days_3w_avg3": "Cases: Days to Double Rolling 3 Week Sum",
+    "dead_change": "Deaths: Daily",
+    "dead": "Deaths: Total",
+    "dead_change_per_100k": "Deaths: Daily per 100k of Population",
+    "dead_doubling_days": "Deaths: Days to Double Total Number",
+}
 
 app.layout = html.Div(
     id="root",
@@ -99,7 +113,6 @@ app.layout = html.Div(
                                 html.Div(
                                     dcc.Dropdown(
                                         id="dropdown-states",
-                                        style={"color": "#7fafdf"},
                                         multi=True,
                                         value=['Hamburg', 'Bremen', 'Berlin'],  # Or single value, like Hamburg
                                         options=[
@@ -126,21 +139,6 @@ app.layout = html.Div(
                                 #                       className="dot"),
                                 #
                                 #                  dbc.Tooltip("BW: Baden-Wuerttemberg <br>"
-                                #                           "BY: Bavaria "
-                                #                           "BE: Berlin "
-                                #                           "BB: Brandenburg "
-                                #                           "HB: Bremen "
-                                #                           "HH: Hamburg "
-                                #                           "HE: Hesse "
-                                #                           "NI: Lower Saxony "
-                                #                           "MV: Mecklenburg-Western Pomerania "
-                                #                           "NW: North Rhine-Westphalia "
-                                #                           "RP: Rhineland-Palatinate "
-                                #                           "SL: Saarland "
-                                #                           "SN: Saxony "
-                                #                           "ST: Saxony-Anhalt "
-                                #                           "SH: Schleswig-Holstein "
-                                #                           "TH: Thuringia ",
                                 #                        target="tooltip-target",
                                 #                         placement='bottom'
                                 #                  )
@@ -150,7 +148,6 @@ app.layout = html.Div(
                                 #            'virticalalign': 'middle'
                                 #            }
                                 #             )
-
                                 # html.Div(dcc.DatePickerRange(
                                 #     id='date-picker-range',
                                 #     start_date=dt(1997, 5, 3),
@@ -164,17 +161,34 @@ app.layout = html.Div(
                         html.Div(
                             id="heatmap-container",
                             children=[
-                                html.P(
-                                    "Daily Confirmed Cases per 100k of Population",
-                                    id="heatmap-title",
-                                ),
-                                html.P(
-                                    "weekly rolling average",
-                                    id="heatmap-subtitle",
-                                ),
+                                html.Div(children=[
+                                    html.Div(html.P(
+                                        children="Daily Confirmed Cases per 100k of Population",
+                                        id="heatmap-title",),
+                                        style={'width': '48%', 'display': 'inline-block',
+                                               'margin-right': 0, 'margin-left': 0,
+                                               'virtical-align': 'middle'}),
+                                    # html.Div(
+                                    #     # html.P(
+                                    #     # children="weekly rolling average",
+                                    #     # id="heatmap-states",),
+                                    #     id='button-daily-on',
+                                    #     children=dbc.Button(
+                                    #         html.Span(["Daily", html.I(className="fas fa-plus-circle ml-2")]),
+                                    #         color='primary', disabled=True),
+                                    #     style={'width': '35%', 'display': 'inline-block',
+                                    #            'margin-right': 0, 'margin-left': 0,
+                                    #            'virtical-align': 'middle'}),
+                                    html.Div(
+                                        id='button-weekly-on',
+                                        children=dbc.Button("7 Day Avg / Daily", size='sm', color="primary"),
+                                        style={'width': '50%', 'display': 'inline-block',
+                                               'margin':'auto', 'textAlign':'center',}),
+                                                ],
+                                        ),
                                 dcc.Graph(
                                     id='left-main-chart',
-                                    figure=BASE_FIGUE
+                                    figure=BASE_FIGURE
                                          ),
                                 # dcc.Loading(
                                 #     id="loading-1",
@@ -190,42 +204,13 @@ app.layout = html.Div(
                     children=[
                         html.P(id="chart-selector", children="Change metric to display:"),
                         dcc.Dropdown(
-                            options=[
-                                {
-                                    "label": "New Cases: Daily",
-                                    "value": "confirmed_change",
-                                },
-                                {
-                                    "label": "New Cases: Daily per 100k of Population",
-                                    "value": "confirmed_change_per_100k",
-                                },
-                                {
-                                    "label": "New Cases: Daily as % of Rolling 3 Week Sum",
-                                    "value": "confirmed_change_pct_3w",
-                                },
-                                {
-                                    "label": "New Cases: Days to Double Rolling 3 Week Sum",
-                                    "value": "confirmed_doubling_days_3w_avg3",
-                                },
-                                {
-                                    "label": "Deaths: Daily",
-                                    "value": "dead_change",
-                                },
-                                {
-                                    "label": "Deaths: Daily per 100k of Population",
-                                    "value": "dead_change_per_100k",
-                                },
-                                {
-                                    "label": "Deaths: Days to Double Total Number",
-                                    "value": "dead_doubling_days",
-                                },
-                            ],
+                            options=[{'label': l, 'value': v} for l,v in zip(FEATURE_DROP_DOWN.values(), FEATURE_DROP_DOWN.keys())],
                             value="confirmed_change",
                             id="chart-dropdown",
                         ),
                         dcc.Graph(
                             id="selected-data",
-                            figure=BASE_FIGUE,
+                            figure=BASE_FIGURE,
                         ),
                             ]
                         )
@@ -237,14 +222,23 @@ app.layout = html.Div(
 @app.callback(
     Output('left-main-chart', 'figure'),
     [Input('chart-dropdown', 'value'),
-     Input('dropdown-states', 'value')
+     Input('dropdown-states', 'value'),
+     Input("button-weekly-on", "n_clicks")
     ])
-def update_left_main_chart(selected_column, selected_states):
+def update_left_main_chart(selected_column, selected_states, n):
+    if n is None or n%2==0:
+        df = df_rki_orig.copy()
+        ro = df.groupby('land').rolling(7, on='date').mean().reset_index(drop=False).loc[:,
+             ['date', 'land', selected_column]]
+        df = df.merge(ro, on=['date', 'land'],  suffixes=('', '_weekly')).round(3)
+        selected_column += '_weekly'
+    else:
+        df = df_rki_orig
     if len(selected_states) > 0:
         figure = plot_lines_plotly(
-            df_rki_orig, selected_states, selected_column,  show_doubling=True, doubling_days=7, showlegend=False)
+            df, selected_states, selected_column,  show_doubling=True, doubling_days=7, showlegend=False)
     else:
-        figure = BASE_FIGUE
+        figure = BASE_FIGURE
 
     return figure
 
@@ -254,13 +248,31 @@ def update_left_main_chart(selected_column, selected_states):
     [Input('chart-dropdown', 'value'),
     Input('dropdown-states', 'value')
     ])
-def update_left_main_chart(selected_column, selected_states):
+def update_right_main_chart(selected_column, selected_states):
     if len(selected_states) > 0:
         figure = plot_box_plotly_static(df_rki_orig, selected_column, selected_states)
     else:
-        figure = BASE_FIGUE
+        figure = BASE_FIGURE
 
     return figure
+
+
+@app.callback(
+    Output('heatmap-title', 'children'),
+    [Input('chart-dropdown', 'value'),
+    ])
+def update_main_chart_title(selected_column):
+
+    return FEATURE_DROP_DOWN[selected_column]
+
+
+# @app.callback(
+#     Output('heatmap-states', 'children'),
+#     [Input('dropdown-states', 'value')
+#     ])
+# def update_main_chart_title_states(selected_states):
+#
+#     return ",  ".join([f"{k} = {s}" for k, s in zip(STATES.keys(), STATES.values()) if s in selected_states])
 
 
 if __name__ == '__main__':

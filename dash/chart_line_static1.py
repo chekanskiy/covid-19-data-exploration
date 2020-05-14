@@ -9,6 +9,8 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
                       title=False, show_doubling=True, doubling_days=7, showlegend=False):
 
     df = df_unfiltered.loc[df_unfiltered.land.isin(lands), ['land', column, 'date']].dropna()
+    df.set_index('date', inplace=True, drop=False)
+
     del df_unfiltered
     _doubling_column = f'double_x{doubling_days}'
 
@@ -42,7 +44,8 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
     _labels = df['land'].unique()
 
     #     max_x_range = len(df.index)
-    _max_y_range = df.loc[df.land != _doubling_column, column].max()
+    _max_y_range = df.loc[df.land != _doubling_column, column].max() * 1.1
+    _min_y_range = df.loc[(df.land != _doubling_column) & (df[column] > 0), column].min() / 2
 
     _symbols = [x for i, x in enumerate(SymbolValidator().values) if i % 2 != 0]  # all markers
     _gray_color = 'rgb(204, 204, 204)'
@@ -112,7 +115,7 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
                       method='update',
                       args=[{'visible': [True, True]},
                             {  # 'title': 'Log scale',
-                                'yaxis': {'type': 'log', 'range': [0, log10(_max_y_range)],
+                                'yaxis': {'type': 'log', 'range': [log10(_min_y_range), log10(_max_y_range)],
                                           'showgrid': False,
                                           'zeroline': False,
                                           'showline': False,
@@ -124,7 +127,7 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
                       method='update',
                       args=[{'visible': [True, True]},
                             {  # 'title': 'Linear scale',
-                                'yaxis': {'type': 'linear', 'range': [0, _max_y_range],
+                                'yaxis': {'type': 'linear', 'range': [_min_y_range, _max_y_range],
                                           # 'showticklabels': False,
                                           'showgrid': False,
                                           'zeroline': False,
@@ -184,7 +187,7 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
         paper_bgcolor="#1f2630",  # "#F4F4F8",
         plot_bgcolor="#1f2630",  # 'white'
         font=dict(color='#2cfec1'),
-        autosize=True,
+        autosize=False,
         # width=800,
         # height=500,
     )
@@ -254,7 +257,7 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
             )
             if l == 'Hamburg':
                 annotation = annotation_style_outliers
-                annotation['text'] = 'Recorded old cases'
+                annotation['text'] = 'HH: Recorded old cases'
                 x = df.loc[(df.date == '2020-05-12') & (df.land == l), [column]].index[0]
                 annotation['x'] = x
                 annotation['y'] = df.loc[(df.index == x) & (df.land == l), column].values[0]
