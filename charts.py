@@ -139,7 +139,7 @@ def plot_lines_plotly(df, title, show_doubling=True, doubling_days=7, showlegend
     labels = [c for c in df.columns if c != doubling_column]
     max_y_range = int(max(df.loc[:, labels].max()) * 1.1)
 #     max_x_range = len(df.index)
-    colors = plotly.colors.sequential.Viridis + plotly.colors.sequential.Viridis # 10 colors #['rgb(67,67,67)', 'rgb(115,115,115)', 'rgb(49,130,189)', 'rgb(189,189,189)']
+    colors = plotly.COLORS.sequential.Viridis + plotly.COLORS.sequential.Viridis # 10 colors #['rgb(67,67,67)', 'rgb(115,115,115)', 'rgb(49,130,189)', 'rgb(189,189,189)']
     symbols = [x for i,x in enumerate(SymbolValidator().values) if i%2!=0] # all markers
     # print(len(labels))
     # print(len(colors))
@@ -346,7 +346,7 @@ def plot_lines_plotly_animated(df, title, show_doubling=True, doubling_days=7, s
     labels = [c for c in df.columns if c != doubling_column]
     max_y_range = int(max(df.loc[:, labels].max()) * 1.1)
 #     max_x_range = len(df.index)
-    colors = plotly.colors.sequential.Viridis + plotly.colors.sequential.Viridis # 10 colors #['rgb(67,67,67)', 'rgb(115,115,115)', 'rgb(49,130,189)', 'rgb(189,189,189)']
+    colors = plotly.COLORS.sequential.Viridis + plotly.COLORS.sequential.Viridis # 10 colors #['rgb(67,67,67)', 'rgb(115,115,115)', 'rgb(49,130,189)', 'rgb(189,189,189)']
     symbols = [x for i,x in enumerate(SymbolValidator().values) if i%2!=0] # all markers
     # print(len(labels))
     # print(len(colors))

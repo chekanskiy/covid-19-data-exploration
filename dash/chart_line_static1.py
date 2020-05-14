@@ -1,14 +1,15 @@
 from numpy import log10, datetime64, dtype
 import pandas as pd
-import plotly
 import plotly.graph_objects as go
 from plotly.validators.scatter.marker import SymbolValidator
+from plotly import colors
 
 
-def plot_lines_plotly(df_unfiltered, lands, column, title=False, show_doubling=True, doubling_days=7, showlegend=False):
+def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Temps * 3,
+                      title=False, show_doubling=True, doubling_days=7, showlegend=False):
 
-    df = df_unfiltered.loc[df_unfiltered.land.isin(lands), ['land', column]].dropna()  # .sort_values('confirmed_change')
-
+    df = df_unfiltered.loc[df_unfiltered.land.isin(lands), ['land', column]].dropna()
+    del df_unfiltered
     _doubling_column = f'double_x{doubling_days}'
 
     if show_doubling:
@@ -16,12 +17,17 @@ def plot_lines_plotly(df_unfiltered, lands, column, title=False, show_doubling=T
             r = start_value * 2 ** (day / days_doubling)
             return r
 
-        date_range = pd.date_range(df_unfiltered.dropna().index.min(), df_unfiltered.dropna().index.max())
+        start_value = df.loc[df[column] > 0, column].min()
+        if start_value < 1:
+            start_value = 1
+
+        date_range = pd.date_range(df.index.min(), df.index.max())
         df_index = pd.DataFrame(columns=['date', 'land', column],
                                 data={'date': date_range, 'land': _doubling_column},
                                 )
+
         df_index['rn'] = df_index.groupby('land')['date'].rank(method='first', ascending=True)
-        df_index[column] = df_index['rn'].apply(lambda x: double_every_x_days(x, doubling_days))
+        df_index[column] = df_index['rn'].apply(lambda x: double_every_x_days(x, doubling_days, start_value))
         df_index['date'] = df_index['date'].astype('datetime64[ns]')
         df_index.set_index('date', inplace=True, drop=False)
         df_index.sort_index(inplace=True, ascending=True)
@@ -29,8 +35,6 @@ def plot_lines_plotly(df_unfiltered, lands, column, title=False, show_doubling=T
         # del df_index['date']
         df = df.append(df_index, ignore_index=False, verify_integrity=False, sort=True)
         # df = df.rename_axis('dates_index').sort_values(by=['land', 'dates_index'], ascending=[True, True])
-
-    del df_unfiltered
 
     # Create traces
     fig = go.Figure()
@@ -40,7 +44,6 @@ def plot_lines_plotly(df_unfiltered, lands, column, title=False, show_doubling=T
     #     max_x_range = len(df.index)
     _max_y_range = df.loc[df.land != _doubling_column, column].max()
 
-    _colors = plotly.colors.diverging.Temps * 3  # ['rgb(67,67,67)', 'rgb(115,115,115)', 'rgb(49,130,189)', 'rgb(189,189,189)']
     _symbols = [x for i, x in enumerate(SymbolValidator().values) if i % 2 != 0]  # all markers
     _gray_color = 'rgb(204, 204, 204)'
 

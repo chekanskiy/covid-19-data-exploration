@@ -52,10 +52,20 @@ app = dash.Dash(__name__,
                 meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1.0"}],)
 # external_stylesheets=external_stylesheets)
 # '#111111'
-colors = {
+COLORS = {
     'background': '#1f2630',
     'text': '#2cfec1'
 }
+
+BASE_FIGUE = dict(
+                data=[dict(x=0, y=0)],
+                layout=dict(
+                    paper_bgcolor=COLORS['background'],
+                    plot_bgcolor=COLORS['background'],
+                    autofill=True,
+                    margin=dict(t=75, r=50, b=100, l=50),
+                            ),
+                    )
 
 app.layout = html.Div(
     id="root",
@@ -164,15 +174,7 @@ app.layout = html.Div(
                                 ),
                                 dcc.Graph(
                                     id='left-main-chart',
-                                    figure=dict(
-                                            data=[dict(x=0, y=0)],
-                                            layout=dict(
-                                                paper_bgcolor=colors['background'],
-                                                plot_bgcolor=colors['background'],
-                                                autofill=True,
-                                                margin=dict(t=75, r=50, b=100, l=50),
-                                                        ),
-                                                )
+                                    figure=BASE_FIGUE
                                          ),
                                 # dcc.Loading(
                                 #     id="loading-1",
@@ -223,15 +225,7 @@ app.layout = html.Div(
                         ),
                         dcc.Graph(
                             id="selected-data",
-                            figure=dict(
-                                data=[dict(x=0, y=0)],
-                                layout=dict(
-                                    paper_bgcolor=colors['background'],
-                                    plot_bgcolor=colors['background'],
-                                    autofill=True,
-                                    margin=dict(t=75, r=50, b=100, l=50),
-                                ),
-                            ),
+                            figure=BASE_FIGUE,
                         ),
                             ]
                         )
@@ -246,9 +240,11 @@ app.layout = html.Div(
      Input('dropdown-states', 'value')
     ])
 def update_left_main_chart(selected_column, selected_states):
-    figure = plot_lines_plotly(
-        # df_rki.loc[:, selected_states],
-        df_rki_orig, selected_states, selected_column,  show_doubling=True, doubling_days=7, showlegend=False)
+    if len(selected_states) > 0:
+        figure = plot_lines_plotly(
+            df_rki_orig, selected_states, selected_column,  show_doubling=True, doubling_days=7, showlegend=False)
+    else:
+        figure = BASE_FIGUE
 
     return figure
 
@@ -259,7 +255,10 @@ def update_left_main_chart(selected_column, selected_states):
     Input('dropdown-states', 'value')
     ])
 def update_left_main_chart(selected_column, selected_states):
-    figure = plot_box_plotly_static(df_rki_orig, selected_column, selected_states)
+    if len(selected_states) > 0:
+        figure = plot_box_plotly_static(df_rki_orig, selected_column, selected_states)
+    else:
+        figure = BASE_FIGUE
 
     return figure
 
