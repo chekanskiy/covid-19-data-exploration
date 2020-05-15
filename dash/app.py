@@ -162,12 +162,18 @@ app.layout = html.Div(
                             id="heatmap-container",
                             children=[
                                 html.Div(children=[
+                                    html.Div(
+                                        id='button-weekly-on',
+                                        children=dbc.Button("7 Day Avg Off/On", size='sm', color="primary"),
+                                        style={'display': 'inline-block',
+                                               'margin-right': 23, 'margin-left': 23,
+                                               }),
                                     html.Div(html.P(
                                         children="Daily Confirmed Cases per 100k of Population",
                                         id="heatmap-title",),
-                                        style={'width': '48%', 'display': 'inline-block',
+                                        style={'display': 'inline-block',
                                                'margin-right': 0, 'margin-left': 0,
-                                               'virtical-align': 'middle'}),
+                                               }),
                                     # html.Div(
                                     #     # html.P(
                                     #     # children="weekly rolling average",
@@ -176,14 +182,6 @@ app.layout = html.Div(
                                     #     children=dbc.Button(
                                     #         html.Span(["Daily", html.I(className="fas fa-plus-circle ml-2")]),
                                     #         color='primary', disabled=True),
-                                    #     style={'width': '35%', 'display': 'inline-block',
-                                    #            'margin-right': 0, 'margin-left': 0,
-                                    #            'virtical-align': 'middle'}),
-                                    html.Div(
-                                        id='button-weekly-on',
-                                        children=dbc.Button("7 Day Avg / Daily", size='sm', color="primary"),
-                                        style={'width': '50%', 'display': 'inline-block',
-                                               'margin':'auto', 'textAlign':'center',}),
                                                 ],
                                         ),
                                 dcc.Graph(
