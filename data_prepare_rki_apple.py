@@ -92,7 +92,7 @@ df_rki_germany_processed.to_csv('data_rki_prepared.csv')
 DASH_COLUMNS = ['land', 'date', 'iso_code', 'confirmed_change', 'confirmed', 'confirmed_active_cases', 'confirmed_change_per_100k',
                 'confirmed_change_pct_3w', 'confirmed_doubling_days_3w_avg3', 'dead_change', 'dead', 'dead_change_per_100k', 'dead_doubling_days']
 df_rki_germany_processed_dash = df_rki_germany_processed.loc[:, DASH_COLUMNS]
-df_rki_germany_processed_dash.to_csv('data_rki_prepared_dash.csv')
+df_rki_germany_processed_dash.to_csv('dash/data/data_rki_prepared_dash.csv')
 
 # APPLE
 df_apple_processed.to_csv('data_apple_prepared.csv')
@@ -103,4 +103,4 @@ df_rki_germany_processed_dash.index.name = None
 df_rki_de_apple = df_apple_processed_de.merge(df_rki_germany_processed_dash, on=['date', 'land'], how='right')
 for l in df_rki_de_apple.land.unique():
     df_rki_de_apple.loc[(df_rki_de_apple.land == l), ['driving', 'walking', 'transit']] = df_rki_de_apple.loc[ (df_rki_de_apple.land == l), ['driving', 'walking', 'transit']].fillna(method='ffill')
-df_rki_de_apple.to_csv('data_rki_apple_prepared_dash.csv')
+df_rki_de_apple.to_csv('dash/data/data_rki_apple_prepared_dash.csv')

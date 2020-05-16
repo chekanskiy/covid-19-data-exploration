@@ -67,7 +67,9 @@ def plot_map_go(df, geojson, column, _colors=colors.diverging.Temps * 3):
                 y=0,
                 xref='paper',
                 yref='paper',
-                text="Data Source: <a href='https://www.rki.de/'>Robert Koch Institute</a><br><i>Charts: <a href='https://www.linkedin.com/in/sergeychekanskiy'>Sergey Chekanskiy</a></i>",
+                text="Data Source: <a href='https://www.rki.de/'>Robert Koch Institute</a>"
+                     ", <a href='https://www.apple.com/covid19/mobility'>Apple</a><br>"
+                     "<i>Charts: <a href='https://www.linkedin.com/in/sergeychekanskiy'>Sergey Chekanskiy</a></i>",
                 font=dict(family='Garamond',
                           size=12,
                           color='#7fafdf'),
