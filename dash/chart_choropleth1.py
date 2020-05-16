@@ -39,7 +39,7 @@ def plot_map_go(df, geojson, column, _colors=colors.diverging.Temps * 3):
         colorscale=_colors, #'YlGnBu',
         # autocolorscale=True,
         # reversescale=False,
-        # zmax=200000000,
+        # zmax=20,
         # zmin=0,
         marker_line_color='#7fafdf',
         marker_line_width=0.5,
@@ -49,13 +49,12 @@ def plot_map_go(df, geojson, column, _colors=colors.diverging.Temps * 3):
     ))
 
     fig.update_layout(
-        title_text='Confirmed Cases',
+        # title_text='Confirmed Cases',
         dragmode="lasso",
         clickmode='event+select',
         geo=dict(
             showframe=False,
-            showcoastlines=False,
-            projection_type="natural earth", #go.layout.geo.Projection(type = 'Natural earth'), #'equirectangular'
+            projection_type="mercator", #go.layout.geo.Projection(type = 'Natural earth'), #'equirectangular'
         ),
         plot_bgcolor=color,
         paper_bgcolor=color,
@@ -65,20 +64,20 @@ def plot_map_go(df, geojson, column, _colors=colors.diverging.Temps * 3):
         margin=dict(t=0, b=0, l=0, r=0),
         annotations=[
             dict(
-            x=0.55,
-            y=0,
-            xref='paper',
-            yref='paper',
-            text="Data Source: <a href='https://www.rki.de/'>Robert Koch Institute</a><br><i>Charts: <a href='https://www.linkedin.com/in/sergeychekanskiy'>Sergey Chekanskiy</a></i>",
-            font=dict(family='Garamond',
-                      size=12,
-                      color='#7fafdf'),
-            showarrow=False,
+                x=0.55,
+                y=0,
+                xref='paper',
+                yref='paper',
+                text="Data Source: <a href='https://www.rki.de/'>Robert Koch Institute</a><br><i>Charts: <a href='https://www.linkedin.com/in/sergeychekanskiy'>Sergey Chekanskiy</a></i>",
+                font=dict(family='Garamond',
+                          size=12,
+                          color='#7fafdf'),
+                showarrow=False,
 
         ),
             dict(
                 x=0,
-                y=0.95,
+                y=0.96,
                 xref='paper',
                 yref='paper',
                 text=f"Date: {str(df.index.max().date())}",
