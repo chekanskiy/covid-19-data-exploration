@@ -21,7 +21,7 @@ from chart_boxplot_static1 import plot_box_plotly_static
 from chart_line_static1 import plot_lines_plotly
 
 # ============================================ LOAD DATA =====================================================
-df_rki_orig = pd.read_csv('data_rki_prepared_dash.csv')
+df_rki_orig = pd.read_csv('data_rki_apple_prepared_dash.csv')
 df_rki_orig['date'] = df_rki_orig['date'].astype('datetime64[ns]')
 geojson = json.load(open('data_geo_de.json', 'r'))
 # ========================================= END LOAD DATA ====================================================
@@ -79,6 +79,9 @@ FEATURE_DROP_DOWN = {
     "dead": "Deaths: Total",
     "dead_change_per_100k": "Deaths: Daily per 100k of Population",
     "dead_doubling_days": "Deaths: Days to Double Total Number",
+    "driving": "Driving traffic relative since January 2020",
+    "walking": "Walking traffic relative since January 2020",
+    "transit": "Transit traffic relative since January 2020",
 }
 
 TABS_STYLES = {

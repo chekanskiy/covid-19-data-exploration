@@ -249,12 +249,16 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
                           ),
             )
             if l == 'Hamburg':
-                annotation = annotation_style_outliers
-                annotation['text'] = 'HH: Recorded old cases'
-                x = df.loc[(df.date == '2020-05-12') & (df.land == l), [column]].index[0]
-                annotation['x'] = x
-                annotation['y'] = df.loc[(df.index == x) & (df.land == l), column].values[0]
-                annotations.append(annotation)
+                try:
+                    annotation = annotation_style_outliers
+                    annotation['text'] = 'HH: Recorded old cases'
+                    x = df.loc[(df.date == '2020-05-12') & (df.land == l), [column]].index[0]
+                    y = df.loc[(df.index == x) & (df.land == l), column].values[0]
+                    annotation['x'] = x
+                    annotation['y'] = df.loc[(df.index == x) & (df.land == l), column].values[0]
+                    annotations.append(annotation)
+                except:
+                    pass
             # =================================== END ANNOTATE DATA OUTLIERS ========================
 
     # Title
