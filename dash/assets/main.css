@@ -753,7 +753,7 @@ hr {
         margin-top: 5rem;
     }
 
-    #selected-data {
+    #right-chart {
         height: 55rem;
     }
 }
@@ -778,7 +778,7 @@ hr {
         justify-content: flex-start;
     }
 
-    #selected-data {
+    #right-chart {
         flex-grow: 1;
     }
 }
@@ -788,11 +788,11 @@ hr {
         padding: 2.5rem;
     }
 
-    #selected-data .xtick text{
+    #right-chart .xtick text{
         font-size: 1.1rem !important;
     }
 
-    #selected-data .gtitle{
+    #right-chart .gtitle{
         font-size: 1.7rem !important;
     }
 }

@@ -10,7 +10,7 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 from plotly import colors
 
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 sys.path.insert(0, APP_PATH)
@@ -21,6 +21,19 @@ from chart_choropleth1 import plot_map_express, plot_map_go
 from chart_boxplot_static1 import plot_box_plotly_static
 from chart_line_static1 import plot_lines_plotly
 
+# ============================================ LOAD DATA =====================================================
+df_rki_orig = pd.read_csv('data_rki_prepared.csv')
+df_rki_orig['date'] = df_rki_orig['date'].astype('datetime64[ns]')
+geojson = json.load(open('data_geo_de.json', 'r'))
+# ========================================= END LOAD DATA ====================================================
+
+# ========================================= CREATE APP =======================================================
+# external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__,
+                meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1.0"}],)
+# external_stylesheets=external_stylesheets)
+
+# ========================================= DEFINE PROPERTIES ================================================
 STATES = {'BW': 'Baden-Wuerttemberg',
           'BY': 'Bavaria',
           'BE': 'Berlin',
@@ -38,16 +51,6 @@ STATES = {'BW': 'Baden-Wuerttemberg',
           'SH': 'Schleswig-Holstein',
           'TH': 'Thuringia'}
 
-df_rki_orig = pd.read_csv('data_rki_prepared.csv')
-df_rki_orig['date'] = df_rki_orig['date'].astype('datetime64[ns]')
-geojson = json.load(open('data_geo_de.json', 'r'))
-
-# external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-app = dash.Dash(__name__,
-                meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1.0"}],)
-# external_stylesheets=external_stylesheets)
-# '#111111'
 COLORS = {
     'background': '#1f2630',
     'text': '#2cfec1',
@@ -79,6 +82,38 @@ FEATURE_DROP_DOWN = {
     "dead_doubling_days": "Deaths: Days to Double Total Number",
 }
 
+TABS_STYLES = {
+    'height': '40px',
+    'borderBottom': '0px solid #7fafdf',
+}
+
+TAB_STYLE = {
+    'borderTop': '0px solid #7fafdf',
+    'borderLeft': '0px solid #7fafdf',
+    'borderRight': '0px solid #7fafdf',
+    'borderBottom': '0px solid #7fafdf',
+    'backgroundColor': '#252e3f',
+    'padding': '6px',
+    'color': "while",
+    'textAlign': 'center',
+    'fontSize': '14px',
+    'fontWeight': 'bold',
+}
+
+TAB_SELECTED_STYLE = {
+    'borderTop': '0px solid #7fafdf',
+    'borderLeft': '0px solid #7fafdf',
+    'borderRight': '0px solid #7fafdf',
+    'borderBottom': '0px solid #7fafdf',
+    'backgroundColor': COLORS['background'],
+    'color': 'white',
+    'padding': '6px',
+    'textAlign': 'center',
+    'fontSize': '14px',
+    'fontWeight': 'bold',
+}
+
+# ========================================= DEFINE LAYOUT ================================================
 app.layout = html.Div(
     id="root",
     # style={'backgroundColor': colors['background']},
@@ -201,12 +236,31 @@ app.layout = html.Div(
                     children=[
                         html.P(id="chart-selector", children="Change metric to display:"),
                         dcc.Dropdown(
-                            options=[{'label': l, 'value': v} for l,v in zip(FEATURE_DROP_DOWN.values(), FEATURE_DROP_DOWN.keys())],
+                            options=[{'label': l, 'value': v} for l, v in
+                                     zip(FEATURE_DROP_DOWN.values(), FEATURE_DROP_DOWN.keys())],
                             value="confirmed_change",
                             id="chart-dropdown",
                         ),
+                        dcc.Tabs(id='tabs-example',
+                                 parent_className='custom-tabs',
+                                 className='custom-tabs-container',
+                                 value='tab-map',
+                                 children=[
+                                    dcc.Tab(label='Map Tab', value='tab-map',
+                                            # className='custom-tab',
+                                            # selected_className='custom-tab--selected'
+                                            style=TAB_STYLE,
+                                            selected_style=TAB_SELECTED_STYLE
+                                            ),
+                                    dcc.Tab(label='Boxplot Tab', value='tab-boxplot',
+                                            # className='custom-tab',
+                                            # selected_className='custom-tab--selecte
+                                            style=TAB_STYLE,
+                                            selected_style=TAB_SELECTED_STYLE
+                                            ),
+                                            ], style=TABS_STYLES),
                         dcc.Graph(
-                            id="selected-data",
+                            id="right-chart",
                             figure=BASE_FIGURE,
                         ),
                             ],
@@ -251,34 +305,32 @@ def update_left_main_chart(selected_column, selected_states, n_clicks):
             _colors=COLORS['charts'])
     else:
         figure = BASE_FIGURE
-
     return figure
 
 
-# @app.callback(
-#     Output('selected-data', 'figure'),
-#     [Input('chart-dropdown', 'value'),
-#     Input('dropdown-states', 'value')
-#     ])
-# def update_right_main_chart(selected_column, selected_states):
-#     if len(selected_states) > 0:
-#         figure = plot_box_plotly_static(df_rki_orig, selected_column, selected_states)
-#     else:
-#         figure = BASE_FIGURE
-#
-#     return figure
-
-
-@app.callback(
-    Output('selected-data', 'figure'),
-    [Input('chart-dropdown', 'value'),
-    ])
 def update_right_main_chart_map(selected_column):
     df = df_rki_orig.loc[:, [selected_column, 'land', 'iso_code', 'date']].set_index('date', drop=False)
     df = df.loc[df.index == df.index.max()]
     figure = plot_map_go(df, geojson, selected_column, _colors=COLORS['map'])
-
     return figure
+
+
+@app.callback(
+    Output('right-chart', 'figure'),
+    [Input('chart-dropdown', 'value'),
+     Input('dropdown-states', 'value'),
+     Input('tabs-example', 'value')],
+    # [State('tabs-example', "value")]
+)
+def update_right_main_chart(selected_column, selected_states, tab):
+    if tab == 'tab-boxplot':
+        if len(selected_states) > 0:
+            figure = plot_box_plotly_static(df_rki_orig, selected_column, selected_states)
+        else:
+            figure = BASE_FIGURE
+        return figure
+    if tab == 'tab-map':
+        return update_right_main_chart_map(selected_column)
 
 
 @app.callback(
@@ -286,8 +338,18 @@ def update_right_main_chart_map(selected_column):
     [Input('chart-dropdown', 'value'),
     ])
 def update_main_chart_title(selected_column):
-
     return FEATURE_DROP_DOWN[selected_column]
+
+
+@app.callback(
+    Output('dropdown-states', 'value'),
+    [Input('right-chart', 'selectedData'),],
+    [State('dropdown-states', 'value')])
+def update_states_selection_from_map(selected_data, drop_down_states):
+    if selected_data is None:
+        return drop_down_states
+    else:
+        return [str(p['text']) for p in selected_data['points']]
 
 
 # @app.callback(

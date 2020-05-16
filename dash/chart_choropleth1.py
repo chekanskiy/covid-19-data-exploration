@@ -50,6 +50,8 @@ def plot_map_go(df, geojson, column, _colors=colors.diverging.Temps * 3):
 
     fig.update_layout(
         title_text='Confirmed Cases',
+        dragmode="lasso",
+        clickmode='event+select',
         geo=dict(
             showframe=False,
             showcoastlines=False,
@@ -62,7 +64,7 @@ def plot_map_go(df, geojson, column, _colors=colors.diverging.Temps * 3):
         margin=dict(t=0, b=0, l=0, r=0),
         annotations=[dict(
             x=0.55,
-            y=0.05,
+            y=0,
             xref='paper',
             yref='paper',
             text="Data Source: <a href='https://www.rki.de/'>Robert Koch Institute</a><br><i>Charts: <a href='https://www.linkedin.com/in/sergeychekanskiy'>Sergey Chekanskiy</a></i>",
@@ -71,7 +73,8 @@ def plot_map_go(df, geojson, column, _colors=colors.diverging.Temps * 3):
                       color='#7fafdf'),
             showarrow=False,
 
-        )]
+        ),
+        ]
     )
 
     fig.update_geos(fitbounds='locations',
