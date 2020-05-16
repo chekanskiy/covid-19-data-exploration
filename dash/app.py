@@ -248,6 +248,12 @@ app.layout = html.Div(
     Output("button-weekly", "children"),
     [Input("button-weekly-on", "n_clicks")])
 def update_weekly_button(n_clicks):
+    """
+    Changes the name displayed on the button button-weekly
+    based on how many times it was clicked (even / uneven number of times)
+    :param n_clicks:
+    :return:
+    """
     if n_clicks is None or n_clicks % 2 == 0:
         return "7 DAY AVG IS ON"
     else:
@@ -261,6 +267,14 @@ def update_weekly_button(n_clicks):
      Input("button-weekly-on", "n_clicks")
     ])
 def update_left_chart(selected_column, selected_states, n_clicks):
+    """
+    Displays / Updates the left chart.
+    Number of clicks on the button-weekly-on object define how the data is filtered
+    :param selected_column:
+    :param selected_states:
+    :param n_clicks:
+    :return:
+    """
     if n_clicks is None or n_clicks % 2 == 0:  # Button is Un-clicked or Clicked even number of times.
         df = df_rki_orig.copy()
         ro = df.groupby('land').rolling(7, on='date').mean().reset_index(drop=False).loc[:,
@@ -269,17 +283,22 @@ def update_left_chart(selected_column, selected_states, n_clicks):
         selected_column += '_weekly'
     else:
         df = df_rki_orig
-    if len(selected_states) > 0:
-        figure = plot_lines_plotly(
-            df, selected_states, selected_column,
-            show_doubling=True, doubling_days=7, showlegend=False,
-            _colors=COLORS['charts'])
-    else:
+    if len(selected_states) > 0:  # In case all states are deselected
+        figure = plot_lines_plotly(df, selected_states, selected_column,
+                                   show_doubling=True, doubling_days=7, showlegend=False,
+                                   _colors=COLORS['charts'])
+    else:  # Default figure is displayed initially, on refresh and when no states are selected
         figure = BASE_FIGURE
     return figure
 
 
 def update_right_chart_map(selected_column, selected_date='most_recent'):
+    """
+    Helper function that filters the data for the Map Chart
+    :param selected_column:
+    :param selected_date:
+    :return: figure
+    """
     df = df_rki_orig.loc[:, [selected_column, 'land', 'iso_code', 'date']].set_index('date', drop=False)
     if selected_date == 'most_recent':
         df = df.loc[df.index == df.index.max()]
@@ -295,9 +314,18 @@ def update_right_chart_map(selected_column, selected_date='most_recent'):
      Input('dropdown-states', 'value'),
      Input('tabs-example', 'value'),
      Input('left-chart', 'selectedData')],
-    # [State('tabs-example', "value")]
 )
 def update_right_chart(selected_column, selected_states, selected_tab, selected_data):
+    """
+    Displays / Updates the chart on the right based on input.
+    Changing any value redraws the chart.
+    This is why the country selection on the map doesn't persist (the chart updates)
+    :param selected_column:
+    :param selected_states:
+    :param selected_tab:
+    :param selected_data:
+    :return:
+    """
     if selected_tab == 'tab-boxplot':
         if len(selected_states) > 0:
             figure = plot_box_plotly_static(df_rki_orig, selected_column, selected_states)
@@ -318,6 +346,13 @@ def update_right_chart(selected_column, selected_states, selected_tab, selected_
      Input("button-weekly-on", "n_clicks")
     ])
 def update_left_chart_title(selected_column, n_clicks):
+    """
+    Updates the Title of the left chart based on  the value selected in the right drop-down menu and
+    the state of the button selecting averaging
+    :param selected_column:
+    :param n_clicks:
+    :return: string: Title to display
+    """
     if n_clicks is None or n_clicks % 2 == 0:  # Button is Un-clicked or Clicked even number of times.
         return FEATURE_DROP_DOWN[selected_column] + ', 7 day moving average'
     else:
@@ -329,6 +364,12 @@ def update_left_chart_title(selected_column, n_clicks):
 #     [Input('left-chart', 'selectedData')
 #     ])
 # def update_left_chart_title(data):
+#     """
+#     Test Callback to print values returned by selectedData object.
+#     Keep it commented out if not debugging.
+#     :param data:
+#     :return:
+#     """
 #     return str(data['points'][0]['x'])
 
 
@@ -337,6 +378,13 @@ def update_left_chart_title(selected_column, n_clicks):
     [Input('right-chart', 'selectedData'),],
     [State('dropdown-states', 'value')])
 def update_states_selection_from_map(selected_data, drop_down_states):
+    """
+    Selecting the data on the Map Chart updates the values in the
+    Dropdown Menu on the left
+    :param selected_data:
+    :param drop_down_states:
+    :return: list of values for the Dropdown Menu
+    """
     if selected_data is None:
         return drop_down_states
     else:
