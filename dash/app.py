@@ -15,9 +15,9 @@ from dash.dependencies import Input, Output, State
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 sys.path.insert(0, APP_PATH)
 
-from func_features import join_series_day_since, join_series_date
-from chart_line_animated1 import plot_lines_plotly_animated
-from chart_choropleth1 import plot_map_express, plot_map_go
+# from func_features import join_series_day_since, join_series_date
+# from chart_line_animated1 import plot_lines_plotly_animated
+from chart_choropleth1 import plot_map_go
 from chart_boxplot_static1 import plot_box_plotly_static
 from chart_line_static1 import plot_lines_plotly
 
