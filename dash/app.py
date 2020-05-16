@@ -1,12 +1,14 @@
 import pandas as pd
+import geopandas as gpd
 import pathlib
 import sys
-from datetime import datetime as dt
+import json
 
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
+from plotly import colors
 
 from dash.dependencies import Input, Output
 
@@ -15,6 +17,7 @@ sys.path.insert(0, APP_PATH)
 
 from func_features import join_series_day_since, join_series_date
 from chart_line_animated1 import plot_lines_plotly_animated
+from chart_choropleth1 import plot_map_express, plot_map_go
 from chart_boxplot_static1 import plot_box_plotly_static
 from chart_line_static1 import plot_lines_plotly
 
@@ -37,15 +40,7 @@ STATES = {'BW': 'Baden-Wuerttemberg',
 
 df_rki_orig = pd.read_csv('data_rki_prepared.csv')
 df_rki_orig['date'] = df_rki_orig['date'].astype('datetime64[ns]')
-# df_rki_orig.set_index('date', inplace=True, drop=False)
-# df_rki_orig.rename_axis('date_index')
-
-# df_rki = join_series_day_since(df_rki, 'confirmed_change_per_100k', 'confirmed_day_since_10')
-# df_rki = df_rki.rolling(7).mean().round(2).dropna().sort_index()
-# .loc[1:, ['Hamburg', 'Bremen', 'Bavaria', 'Berlin',]]
-
-# df_rki = join_series_date(df_rki_orig, 'confirmed_change_per_100k')
-# df_rki = df_rki.rolling(7).mean().round(2).dropna().sort_index(ascending=False)
+geojson = json.load(open('data_geo_de.json', 'r'))
 
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -55,7 +50,10 @@ app = dash.Dash(__name__,
 # '#111111'
 COLORS = {
     'background': '#1f2630',
-    'text': '#2cfec1'
+    'text': '#2cfec1',
+    # 'charts': colors.diverging.Temps * 3
+    'charts': colors.diverging.Temps * 3,  # 'YlGnBu',
+    'map': colors.sequential.PuBu  # 'YlGnBu',
 }
 
 BASE_FIGURE = dict(
@@ -164,7 +162,8 @@ app.layout = html.Div(
                                 html.Div(children=[
                                     html.Div(
                                         id='button-weekly-on',
-                                        children=dbc.Button("7 Day Avg Off/On", size='sm', color="primary"),
+                                        children=dbc.Button(children="7 Day Avg Off/On",
+                                                            id='button-weekly', size='sm', color="info"),
                                         style={'display': 'inline-block',
                                                'margin-right': 23, 'margin-left': 23,
                                                }),
@@ -210,11 +209,24 @@ app.layout = html.Div(
                             id="selected-data",
                             figure=BASE_FIGURE,
                         ),
-                            ]
-                        )
+                            ],
+                    # style={'height': '100%', 'width': '100%',
+                    #         'margin-right': 0, 'margin-left': 0,
+                    #         }
+)
                 ]
                     )
     ])
+
+
+@app.callback(
+    Output("button-weekly", "children"),
+    [Input("button-weekly-on", "n_clicks")])
+def update_weekly_button(n_clicks):
+    if n_clicks is None or n_clicks % 2 == 0:
+        return "7 DAY AVG IS ON"
+    else:
+        return "7 DAY AVG IS OFF"
 
 
 @app.callback(
@@ -223,8 +235,8 @@ app.layout = html.Div(
      Input('dropdown-states', 'value'),
      Input("button-weekly-on", "n_clicks")
     ])
-def update_left_main_chart(selected_column, selected_states, n):
-    if n is None or n%2==0:
+def update_left_main_chart(selected_column, selected_states, n_clicks):
+    if n_clicks is None or n_clicks%2==0:
         df = df_rki_orig.copy()
         ro = df.groupby('land').rolling(7, on='date').mean().reset_index(drop=False).loc[:,
              ['date', 'land', selected_column]]
@@ -234,23 +246,37 @@ def update_left_main_chart(selected_column, selected_states, n):
         df = df_rki_orig
     if len(selected_states) > 0:
         figure = plot_lines_plotly(
-            df, selected_states, selected_column,  show_doubling=True, doubling_days=7, showlegend=False)
+            df, selected_states, selected_column,
+            show_doubling=True, doubling_days=7, showlegend=False,
+            _colors=COLORS['charts'])
     else:
         figure = BASE_FIGURE
 
     return figure
 
 
+# @app.callback(
+#     Output('selected-data', 'figure'),
+#     [Input('chart-dropdown', 'value'),
+#     Input('dropdown-states', 'value')
+#     ])
+# def update_right_main_chart(selected_column, selected_states):
+#     if len(selected_states) > 0:
+#         figure = plot_box_plotly_static(df_rki_orig, selected_column, selected_states)
+#     else:
+#         figure = BASE_FIGURE
+#
+#     return figure
+
+
 @app.callback(
     Output('selected-data', 'figure'),
     [Input('chart-dropdown', 'value'),
-    Input('dropdown-states', 'value')
     ])
-def update_right_main_chart(selected_column, selected_states):
-    if len(selected_states) > 0:
-        figure = plot_box_plotly_static(df_rki_orig, selected_column, selected_states)
-    else:
-        figure = BASE_FIGURE
+def update_right_main_chart_map(selected_column):
+    df = df_rki_orig.loc[:, [selected_column, 'land', 'iso_code', 'date']].set_index('date', drop=False)
+    df = df.loc[df.index == df.index.max()]
+    figure = plot_map_go(df, geojson, selected_column, _colors=COLORS['map'])
 
     return figure
 

@@ -268,7 +268,7 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
     # Source
     annotations.append(dict(xref='paper', yref='paper', x=0.5, y=-0.06,
                             xanchor='center', yanchor='top',
-                            text="<a href='https://www.rki.de/'> Data Source: Robert Koch Institute</a><br><i><a href='https://www.linkedin.com/in/sergeychekanskiy'>Charts: Sergey Chekanskiy</a></i>",
+                            text="Data Source: <a href='https://www.rki.de/'>Robert Koch Institute</a><br><i>Charts: <a href='https://www.linkedin.com/in/sergeychekanskiy'>Sergey Chekanskiy</a></i>",
                             font=dict(family='Garamond',
                                       size=12,
                                       color='#7fafdf'),
