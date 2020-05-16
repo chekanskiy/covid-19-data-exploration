@@ -279,9 +279,12 @@ def update_left_chart(selected_column, selected_states, n_clicks):
     return figure
 
 
-def update_right_chart_map(selected_column):
+def update_right_chart_map(selected_column, selected_date='most_recent'):
     df = df_rki_orig.loc[:, [selected_column, 'land', 'iso_code', 'date']].set_index('date', drop=False)
-    df = df.loc[df.index == df.index.max()]
+    if selected_date == 'most_recent':
+        df = df.loc[df.index == df.index.max()]
+    else:
+        df = df.loc[df.index == selected_date]
     figure = plot_map_go(df, geojson, selected_column, _colors=COLORS['map'])
     return figure
 
@@ -290,18 +293,23 @@ def update_right_chart_map(selected_column):
     Output('right-chart', 'figure'),
     [Input('chart-dropdown', 'value'),
      Input('dropdown-states', 'value'),
-     Input('tabs-example', 'value')],
+     Input('tabs-example', 'value'),
+     Input('left-chart', 'selectedData')],
     # [State('tabs-example', "value")]
 )
-def update_right_chart(selected_column, selected_states, tab):
-    if tab == 'tab-boxplot':
+def update_right_chart(selected_column, selected_states, selected_tab, selected_data):
+    if selected_tab == 'tab-boxplot':
         if len(selected_states) > 0:
             figure = plot_box_plotly_static(df_rki_orig, selected_column, selected_states)
         else:
             figure = BASE_FIGURE
         return figure
-    if tab == 'tab-map':
-        return update_right_chart_map(selected_column)
+    if selected_tab == 'tab-map':
+        if selected_data is None:
+            selected_date = 'most_recent'
+        else:
+            selected_date = selected_data['points'][-1]['x']
+        return update_right_chart_map(selected_column, selected_date)
 
 
 @app.callback(
@@ -314,6 +322,14 @@ def update_left_chart_title(selected_column, n_clicks):
         return FEATURE_DROP_DOWN[selected_column] + ', 7 day moving average'
     else:
         return FEATURE_DROP_DOWN[selected_column] + ', by day'
+
+
+# @app.callback(
+#     Output('left-chart-title', 'children'),
+#     [Input('left-chart', 'selectedData')
+#     ])
+# def update_left_chart_title(data):
+#     return str(data['points'][0]['x'])
 
 
 @app.callback(

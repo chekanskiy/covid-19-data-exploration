@@ -32,7 +32,7 @@ def plot_map_express(df, geojson, column):
 def plot_map_go(df, geojson, column, _colors=colors.diverging.Temps * 3):
     color = '#1f2630'
     fig = go.Figure(data=go.Choropleth(
-        locations = df['iso_code'],
+        locations=df['iso_code'],
         geojson=geojson,
         z=df[column],
         text=df['land'],
@@ -44,7 +44,7 @@ def plot_map_go(df, geojson, column, _colors=colors.diverging.Temps * 3):
         marker_line_color='#7fafdf',
         marker_line_width=0.5,
         # colorbar_tickprefix = '$',
-        colorbar_title='Confirmed Cases',
+        # colorbar_title='Confirmed Cases',
         showscale=False,
     ))
 
@@ -59,10 +59,12 @@ def plot_map_go(df, geojson, column, _colors=colors.diverging.Temps * 3):
         ),
         plot_bgcolor=color,
         paper_bgcolor=color,
+        autosize=True,
         # height=600,
         # width=1200,
         margin=dict(t=0, b=0, l=0, r=0),
-        annotations=[dict(
+        annotations=[
+            dict(
             x=0.55,
             y=0,
             xref='paper',
@@ -74,6 +76,19 @@ def plot_map_go(df, geojson, column, _colors=colors.diverging.Temps * 3):
             showarrow=False,
 
         ),
+            dict(
+                x=0,
+                y=0.95,
+                xref='paper',
+                yref='paper',
+                text=f"Date: {str(df.index.max().date())}",
+                font=dict(family='Garamond',
+                          size=16,
+                          color='#7fafdf',
+                          ),
+                showarrow=False,
+
+            ),
         ]
     )
 
