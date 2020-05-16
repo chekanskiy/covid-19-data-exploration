@@ -81,7 +81,7 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
                                      y=df.loc[df.land == l, column],
                                      mode='lines+markers',
                                      marker=dict(color=_colors[i],
-                                                 size=_mode_size[i] - 3,
+                                                 size=_mode_size[i] - 1,
                                                  opacity=0.7,
                                                  symbol=_symbols[i + 2],
                                                  line=dict(

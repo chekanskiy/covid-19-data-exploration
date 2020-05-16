@@ -55,7 +55,7 @@ COLORS = {
     'background': '#1f2630',
     'text': '#2cfec1',
     # 'charts': colors.diverging.Temps * 3
-    'charts': colors.diverging.Temps * 3,  # 'YlGnBu',
+    'charts': colors.diverging.Tealrose * 3,  # 'YlGnBu',
     'map': colors.sequential.PuBu  # 'YlGnBu',
 }
 
@@ -141,7 +141,7 @@ app.layout = html.Div(
                             children=[
                                 html.P(
                                     id="dropdown-text",
-                                    children="Change the selection of federal states to display:",
+                                    children="Select states below or circle states on the map",
                                 ),
                                 html.Div(
                                     dcc.Dropdown(
@@ -234,7 +234,7 @@ app.layout = html.Div(
                 html.Div(
                     id="right-column",
                     children=[
-                        html.P(id="chart-selector", children="Change metric to display:"),
+                        html.P(id="chart-selector", children="Select the value to plot:"),
                         dcc.Dropdown(
                             options=[{'label': l, 'value': v} for l, v in
                                      zip(FEATURE_DROP_DOWN.values(), FEATURE_DROP_DOWN.keys())],
@@ -290,7 +290,7 @@ def update_weekly_button(n_clicks):
      Input("button-weekly-on", "n_clicks")
     ])
 def update_left_main_chart(selected_column, selected_states, n_clicks):
-    if n_clicks is None or n_clicks%2==0:
+    if n_clicks is None or n_clicks % 2 == 0:  # Button is Un-clicked or Clicked even number of times.
         df = df_rki_orig.copy()
         ro = df.groupby('land').rolling(7, on='date').mean().reset_index(drop=False).loc[:,
              ['date', 'land', selected_column]]
@@ -336,9 +336,13 @@ def update_right_main_chart(selected_column, selected_states, tab):
 @app.callback(
     Output('heatmap-title', 'children'),
     [Input('chart-dropdown', 'value'),
+     Input("button-weekly-on", "n_clicks")
     ])
-def update_main_chart_title(selected_column):
-    return FEATURE_DROP_DOWN[selected_column]
+def update_main_chart_title(selected_column, n_clicks):
+    if n_clicks is None or n_clicks % 2 == 0:  # Button is Un-clicked or Clicked even number of times.
+        return FEATURE_DROP_DOWN[selected_column] + ', 7 day moving average'
+    else:
+        return FEATURE_DROP_DOWN[selected_column] + ', by day'
 
 
 @app.callback(
@@ -350,15 +354,6 @@ def update_states_selection_from_map(selected_data, drop_down_states):
         return drop_down_states
     else:
         return [str(p['text']) for p in selected_data['points']]
-
-
-# @app.callback(
-#     Output('heatmap-states', 'children'),
-#     [Input('dropdown-states', 'value')
-#     ])
-# def update_main_chart_title_states(selected_states):
-#
-#     return ",  ".join([f"{k} = {s}" for k, s in zip(STATES.keys(), STATES.values()) if s in selected_states])
 
 
 if __name__ == '__main__':
