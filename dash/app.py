@@ -123,10 +123,10 @@ app.layout = html.Div(
             children=[
                 # html.Img(id="logo", src=app.get_asset_url("dash-logo.png")),
                 html.H4(children='COVID-19 in Germany', #style={ 'textAlign': 'left', 'color': colors['text']}
-                       ),
+                        ),
                 html.P(
                       id="description",
-                      children="Tracking the progress of COVID-19 pandemic for each federal state",
+                      children="Fully interactive dashboard",
                   ),
                     ]
         ),
@@ -160,27 +160,6 @@ app.layout = html.Div(
                                            'virticalalign': 'middle'
                                            }
                                         ),
-                                # html.Div(
-                                #     [
-                                #         html.Span(
-                                #                       "?",
-                                #                       id="tooltip-target",
-                                #                       style={
-                                #                              "textAlign": "center",
-                                #                              "color": "white"
-                                #                       },
-                                #                       className="dot"),
-                                #
-                                #                  dbc.Tooltip("BW: Baden-Wuerttemberg <br>"
-                                #                        target="tooltip-target",
-                                #                         placement='bottom'
-                                #                  )
-                                #     ],
-                                #     style={'width': '10%', 'display': 'inline-block',
-                                #            'margin-right': 10, 'margin-left': 30,
-                                #            'virticalalign': 'middle'
-                                #            }
-                                #             )
                                 # html.Div(dcc.DatePickerRange(
                                 #     id='date-picker-range',
                                 #     start_date=dt(1997, 5, 3),
@@ -192,7 +171,7 @@ app.layout = html.Div(
                             ],
                         ),
                         html.Div(
-                            id="heatmap-container",
+                            id="left-chart-container",
                             children=[
                                 html.Div(children=[
                                     html.Div(
@@ -204,22 +183,14 @@ app.layout = html.Div(
                                                }),
                                     html.Div(html.P(
                                         children="Daily Confirmed Cases per 100k of Population",
-                                        id="heatmap-title",),
+                                        id="left-chart-title",),
                                         style={'display': 'inline-block',
                                                'margin-right': 0, 'margin-left': 0,
                                                }),
-                                    # html.Div(
-                                    #     # html.P(
-                                    #     # children="weekly rolling average",
-                                    #     # id="heatmap-states",),
-                                    #     id='button-daily-on',
-                                    #     children=dbc.Button(
-                                    #         html.Span(["Daily", html.I(className="fas fa-plus-circle ml-2")]),
-                                    #         color='primary', disabled=True),
                                                 ],
                                         ),
                                 dcc.Graph(
-                                    id='left-main-chart',
+                                    id='left-chart',
                                     figure=BASE_FIGURE
                                          ),
                                 # dcc.Loading(
@@ -284,12 +255,12 @@ def update_weekly_button(n_clicks):
 
 
 @app.callback(
-    Output('left-main-chart', 'figure'),
+    Output('left-chart', 'figure'),
     [Input('chart-dropdown', 'value'),
      Input('dropdown-states', 'value'),
      Input("button-weekly-on", "n_clicks")
     ])
-def update_left_main_chart(selected_column, selected_states, n_clicks):
+def update_left_chart(selected_column, selected_states, n_clicks):
     if n_clicks is None or n_clicks % 2 == 0:  # Button is Un-clicked or Clicked even number of times.
         df = df_rki_orig.copy()
         ro = df.groupby('land').rolling(7, on='date').mean().reset_index(drop=False).loc[:,
@@ -308,7 +279,7 @@ def update_left_main_chart(selected_column, selected_states, n_clicks):
     return figure
 
 
-def update_right_main_chart_map(selected_column):
+def update_right_chart_map(selected_column):
     df = df_rki_orig.loc[:, [selected_column, 'land', 'iso_code', 'date']].set_index('date', drop=False)
     df = df.loc[df.index == df.index.max()]
     figure = plot_map_go(df, geojson, selected_column, _colors=COLORS['map'])
@@ -322,7 +293,7 @@ def update_right_main_chart_map(selected_column):
      Input('tabs-example', 'value')],
     # [State('tabs-example', "value")]
 )
-def update_right_main_chart(selected_column, selected_states, tab):
+def update_right_chart(selected_column, selected_states, tab):
     if tab == 'tab-boxplot':
         if len(selected_states) > 0:
             figure = plot_box_plotly_static(df_rki_orig, selected_column, selected_states)
@@ -330,15 +301,15 @@ def update_right_main_chart(selected_column, selected_states, tab):
             figure = BASE_FIGURE
         return figure
     if tab == 'tab-map':
-        return update_right_main_chart_map(selected_column)
+        return update_right_chart_map(selected_column)
 
 
 @app.callback(
-    Output('heatmap-title', 'children'),
+    Output('left-chart-title', 'children'),
     [Input('chart-dropdown', 'value'),
      Input("button-weekly-on", "n_clicks")
     ])
-def update_main_chart_title(selected_column, n_clicks):
+def update_left_chart_title(selected_column, n_clicks):
     if n_clicks is None or n_clicks % 2 == 0:  # Button is Un-clicked or Clicked even number of times.
         return FEATURE_DROP_DOWN[selected_column] + ', 7 day moving average'
     else:

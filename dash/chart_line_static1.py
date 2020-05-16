@@ -150,6 +150,8 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
     # UPDATE LAYOUT, Axis, Margins, Size, Legend, Background
     fig.update_layout(
         updatemenus=updatemenus,
+        dragmode="select",
+        clickmode='event+select',
         xaxis=dict(
             showline=True,
             showgrid=False,

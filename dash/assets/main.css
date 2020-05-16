@@ -312,12 +312,12 @@ p {
     margin-top: 0;
 }
 
-#heatmap-title {
+#left-chart-title {
     font-family: "Playfair Display", sans-serif;
     font-size: 2rem;
 }
 
-#heatmap-subtitle {
+#left-chart-subtitle {
     font-size: 1.5rem;
 }
 
@@ -678,12 +678,12 @@ hr {
 
 /* Heatmap
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-#heatmap-container {
+#left-chart-container {
     margin: 2.5rem 0 0 0;
     background-color: #252e3f;
 }
 
-#heatmap-title {
+#left-chart-title {
     margin: 0;
     padding: 1rem;
 }
@@ -693,13 +693,13 @@ hr {
     padding: 1rem;
 }
 
-#left-main-chart {
+#left-chart {
     margin: 0;
     flex-grow: 1;
 }
 
 @media (min-width: 1251px) {
-    #heatmap-container {
+    #left-chart-container {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
@@ -708,7 +708,7 @@ hr {
 }
 
 @media (max-width: 550px) {
-    #left-main-chart .annotation-text{
+    #left-chart .annotation-text{
         font-size: 1.2rem !important;
     }
 }
