@@ -1,10 +1,9 @@
-import plotly.express as px
 import plotly.graph_objects as go
 from plotly import colors
 
 
 # def plot_map_express(df, geojson, column):
-#
+#     import plotly.express as px
 #     fig = px.choropleth_mapbox(df, geojson=geojson, locations='iso_code', color=column,
 #                                color_continuous_scale="YlGnBu",
 #                                # range_color=(0, 200000000),
