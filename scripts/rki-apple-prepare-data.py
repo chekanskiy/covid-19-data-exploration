@@ -4,6 +4,7 @@ import json
 import pathlib
 import sys
 from features import add_variables_covid, add_variables_apple
+from utils import DASH_COLUMNS
 
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 sys.path.insert(0, APP_PATH)
@@ -98,10 +99,9 @@ df_apple_processed_de = df_apple_processed_de.rename(columns={'region': 'land'})
 # ============================== SAVE DATA ==============================
 # RKI
 df_rki_germany_processed.to_csv(f'{path_processed}/data_rki_prepared.csv')
-DASH_COLUMNS = ['land', 'date', 'iso_code', 'confirmed_change', 'confirmed', 'confirmed_active_cases', 'confirmed_change_per_100k',
-                'confirmed_change_pct_3w', 'confirmed_doubling_days_3w_avg3', 'dead_change', 'dead', 'dead_change_per_100k', 'dead_doubling_days']
-df_rki_germany_processed_dash = df_rki_germany_processed.loc[:, DASH_COLUMNS]
-df_rki_germany_processed_dash.to_csv(f'{APP_PATH}/../dash/data/data_rki_prepared_dash.csv')
+
+# df_rki_germany_processed_dash = df_rki_germany_processed.loc[:, DASH_COLUMNS]
+# df_rki_germany_processed_dash.to_csv(f'{APP_PATH}/../dash/data/data_rki_prepared_dash.csv')
 
 # APPLE
 df_apple_processed.to_csv(f'{path_processed}/data_apple_prepared.csv')

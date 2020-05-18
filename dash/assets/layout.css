@@ -1,0 +1,229 @@
+/* Slider
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+#dropdown-container {
+    background-color: #252e3f;
+    padding: 2rem 2rem 2rem 2rem;
+    height: 8rem;
+}
+
+/*
+.rc-slider-dot-active, .rc-slider-handle {
+    border-color: #2cfec1 !important;
+}
+
+.rc-slider-track {
+    background-color: #2cfec1 !important
+}
+
+.rc-slider-rail {
+    background-color: #1d2731 !important
+}
+
+*/
+
+/* Averaging Buttons
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.div-button-weekly-average {
+    display: inline-block;
+    margin: 0 0 0 0;
+    background-color: #252e3f;
+    padding: 0rem 2rem 0rem 0rem;
+}
+
+/* Heatmap
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+#left-chart-container {
+    margin: 0 0 0 0;
+    background-color: #252e3f;
+    padding: 0 2rem 2rem 2rem;
+}
+
+#left-chart-title {
+    margin: 0;
+    padding: 0rem;
+}
+
+#heatmap-subtitle {
+    margin: 0;
+    padding: 0rem;
+}
+
+#left-chart {
+    margin: 0;
+    flex-grow: 1;
+}
+
+@media (min-width: 1251px) {
+    #left-chart-container {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 550px) {
+    #left-chart .annotation-text{
+        font-size: 1.2rem !important;
+    }
+}
+
+
+/* Left column
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/*For mobile and smaller screens*/
+
+@media only screen and (max-width: 1250px) {
+
+    #left-column {
+        margin-right: 1.5%;
+        width: 100%;
+    }
+}
+
+/*For desktop*/
+@media (min-width: 1251px) {
+
+    #left-column {
+        margin-right: 1.5%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-content: center;
+        flex: 6 80%;
+    }
+
+/* Right column
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+#right-column {
+    background-color: #252e3f;
+    padding: 2rem 2rem 0rem 2rem;
+    height: 139rem;
+}
+
+#right-chart {
+        padding: 0 0 2rem 0
+    }
+
+#chart-dropdown {
+    padding: 0 0 2rem 0;
+}
+
+#right-chart-2-title {
+    padding: 4rem 0 0 0;
+}
+
+
+@media (min-width: 1251px) {
+    /*For desktop*/
+
+    #header p {
+        font-size: 1.5rem;
+    }
+
+    #right-column {
+        flex: 4 40%;
+        margin: 0;
+        display: inline;
+    }
+
+    #right-chart {
+        flex-grow: 4;
+        height: 55rem;
+    }
+
+}
+
+@media (max-width: 550px) {
+    #right-column {
+        padding: 2.5rem;
+    }
+
+    #right-chart .xtick text{
+        font-size: 1.1rem !important;
+    }
+
+    #right-chart .gtitle{
+        font-size: 1.7rem !important;
+    }
+}
+
+/* Dropdown
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.Select-value {
+    cursor: pointer;
+}
+
+.Select-control {
+    color: #7fafdf !important;
+}
+
+.Select {
+    color: #7fafdf !important;
+}
+
+.Select-menu-outer {
+    background-color: #252e3f !important;
+    border: 1px solid #7fafdf !important;
+}
+
+.Select div {
+    background-color: #252e3f !important;
+}
+
+.Select-menu-outer div:hover {
+    background-color: rgba(255, 255, 255, 0.01) !important;
+    cursor: pointer;
+}
+
+.Select-value-label {
+    color: #7fafdf !important;
+}
+
+.Select--single > .Select-control .Select-value, .Select-placeholder {
+    border: 1px solid #7fafdf !important;
+    border-radius: 4px !important;
+}
+
+
+
+/* Placement
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+@media only screen and (max-width: 1250px) {
+    /*For mobile and smaller screens*/
+    #app-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        margin-bottom: 5rem;
+    }
+}
+
+@media (min-width: 1251px) {
+    /*For desktop*/
+    #app-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: stretch;
+        height: 85rem;
+        margin-bottom: 5rem;
+    }
+}
+
+#header {
+    margin-left: 1.5%;
+}
+
+
+div, svg {
+    user-select: none !important;
+}
+
+._dash-undo-redo {
+    display: none;
+}
