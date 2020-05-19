@@ -43,7 +43,7 @@ def melt_rki_df(df_rki_germany):
     _list = list()
     for land in df_rki_germany.land.unique():
         df = df_rki_germany.loc[df_rki_germany.land == land, :].copy()
-        pop = int(df.loc[df.land==land, 'population'][0])
+        pop = int(df.loc[df.land == land, 'population'][0])
         df = add_variables_covid(df, 'confirmed', population=pop)
         df = add_variables_covid(df, 'dead', population=pop)
         _list.append(df)
@@ -57,7 +57,6 @@ geojson_path = f"{path_input}deutschlandGeoJSON/2_bundeslaender/3_mittel.geo.jso
 dfapple = pd.read_csv(f"{path_input}apple-mobility/applemobilitytrends-{date_apple}.csv")
 
 # ============================== PREPARE LOADED DATA ==============================
-df_rki_germany.drop('data', axis=1, inplace=True)
 
 df_geojson = gpd.read_file(geojson_path)
 df_geojson.columns = ["iso_code", 'name', 'type','geometry']
@@ -84,6 +83,8 @@ df_rki_germany.set_index('date', inplace=True, drop=False)
 df_rki_germany_processed = melt_rki_df(df_rki_germany)
 print("RKI max date", max(df_rki_germany_processed.index))
 
+df_rki_germany_processed_dash = df_rki_germany_processed.loc[:, DASH_COLUMNS]
+
 # ============================== PROCESS APPLE DATA FOR EACH REGION ==============================
 df_apple_processed = melt_apple_df(dfapple)
 apple_lands = {'Baden-Württemberg': 'Baden-Wuerttemberg',
@@ -99,8 +100,6 @@ df_apple_processed_de = df_apple_processed_de.rename(columns={'region': 'land'})
 # ============================== SAVE DATA ==============================
 # RKI
 df_rki_germany_processed.to_csv(f'{path_processed}/data_rki_prepared.csv')
-
-# df_rki_germany_processed_dash = df_rki_germany_processed.loc[:, DASH_COLUMNS]
 # df_rki_germany_processed_dash.to_csv(f'{APP_PATH}/../dash/data/data_rki_prepared_dash.csv')
 
 # APPLE
