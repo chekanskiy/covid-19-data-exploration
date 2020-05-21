@@ -34,17 +34,22 @@ def add_day_since(df, colunm, cutoff):
 
 
 def findpeak_trend(df):
+    df_peak_log = df.loc[:, ['confirmed_peak_log']].dropna()
+
     from sklearn.linear_model import LinearRegression
     days_pred_start = 10  # for how long to draw  the trend
-    days_since_first_peak_start = 22  # how many days to wait since the first outbreak before estimating trend
+    days_since_first_peak_start = 7  # how many days to wait since the first outbreak before estimating trend
     days_other_peak_starts = 7  # how many days since the second+ outbreak should pass before calculating trend
 
     # is we do not have enough data then exit
-    if len(df) < days_since_first_peak_start:
+    if len(df.loc[:, ['confirmed_peak_log']].dropna()) < days_since_first_peak_start:
         df['peak_log_trend'] = np.NaN
         return df
     # find all indixes of outbreak beginnings
-    peak_indixes = df.loc[df.confirmed_peak_date == -1].index.tolist()
+    peak_indixes = df.loc[df.confirmed_peak_date == 1].index.tolist()
+    #     peak_indixes[0] = df_peak_log.index.min()
+
+    print(peak_indixes)
 
     # iterate over peak indixes
     for i, index in enumerate(peak_indixes):
@@ -54,8 +59,17 @@ def findpeak_trend(df):
             # select y values since the beginning of the outbreak till defined number of days
             # and take a 3 days moving average for a smother trend
             days_add = days_since_first_peak_start
-            y = df.loc[df.index < peak_index +
-                       datetime.timedelta(days=days_add), 'confirmed_peak_log'].rolling(3).mean().dropna()
+            if len(peak_indixes) > 1:
+                if days_add < len(df.loc[peak_index:peak_indixes[i + 1]]):
+                    days_add = len(df.loc[peak_index:peak_indixes[i + 1]])
+            else:
+                if days_add < len(df):
+                    days_add = len(df)
+
+            print(days_add)
+
+            y = df_peak_log.loc[df_peak_log.index < peak_index +
+                                datetime.timedelta(days=days_add), 'confirmed_peak_log'].rolling(3).median().dropna()
         else:
             # for the second+ outbreak use different number of minimum required days
             days_add = days_other_peak_starts
@@ -66,8 +80,8 @@ def findpeak_trend(df):
                 # if we have more data to estimate second peak then use all of it
                 days_other_peak_starts = len(df.loc[peak_index:df.index.max()])
                 # if enough data then select y for estimating the trend
-                y = df.loc[(df.index < df.index.max()) &
-                           (df.index > peak_index), 'confirmed_peak_log'].rolling(3).mean().dropna()
+                y = df_peak_log.loc[(df_peak_log.index < df_peak_log.index.max()) &
+                                    (df_peak_log.index > peak_index), 'confirmed_peak_log'].rolling(3).median().dropna()
 
         # calculate X as number of days in Y and reshape to fit in LogReg model
         X = (y.index - y.index[0]).days.values.reshape(-1, 1)
@@ -77,17 +91,16 @@ def findpeak_trend(df):
         X = scaler.fit_transform(X)
 
         # train LogReg model
-        reg = LinearRegression(normalize=True).fit(X, y)
+        reg = LinearRegression().fit(X, y)
 
         # predict/estimate trend for 10, 20 and 30, 35 days forward, exit if the trend crosses 0
         for days in [days_pred_start + i for i in [0, 10, 20, 35]]:
             X2 = (range(1, days + len(y)) + max(X)[0]).reshape(-1, 1)
+            X2 = scaler.transform(X2)
             trend = reg.predict(X2)
             days_pred = days
             if min(trend) < 0:
                 break
-
-        X2 = scaler.transform(X2)
 
         # prepare y2 dataframe using index as a date range between the last date of y+1
         # and last date of y+days_estimated_for
