@@ -19,8 +19,10 @@ def add_lag(df, var, lag=1):
 
 
 def add_weekday_weekend(df):
-    df['dow'] = df.index.weekday
-    df['weekend'] = df.index.weekday.isin([5,6])
+    df['dow'] = 0
+    df['weekend'] = 0
+    df.loc[:, 'dow'] = df.index.weekday
+    df.loc[:, 'weekend'] = df.index.weekday.isin([5, 6])
     return df
 
 
@@ -32,7 +34,9 @@ def add_day_since(df, colunm, cutoff):
 
 
 def add_variables_covid(df, column='confirmed', population=False):
-    df = add_weekday_weekend(df)
+
+    # df.loc[df[column] == 0, column] = np.NaN
+    df.loc[df[column] < 0, column] = 0
 
     df = add_lag(df, column, 1)  # df.loc[:,'confirmed_l1'] = df.loc[:,'confirmed'].shift(1)
 
@@ -48,12 +52,9 @@ def add_variables_covid(df, column='confirmed', population=False):
     df = add_lag(df, f'{column}_change_avg3', 1)
     df = add_lag(df, f'{column}_change_3w', 1)
 
-    df[f'{column}_change_pct'] = df[f'{column}_change'] / df[f'{column}_l1']
-    df[f'{column}_change_pct_avg3'] = df[f'{column}_change_avg3'] / df[f'{column}_avg3_l1']
-    df[f'{column}_change_pct_3w'] = df[f'{column}_change'] / df[f'{column}_change_3w_l1']
-
-    df[f'{column}_change_acceleration'] = 1 - df[f'{column}_change'] / df[f'{column}_change_l1']
-    df[f'{column}_change_acceleration_avg3'] = 1 - df[f'{column}_change_avg3'] / df[f'{column}_change_avg3_l1']
+    df[f'{column}_change_pct'] = df[f'{column}_change'] / df[f'{column}_l1'].replace({0: np.NaN})
+    df[f'{column}_change_pct_avg3'] = df[f'{column}_change_avg3'].divide(df[f'{column}_avg3_l1'].replace({0: np.NaN}))
+    df[f'{column}_change_pct_3w'] = df[f'{column}_change'].divide(df[f'{column}_change_3w_l1'].replace({0: np.NaN}))
 
     df = add_doubling_time(df, f'{column}_change_pct', prefix=column)
     df = add_doubling_time(df, f'{column}_change_pct_3w', suffix='_3w', prefix=column)
@@ -62,8 +63,8 @@ def add_variables_covid(df, column='confirmed', population=False):
     df.loc[:, f'{column}_doubling_days_3w_avg3'] = np.round(df.loc[:, f'{column}_doubling_days_3w'].rolling(3, win_type='triang').mean(), 0)
 
     if column == 'confirmed':
-        df.loc[:, f'{column}_active_cases'] = df[f'{column}'] - df[f'{column}'].shift(12)
-        df.loc[:, f'{column}_peak'] = np.log(df[f'{column}'] / df[f'{column}'].shift(12))
+        df.loc[:, f'{column}_active_cases'] = df.loc[:, [f'{column}']] - df.loc[:, [f'{column}']].shift(12)
+        df.loc[:, f'{column}_peak'] = np.log((df.loc[:, [f'{column}']] / df.loc[:, [f'{column}']].shift(12)).replace({0: np.NaN}))
         
     df = add_day_since(df, column, 10)
 
