@@ -29,17 +29,6 @@ latest_apple_report = sorted(os.listdir(f'{APP_PATH}{INPUT}apple-mobility'), rev
 print(f'Loading {latest_apple_report} report')
 
 
-def melt_apple_df(dfapple):
-    apple_melted = dfapple.melt(id_vars=[c for c in dfapple.columns if '2020-' not in c], value_vars=[c for c in dfapple.columns if '2020-' in c])
-    apple_melted.rename({'variable': 'date'}, axis=1, inplace=True)
-    apple_melted.loc[:, [c for c in apple_melted.columns if c != 'value']] = apple_melted.loc[:, [c for c in apple_melted.columns if c != 'value']].fillna('n/a')
-    apple_melted_pivoted = apple_melted.pivot_table(index=[c for c in apple_melted.columns if c not in ['value', 'transportation_type']],columns='transportation_type', values='value')
-    apple_melted_pivoted = apple_melted_pivoted.reset_index()
-    apple_melted_pivoted['date'] = apple_melted_pivoted['date'].astype('datetime64[ns]')
-    apple_melted_pivoted = apple_melted_pivoted.set_index('date', drop=False).rename_axis('date_index', axis=0)
-    return apple_melted_pivoted
-
-
 def fix_countries(df):
     df.loc[df.state.str.contains('Hong Kong') == True, 'iso_code'] = 'HKG'
     df.loc[df.state.str.contains('Macau') == True, 'iso_code'] = 'MAC'
@@ -63,6 +52,65 @@ def fix_countries(df):
     s['iso_code'] = 'AUS'
     df = pd.concat([df, s.to_frame().T, ], axis=0)
 
+    return df
+
+
+def prepare_df_country(df_confirmed, df_dead, df_population, country, date_cutoff=None):
+    if date_cutoff is not None:
+        df_confirmed = df_confirmed.loc[(df_confirmed.index >= date_cutoff) &
+                                        (df_confirmed.country == country) &
+                                        (df_confirmed['confirmed'] > 0), :]
+        df_dead = df_dead.loc[(df_dead.index >= date_cutoff) &
+                              (df_dead.country == country) &
+                                        (df_dead['dead'] > 0), :]
+    else:
+        df_confirmed = df_confirmed.loc[(df_confirmed.country == country) &
+                                        (df_confirmed['confirmed'] > 0), :]
+        df_dead = df_dead.loc[(df_dead.country == country) &
+                                        (df_dead['dead'] > 0), :]
+
+    try:
+        pop = df_population.loc[df_population.country == country, 'population'].values[0]
+        iso_code = df_population.loc[df_population.country == country, 'iso_code'].values[0]
+        region = df_population.loc[df_population.country == country, 'region'].values[0]
+    except:
+        print('No population data for :', country)
+        return None
+
+    df_confirmed = add_variables_covid(df_confirmed, population=pop)
+
+    df = df_confirmed.merge(df_dead, how='outer', on=['country', 'state', 'date'])
+
+    df = add_variables_covid(df, column='dead', population=pop)
+
+    # df['land'] = country
+    df['iso_code'] = iso_code
+    df['region_wb'] = region
+    df['population_wb'] = pop
+
+    return df
+
+
+def country_iterate_jhu(df_confirmed, df_dead):
+    _list = list()
+    for country in df_confirmed.country.unique():
+        df = prepare_df_country(df_confirmed, df_dead, df_population_joined, country)
+        if df is not None:
+            _list.append(df)
+    return pd.concat([df for df in _list])
+
+
+def melt_jhu_data(df, value_column):
+    df = df.melt(id_vars=[c for c in df.columns if '/20' not in c],
+                 value_vars=[c for c in df.columns if '/20' in c])
+    df = df.rename({'variable': 'date', 'value': value_column}, axis=1)
+    df['date'] = df['date'].astype('datetime64[ns]')
+    if value_column != 'confirmed':
+        # df = df.loc[['iso_code', 'lat', 'lng'], :]
+        df.drop(['lat', 'lng', 'iso_code'], axis=1, inplace=True)
+    df = df.sort_values(by=['country', 'state', 'date'], ascending=True)
+    df = df.set_index('date', drop=False).rename_axis('date_index')
+    # df[value_column] = df[value_column].astype(float)
     return df
 
 
@@ -127,67 +175,8 @@ if __name__ == "__main__":
     print(f"Missing COVID data for {len(missing_covid_data)} countries\n")
     print(missing_covid_data.country.unique(), '\n')
 
-
-    def melt_jhu_data(df, value_column):
-        df = df.melt(id_vars=[c for c in df.columns if '/20' not in c],
-                     value_vars=[c for c in df.columns if '/20' in c])
-        df = df.rename({'variable': 'date', 'value': value_column}, axis=1)
-        df['date'] = df['date'].astype('datetime64[ns]')
-        if value_column != 'confirmed':
-            # df = df.loc[['iso_code', 'lat', 'lng'], :]
-            df.drop(['lat', 'lng', 'iso_code'], axis=1, inplace=True)
-        df = df.sort_values(by=['country', 'state', 'date'], ascending=True)
-        df = df.set_index('date', drop=False).rename_axis('date_index')
-        # df[value_column] = df[value_column].astype(float)
-        return df
-
     df_covid_conf_t = melt_jhu_data(df_covid_conf, 'confirmed')
     df_covid_dead_t = melt_jhu_data(df_covid_dead, 'dead')
-
-    def prepare_df_country(df_confirmed, df_dead, df_population, country, date_cutoff=None):
-        if date_cutoff is not None:
-            df_confirmed = df_confirmed.loc[(df_confirmed.index >= date_cutoff) &
-                                            (df_confirmed.country == country) &
-                                            (df_confirmed['confirmed'] > 0), :]
-            df_dead = df_dead.loc[(df_dead.index >= date_cutoff) &
-                                  (df_dead.country == country) &
-                                            (df_dead['dead'] > 0), :]
-        else:
-            df_confirmed = df_confirmed.loc[(df_confirmed.country == country) &
-                                            (df_confirmed['confirmed'] > 0), :]
-            df_dead = df_dead.loc[(df_dead.country == country) &
-                                            (df_dead['dead'] > 0), :]
-
-        try:
-            pop = df_population.loc[df_population.country == country, 'population'].values[0]
-            iso_code = df_population.loc[df_population.country == country, 'iso_code'].values[0]
-            region = df_population.loc[df_population.country == country, 'region'].values[0]
-        except:
-            print('No population data for :', country)
-            return None
-
-        df_confirmed = add_variables_covid(df_confirmed, population=pop)
-
-        df = df_confirmed.merge(df_dead, how='outer', on=['country', 'state', 'date'])
-
-        df = add_variables_covid(df, column='dead', population=pop)
-
-        # df['land'] = country
-        df['iso_code'] = iso_code
-        df['region_wb'] = region
-        df['population_wb'] = pop
-
-        return df
-
-
-    def country_iterate_jhu(df_confirmed, df_dead):
-        _list = list()
-        for country in df_confirmed.country.unique():
-            df = prepare_df_country(df_confirmed, df_dead, df_population_joined, country)
-            if df is not None:
-                _list.append(df)
-        return pd.concat([df for df in _list])
-
 
     df_jhu_processed = country_iterate_jhu(df_covid_conf_t, df_covid_dead_t)
     df_jhu_processed.rename({'country': 'land'}, axis=1, inplace=True)
