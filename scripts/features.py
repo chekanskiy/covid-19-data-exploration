@@ -14,7 +14,7 @@ def add_doubling_time(df, r_col, prefix, suffix=''):
 
 def add_lag(df, var, lag=1):
     new_var = var + f"_l{lag}"
-    df.loc[:,new_var] = df.loc[:, var].shift(lag)
+    df.loc[:, new_var] = df.loc[:, var].shift(lag)
     return df
 
 
@@ -33,12 +33,93 @@ def add_day_since(df, colunm, cutoff):
     return df
 
 
+def findpeak_trend(df):
+    from sklearn.linear_model import LinearRegression
+    days_pred_start = 10  # for how long to draw  the trend
+    days_since_first_peak_start = 22  # how many days to wait since the first outbreak before estimating trend
+    days_other_peak_starts = 7  # how many days since the second+ outbreak should pass before calculating trend
+
+    # is we do not have enough data then exit
+    if len(df) < days_since_first_peak_start:
+        df['peak_log_trend'] = np.NaN
+        return df
+    # find all indixes of outbreak beginnings
+    peak_indixes = df.loc[df.confirmed_peak_date == -1].index.tolist()
+
+    # iterate over peak indixes
+    for i, index in enumerate(peak_indixes):
+        peak_index = peak_indixes[i]
+        days_pred = days_pred_start
+        if i == 0:
+            # select y values since the beginning of the outbreak till defined number of days
+            # and take a 3 days moving average for a smother trend
+            days_add = days_since_first_peak_start
+            y = df.loc[df.index < peak_index +
+                       datetime.timedelta(days=days_add), 'confirmed_peak_log'].rolling(3).mean().dropna()
+        else:
+            # for the second+ outbreak use different number of minimum required days
+            days_add = days_other_peak_starts
+            # exis if we do not have enough data for an estimation
+            if len(df.loc[peak_index:peak_index + datetime.timedelta(days=days_add)]) < days_other_peak_starts:
+                return df
+            else:
+                # if we have more data to estimate second peak then use all of it
+                days_other_peak_starts = len(df.loc[peak_index:df.index.max()])
+                # if enough data then select y for estimating the trend
+                y = df.loc[(df.index < df.index.max()) &
+                           (df.index > peak_index), 'confirmed_peak_log'].rolling(3).mean().dropna()
+
+        # calculate X as number of days in Y and reshape to fit in LogReg model
+        X = (y.index - y.index[0]).days.values.reshape(-1, 1)
+
+        from sklearn.preprocessing import MinMaxScaler
+        scaler = MinMaxScaler(feature_range=(0, 1))
+        X = scaler.fit_transform(X)
+
+        # train LogReg model
+        reg = LinearRegression(normalize=True).fit(X, y)
+
+        # predict/estimate trend for 10, 20 and 30, 35 days forward, exit if the trend crosses 0
+        for days in [days_pred_start + i for i in [0, 10, 20, 35]]:
+            X2 = (range(1, days + len(y)) + max(X)[0]).reshape(-1, 1)
+            trend = reg.predict(X2)
+            days_pred = days
+            if min(trend) < 0:
+                break
+
+        X2 = scaler.transform(X2)
+
+        # prepare y2 dataframe using index as a date range between the last date of y+1
+        # and last date of y+days_estimated_for
+        y2_index = pd.date_range(y.index.min() + datetime.timedelta(days=1),
+                                 y.index.max() + datetime.timedelta(days=days_pred))
+        y2 = pd.DataFrame(index=y2_index, data=trend, columns=['peak_log_trend'])
+
+        # remove extra negative values (if exist) except the first one (for clarity)
+        try:
+            first_negative_val = y2.loc[y2.peak_log_trend < 0].index[0]
+            y2 = y2.loc[y2.index <= first_negative_val, 'peak_log_trend']
+        except:
+            pass
+        # in case its the first peak simply merge DFs
+        if i == 0:
+            df = df.join(y2, how='outer')
+        # otherwise merge and make sure that we fit all trends in the same column for easy plotting
+        else:
+            df = pd.merge(df, y2, left_index=True, right_index=True, how='outer', suffixes=('_x', '_y'))
+            df['peak_log_trend'] = df.loc[:, ['peak_log_trend_x', 'peak_log_trend_y']].apply(
+                lambda row: row[0] if pd.isnull(row[0]) == False else row[1], axis=1)
+            df.drop(['peak_log_trend_x', 'peak_log_trend_y'], axis=1, inplace=True)
+
+    return df
+
+
 def add_variables_covid(df, column='confirmed', population=False):
 
     # df.loc[df[column] == 0, column] = np.NaN
     df.loc[df[column] < 0, column] = 0
 
-    df = add_lag(df, column, 1)  # df.loc[:,'confirmed_l1'] = df.loc[:,'confirmed'].shift(1)
+    df = add_lag(df, column, 1)
 
     df.loc[:, f'{column}_avg3'] = np.round(df.loc[:, column].rolling(3, win_type='triang').mean(), 0)
     df.loc[:, f'{column}_avg3_l1'] = df.loc[:, f'{column}_avg3'].shift(1)
@@ -64,8 +145,54 @@ def add_variables_covid(df, column='confirmed', population=False):
 
     if column == 'confirmed':
         df.loc[:, f'{column}_active_cases'] = df[f'{column}'] - df[f'{column}'].shift(12)
-        df.loc[:, f'{column}_peak'] = np.log((df[f'{column}'] / df[f'{column}'].shift(12)).replace({0: np.NaN}))
-        
+        df.loc[:, f'{column}_peak_log'] = np.log((df[f'{column}'] / df[f'{column}'].shift(12)).replace({0: np.NaN}))
+
+        df.loc[:, f'{column}_active_cases_avg7'] = np.round(df.loc[:, f'{column}_active_cases'].rolling(7, win_type='triang') .mean(),0)
+        df = add_lag(df, f'{column}_active_cases_avg7', 1)
+
+        # A peak is when 7 day average is declining 3 days in a row
+        df.loc[:, f'{column}_peak_date'] = 0
+        decreasing_day_counter, increasing_day_counter = 0, 0
+        peak_value_decrease = 0
+        peak_days_threshold = 7
+        peak_status = -1  # Epidemic has started
+        df.loc[df.index.min(), f'{column}_peak_date'] = -1  # Start of the initial Epidemic
+        for row in df.loc[:, [f'{column}_active_cases_avg7', f'{column}_active_cases_avg7_l1']].itertuples():
+            if row[1] < row[2]:
+                # counting days that average cases are dropping
+                decreasing_day_counter += 1
+                increasing_day_counter = 0
+            else:
+                # counting days that average cases are increasing
+                increasing_day_counter += 1
+                decreasing_day_counter = 0
+            # if decreasing for longer than threshold
+            if decreasing_day_counter >= peak_days_threshold:
+                # take index 7 days before for the start of the trend
+                peak_index = row[0] - datetime.timedelta(days=peak_days_threshold)
+                peak_value_new = df.loc[peak_index, f'{column}_active_cases_avg7']
+                # and if the new peak value is higher than the ond one = so we don't spam decreasing trends
+                if peak_value_new > peak_value_decrease:
+                    df.loc[peak_index, f'{column}_peak_date'] = 1
+                    peak_value_decrease = peak_value_new
+                    peak_status += 1
+            # if increasing for longer than threshold
+            elif increasing_day_counter >= peak_days_threshold:
+                # take index 7 days before for the start of the trend
+                peak_end_index = row[0] - datetime.timedelta(days=peak_days_threshold)
+                # If the peak has been reached in the past we can assign the beginning of new wave
+                if peak_status == 0:
+                    df.loc[peak_end_index, f'{column}_peak_date'] = -1
+                    peak_status -= 1
+
+        df = findpeak_trend(df)
+
+        # Dropping technical columns
+        df.drop([
+                 # f'{column}_active_cases_avg7',
+                 f'{column}_active_cases_avg7_l1',
+                 ], axis=1, inplace=True)
+
     df = add_day_since(df, column, 10)
 
     # cleanup temp cols
