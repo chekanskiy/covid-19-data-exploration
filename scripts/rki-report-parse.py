@@ -42,8 +42,10 @@ def select_template(date, APP_PATH):
         return f"{APP_PATH}/templates/2020-03-23-en.tabula-template.json"
     elif date <= '2020-03-24':
         return f"{APP_PATH}/templates/2020-03-24-en.tabula-template.json"
+    elif date <= '2020-05-19':
+        return f"{APP_PATH}/templates/2020-05-18-en.tabula-template.json"
     else:
-        return f'{APP_PATH}/templates/rki-report-en.tabula-template.json'
+        return f"{APP_PATH}/templates/2020-05-20-en.tabula-template.json"
 
 
 def extract_text(l):
@@ -73,22 +75,24 @@ def extract_number(l):
             result = l.fillna(0).values
         if '.' in str(result):
             if len(str(result).split('.')[1]) > 2:
-                print(result)
+                # print(result)
                 result = int(str(result).replace('.', ''))
                 return result
         elif ',' in str(result):
             if len(str(result).split(',')[1]) > 2:
-                print(result)
+                # print(result)
                 result = int(str(result).replace(',', ''))
                 return result
         return int(result)
 
 
 def fix_misaligned_row(df):
+    land_first_names = ["Mecklenburg-", 'Baden-', 'North Rhine-', 'Rhineland-', 'Saxony-', 'Schleswig-', 'Lower']
     df = df.reset_index(drop=True)
     for row in df.itertuples():
         try:
-            if row.land != 'nan' and "Mecklenburg" not in row.land and pd.isnull(sum(row[2:])) == True:
+            # if land is not empty and values are null and land is not the beginning of other names
+            if row.land != 'nan' and row.land not in land_first_names and pd.isnull(sum(row[2:])) == True:
                 prev_index = row[0]-1
                 df.loc[prev_index, 'land'] = (str(df.loc[prev_index, 'land']).replace('nan', '') + ' ' + str(row.land).replace('nan', '')).strip()
             if "Mecklenburg" in row.land or "Pomerania" in row.land:
@@ -127,6 +131,9 @@ def load_pdf(date, path, lang="en"):
     elif len(df.columns) == 6:
         print("Extracting 6 data columns")
         df.columns = ['land', 'confirmed', 'daily', 'per_mil', 'dead', 'dead_per_100k']
+    elif len(df.columns) == 8:
+        print("Extracting 6 data columns")
+        df.columns = ['land', 'confirmed', 'daily', 'per_mil', '7day_sum','7day_100k', 'dead', 'dead_per_100k']
     else:
         print(f"Falied to exctract {len(df.columns)} data columns")
         print(df.head(20))
@@ -176,15 +183,19 @@ if __name__ == "__main__":
     df_new = df_new[df_new.land != 'Federal State Total Number Number of Cases/ Number of'].drop_duplicates()
 
     df_new.loc[df_new['land'].str.contains('Schleswig-Holstein') == True, 'land'] = 'Schleswig-Holstein'
-    df_new.loc[df_new['land'].str.contains('Baden-W') == True, 'land'] = 'Baden-Wuerttemberg'
-    df_new.loc[df_new['land'].str.contains('Saxony-A') == True, 'land'] = 'Saxony-Anhalt'
-    df_new.loc[df_new['land'].str.contains('Sachsen-Anhalt') == True, 'land'] = 'Saxony-Anhalt'
-    df_new.loc[df_new['land'].str.contains('Mecklenburg-W') == True, 'land'] = 'Mecklenburg-Western Pomerania'
-    df_new.loc[df_new['land'].str.contains('Mecklenburg-V') == True, 'land'] = 'Mecklenburg-Western Pomerania'
+    df_new.loc[df_new['land'].str.contains('Baden-') == True, 'land'] = 'Baden-Wuerttemberg'
+    df_new.loc[df_new['land'].str.contains('Wuerttemberg') == True, 'land'] = 'Baden-Wuerttemberg'
+    df_new.loc[df_new['land'].str.contains('Saxony-') == True, 'land'] = 'Saxony-Anhalt'
+    df_new.loc[df_new['land'].str.contains('Sachsen-') == True, 'land'] = 'Saxony-Anhalt'
+    df_new.loc[df_new['land'].str.contains('Mecklenburg-') == True, 'land'] = 'Mecklenburg-Western Pomerania'
+    df_new.loc[df_new['land'].str.contains('Western Pomerania') == True, 'land'] = 'Mecklenburg-Western Pomerania'
+    df_new.loc[df_new['land'].str.contains('Westphalia') == True, 'land'] = 'North Rhine-Westphalia'
+    df_new.loc[df_new['land'].str.contains('Rhineland-') == True, 'land'] = 'Rhineland-Palatinate'
+    df_new.loc[df_new['land'].str.contains('Palatinate') == True, 'land'] = 'Rhineland-Palatinate'
 
     df_new.loc[df_new['land'].str.contains('Nordrhein-Westfalen') == True, 'land'] = 'North Rhine-Westphalia'
     df_new.loc[df_new['land'].str.contains('Sachsen') == True, 'land'] = 'Saxony'
-    df_new.loc[df_new['land'].str.contains('Rheinland-Pfalz') == True, 'land'] = 'Rhineland-Palatinate'
+    df_new.loc[df_new['land'].str.contains('Rheinland-') == True, 'land'] = 'Rhineland-Palatinate'
     df_new.loc[df_new['land'].str.contains('Niedersachsen') == True, 'land'] = 'Lower Saxony'
     df_new.loc[df_new['land'].str.contains('Hessen') == True, 'land'] = 'Hesse'
     df_new.loc[df_new['land'].str.contains('Thüringen') == True, 'land'] = 'Thuringia'
