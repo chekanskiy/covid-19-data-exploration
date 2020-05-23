@@ -215,6 +215,9 @@ def add_variables_covid(df, column='confirmed', population=False):
     if population:
         df[f'{column}_per_100k'] = df[f'{column}'] / round(population / 100000, 3)
         df[f'{column}_change_per_100k'] = df[f'{column}_change'] / round(population / 100000, 3)
+        if column == 'confirmed':
+            df.loc[:, f'{column}_active_cases_per_100k'] = df.loc[:, f'{column}_active_cases'] / round(population / 100000, 3)
+            df.loc[:, f'{column}_active_cases_change_per_100k'] = df.loc[:, f'{column}_active_cases_change'] / round(population / 100000, 3)
 
     df = df.round(3)
 

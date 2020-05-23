@@ -8,6 +8,7 @@ import dash_bootstrap_components as dbc
 from plotly import colors
 
 from dash.dependencies import Input, Output, State
+from dash.exceptions import PreventUpdate
 
 # APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 # sys.path.insert(0, APP_PATH)
@@ -19,11 +20,13 @@ from charts.chart_sunburst_static import plot_sunburst_static
 from charts.chart_bar_static import plot_bar_static
 
 # ============================================ LOAD DATA =====================================================
-df_rki_orig = pd.read_csv('data/data_rki_apple_prepared_dash.csv')
 df_jh_world = pd.read_csv('data/data_jhu_world.csv')
 df_jh_world.loc[:, 'population_100k'] = df_jh_world.loc[:, 'population_wb'] / 100000
 df_jh_world['date'] = df_jh_world['date'].astype('datetime64[ns]')
+df_jh_world.index = df_jh_world.date
+df_jh_world.rename_axis('date_index', axis=1, inplace=True)
 
+df_rki_orig = pd.read_csv('data/data_rki_apple_prepared_dash.csv')
 df_rki_orig['date'] = df_rki_orig['date'].astype('datetime64[ns]')
 geojson = json.load(open('data/data_geo_de.json', 'r'))
 # ========================================= END LOAD DATA ====================================================
@@ -53,6 +56,11 @@ STATES = {'BW': 'Baden-Wuerttemberg',
           'SH': 'Schleswig-Holstein',
           'TH': 'Thuringia'}
 
+COUNTRIES = sorted(df_jh_world.land.unique())
+
+DEFAULT_VALUE_GERMANY = ['Hamburg', 'Bremen', 'Berlin']
+DEFAULT_VALUE_WORLD = ['Germany', 'Russia', 'Italy']
+
 COLORS = {
     'background': '#1f2630',
     'text': '#2cfec1',
@@ -75,6 +83,8 @@ FEATURE_DROP_DOWN = {
     "confirmed_change": "Cases: Daily",
     "confirmed": "Cases: Total",
     "confirmed_active_cases": "Cases: Active",
+    "confirmed_active_cases_change": "Cases: Active Daily Change",
+    "confirmed_active_cases_per_100k": "Cases: Active per 100k of Population",
     "confirmed_per_100k": "Cases: Total per 100k of Population",
     "confirmed_change_per_100k": "Cases: Daily per 100k of Population",
     "confirmed_change_pct_3w": "Cases: Daily as % of Rolling 3 Week Sum",
@@ -136,13 +146,34 @@ app.layout = html.Div(
             children=[
                 # html.Img(id="logo", src=app.get_asset_url("dash-logo.png")),
                 html.H4(children='COVID-19 in Germany', #style={ 'textAlign': 'left', 'color': colors['text']}
-                        ),
-                html.P(
-                      id="description",
-                      children="Fully interactive dashboard",
-                  ),
-                    ]
+                        ),]
         ),
+        html.Div(children=[
+                html.P(
+                    id="description",
+                    children="Fully interactive dashboard",
+                                 ),],
+                style={
+                    'width': '10%',
+                    'display': 'inline-block',
+                }
+                ),
+        html.Div(children=[
+                dcc.RadioItems(
+                    id="main-data-selector",
+                    options=[
+                        {'label': 'Germany', 'value': 'GER'},
+                        {'label': 'World', 'value': 'WRLD'}
+                    ],
+                    value='GER',
+                    labelStyle={'display': 'inline-block'}
+                                ),
+        ],
+                style={
+                       'width': '15%',
+                       'display': 'inline-block',
+                       }
+                    ),
         html.Div(
             id="app-container",
             children=[
@@ -160,17 +191,19 @@ app.layout = html.Div(
                                     dcc.Dropdown(
                                         id="dropdown-states",
                                         multi=True,
-                                        value=['Hamburg', 'Bremen', 'Berlin'],  # Or single value, like Hamburg
-                                        options=[
-                                                {
-                                                 "label": str(iso),
-                                                 "value": str(state),
-                                                }
-                                                for state, iso in zip(STATES.values(), STATES.keys())],
+                                        # value=['Hamburg', 'Bremen', 'Berlin'],  # Or single value, like Hamburg
+                                        # options=[
+                                        #         {
+                                        #          "label": str(iso),
+                                        #          "value": str(state),
+                                        #         }
+                                        #         for state, iso in zip(STATES.values(), STATES.keys())],
                                                     ),
-                                    style={'width': '100%', 'display': 'inline-block',
+                                    style={
+                                            'width': '100%',
+                                            'display': 'inline-block',
                                            }
-                                        ),
+                                )
                                 # html.Div(dcc.DatePickerRange(
                                 #     id='date-picker-range',
                                 #     start_date=dt(1997, 5, 3),
@@ -210,7 +243,6 @@ app.layout = html.Div(
                                                             id='button-weekly-mobility', size='sm', color="info"),
                                         style={'display': 'inline-block'}),
                                     html.Div(html.P(
-                                        children="Driving traffic relative to January 2020",
                                         id="left-chart-2-title", ),
                                         style={'display': 'inline-block',
                                                'margin-right': 0, 'margin-left': 0,
@@ -240,7 +272,7 @@ app.layout = html.Div(
                                 dcc.Dropdown(
                                     options=[{'label': l, 'value': v} for l, v in
                                              zip(FEATURE_DROP_DOWN.values(), FEATURE_DROP_DOWN.keys())],
-                                    value="confirmed_change",
+                                    value="confirmed_active_cases_per_100k",
                                     id="chart-dropdown",
                                 ),
                                 dcc.Tabs(id='tabs-example',
@@ -267,11 +299,22 @@ app.layout = html.Div(
                                         figure=BASE_FIGURE,
                                             ),],
                                 ),
-                                html.Div(html.P(
-                                    children=' ',
-                                    id="right-chart-2-title", ),
-                                    style={'display': 'inline-block', }
-                                ),
+                                html.Div(
+                                    id='dropdown-2-container',
+                                    children=[
+                                        html.P(id="chart-selector-2", children="Select the value to plot:"),
+                                        dcc.Dropdown(
+                                            id="chart-dropdown-2",
+                                            options=[{'label': l, 'value': v} for l, v in
+                                                     zip(FEATURE_DROP_DOWN.values(), FEATURE_DROP_DOWN.keys())],
+                                            value="confirmed_change",
+
+                                ),]),
+                                # html.Div(html.P(
+                                #     children=' ',
+                                #     id="right-chart-2-title", ),
+                                #     style={'display': 'inline-block', }
+                                # ),
                                 html.Div(children=[dcc.Graph(
                                     id="right-chart-2",
                                     figure=BASE_FIGURE, )],
@@ -282,6 +325,67 @@ app.layout = html.Div(
                 ]
                     )
     ])
+
+
+# @app.callback(
+#     Output('dropdown-states', 'value'),
+#     [Input('right-chart', 'selectedData'),],
+#     [State('dropdown-states', 'value')])
+# def update_states_selection_from_map(selected_data, drop_down_states):
+#     """
+#     Selecting the data on the Map Chart updates the values in the
+#     Dropdown Menu on the left
+#     :param selected_data:
+#     :param drop_down_states:
+#     :return: list of values for the Dropdown Menu
+#     """
+#     if selected_data is None:
+#         return drop_down_states
+#     else:
+#
+
+
+@app.callback(
+    [Output('dropdown-states', 'options'),
+     Output('dropdown-states', 'value')],
+    [Input('right-chart', 'selectedData'),
+     Input('main-data-selector', 'value'),],
+     [State('dropdown-states', 'value')])
+def update_states_selection_world(selected_data, world_vs_germany, drop_down_states):
+    """
+
+    :param selected_data:
+    :param world_vs_germany:
+    :return:
+    """
+
+    if world_vs_germany == 'GER':
+        options = [{
+            "label": str(iso),
+            "value": str(state),
+        }
+            for state, iso in zip(STATES.values(), STATES.keys())]
+        value = DEFAULT_VALUE_GERMANY
+    else:
+        options = [{
+            "label": str(iso),
+            "value": str(state),
+        }
+            for state, iso in zip(COUNTRIES, COUNTRIES)]
+        value = DEFAULT_VALUE_WORLD
+
+    if selected_data is not None:
+        value = [str(p['text']) for p in selected_data['points']]
+
+        ctx = dash.callback_context
+        if ctx.triggered:
+            if ctx.triggered[0]['prop_id'] == 'main-data-selector.value':
+                if world_vs_germany == 'GER':
+                    value = DEFAULT_VALUE_GERMANY
+                elif world_vs_germany == 'WRLD':
+                    value = DEFAULT_VALUE_WORLD
+
+    return options, value
 
 
 @app.callback(
@@ -324,10 +428,13 @@ def moving_average_7d(df, selected_column):
     :param selected_column:
     :return:
     """
+    index = df.index
+    df = df.reset_index(drop=True)
     ro = df.groupby('land').rolling(7, on='date').mean().reset_index(drop=False).loc[:,
          ['date', 'land', selected_column]]
     df = df.merge(ro, on=['date', 'land'], suffixes=('', '_weekly')).round(3)
     selected_column += '_weekly'
+    df.index = index
     return df, selected_column
 
 
@@ -335,9 +442,10 @@ def moving_average_7d(df, selected_column):
     Output('left-chart', 'figure'),
     [Input('chart-dropdown', 'value'),
      Input('dropdown-states', 'value'),
+     Input('main-data-selector', 'value'),
      Input("button-weekly-top", "n_clicks")
     ])
-def update_left_chart(selected_column, selected_states, n_clicks):
+def update_left_chart(selected_column, selected_states, world_vs_germany , n_clicks):
     """
     Displays / Updates the left chart.
     Number of clicks on the button-weekly-top object define how the data is filtered
@@ -346,11 +454,24 @@ def update_left_chart(selected_column, selected_states, n_clicks):
     :param n_clicks:
     :return:
     """
+    if world_vs_germany == 'GER':
+        df = df_rki_orig
+    else:
+        df = df_jh_world
+
+    ctx = dash.callback_context
+    if ctx.triggered:
+        if ctx.triggered[0]['prop_id'] == 'main-data-selector.value':
+            if world_vs_germany == 'GER':
+                selected_states = DEFAULT_VALUE_GERMANY
+            elif world_vs_germany == 'WRLD':
+                selected_states = DEFAULT_VALUE_WORLD
+
     if len(selected_states) > 0:  # In case all states are deselected
         if n_clicks is None or n_clicks % 2 == 0:  # Button is Un-clicked or Clicked even number of times.
-            df = df_rki_orig
+            pass
         else:
-            df, selected_column = moving_average_7d(df_rki_orig, selected_column)
+            df, selected_column = moving_average_7d(df, selected_column)
 
         figure = plot_lines_plotly(df, selected_states, selected_column,
                                    show_doubling=True, doubling_days=7, showlegend=False,
@@ -363,9 +484,11 @@ def update_left_chart(selected_column, selected_states, n_clicks):
 @app.callback(
     Output('left-chart-2', 'figure'),
     [Input('dropdown-states', 'value'),
+     Input('chart-dropdown-2', 'value'),
+     Input('main-data-selector', 'value'),
      Input("button-weekly-mobility", "n_clicks")
     ])
-def update_left_chart_2(selected_states, n_clicks):
+def update_left_chart_2(selected_states, selected_column, world_vs_germany, n_clicks):
     """
     Displays / Updates the left chart.
     Number of clicks on the button-weekly-mobility object define how the data is filtered
@@ -375,16 +498,28 @@ def update_left_chart_2(selected_states, n_clicks):
     :param n_clicks:
     :return:
     """
+
+    if world_vs_germany == 'GER':
+        df = df_rki_orig
+    else:
+        df = df_jh_world
+
+    ctx = dash.callback_context
+    if ctx.triggered:
+        if ctx.triggered[0]['prop_id'] == 'main-data-selector.value':
+            if world_vs_germany == 'GER':
+                selected_states = DEFAULT_VALUE_GERMANY
+            elif world_vs_germany == 'WRLD':
+                selected_states = DEFAULT_VALUE_WORLD
+
     if len(selected_states) > 0:  # In case all states are deselected
-        columns_mobility = ['driving', 'walking', 'transit']
-        selected_column = columns_mobility[0]
 
         if n_clicks is None or n_clicks % 2 == 0:  # Button is Un-clicked or Clicked even number of times.
-            figure = plot_lines_plotly(df_rki_orig, selected_states, selected_column,
+            figure = plot_lines_plotly(df, selected_states, selected_column,
                                        show_doubling=False, doubling_days=7, showlegend=False,
                                        _colors=COLORS['charts'])
         else:
-            df, selected_column = moving_average_7d(df_rki_orig, selected_column)
+            df, selected_column = moving_average_7d(df, selected_column)
             figure = plot_lines_plotly(df, selected_states, selected_column,
                                        show_doubling=False, doubling_days=7, showlegend=False,
                                        _colors=COLORS['charts'])
@@ -449,7 +584,7 @@ def select_value_for_boxplot(selected_column):
 
 @app.callback(
     Output('right-chart-2', 'figure'),
-    [Input('chart-dropdown', 'value'),
+    [Input('chart-dropdown-2', 'value'),
      Input('dropdown-states', 'value'),
      Input('left-chart', 'selectedData')],
 )
@@ -467,15 +602,22 @@ def update_right_chart_2(selected_column, selected_states, selected_data):
     selected_column = select_value_for_boxplot(selected_column)
 
     if len(selected_states) > 0:
-        df_jh_world.index = df_jh_world.date
-        df = df_jh_world.loc[df_jh_world.index == df_jh_world.index.max()]
+        if selected_data is None:
+            df = df_jh_world.loc[df_jh_world.index == df_jh_world.index.max()]
+        else:
+            selected_date = selected_data['points'][-1]['x']
+            if not isinstance(selected_date, (list, tuple)):
+                selected_date = [selected_date]
+            df = df_jh_world.loc[df_jh_world.index.isin(selected_date)]
+
         if '100k' in selected_column or selected_column in \
                 ('confirmed_change_pct_3w', 'confirmed_doubling_days_3w_avg3',
                  'dead_change_pct_3w', 'dead_doubling_days_3w_avg3'):
+
             if 'doubling_days' in selected_column:
-                df = df.loc[df[selected_column] > 0].sort_values(selected_column, ascending=True).head(25)
+                df = df.loc[df[selected_column] > 0].sort_values(selected_column, ascending=True).head(30)
             else:
-                df = df.sort_values(selected_column, ascending=False).head(25)
+                df = df.sort_values(selected_column, ascending=False).head(30)
             figure = plot_bar_static(df, selected_column)
         else:
             figure = plot_sunburst_static(df, selected_column,
@@ -486,10 +628,10 @@ def update_right_chart_2(selected_column, selected_states, selected_data):
     return figure
 
 
-@app.callback(
-    Output('right-chart-2-title', 'children'),
-    [Input('chart-dropdown', 'value'),
-    ])
+# @app.callback(
+#     Output('right-chart-2-title', 'children'),
+#     [Input('chart-dropdown', 'value'),
+#     ])
 def update_right_chart_2_title(selected_column):
     """
     Updates the Title of the left chart based on  the value selected in the right drop-down menu and
@@ -519,39 +661,46 @@ def update_left_chart_title(selected_column, n_clicks):
     if n_clicks is None or n_clicks % 2 == 0:  # Button is Un-clicked or Clicked even number of times.
         return FEATURE_DROP_DOWN[selected_column] + ', by day'
     else:
-        return FEATURE_DROP_DOWN[selected_column] +  ', 7 day moving average'
+        return FEATURE_DROP_DOWN[selected_column] + ', 7 day moving average'
 
+
+@app.callback(
+    Output('left-chart-2-title', 'children'),
+    [Input('chart-dropdown-2', 'value'),
+     Input("button-weekly-top", "n_clicks")
+    ])
+def update_left_chart_2_title(selected_column, n_clicks):
+    """
+    Updates the Title of the left chart based on  the value selected in the right drop-down menu and
+    the state of the button selecting averaging
+    :param selected_column:
+    :param n_clicks:
+    :return: string: Title to display
+    """
+    if n_clicks is None or n_clicks % 2 == 0:  # Button is Un-clicked or Clicked even number of times.
+        return FEATURE_DROP_DOWN[selected_column] + ', by day'
+    else:
+        return FEATURE_DROP_DOWN[selected_column] + ', 7 day moving average'
 
 # @app.callback(
-#     Output('left-chart-title', 'children'),
-#     [Input('left-chart', 'selectedData')
+#     Output('left-chart-2-title', 'children'),
+#     [Input('main-data-selector', 'value'),
+#     Input('dropdown-states', 'value')
 #     ])
-# def test_update_left_chart_title(data):
+# def test_update_left_chart_title(value, value2):
 #     """
 #     Test Callback to print values returned by selectedData object.
 #     Keep it commented out if not debugging.
 #     :param data:
 #     :return:
 #     """
-#     return str(data['points'][0]['x'])
-
-
-@app.callback(
-    Output('dropdown-states', 'value'),
-    [Input('right-chart', 'selectedData'),],
-    [State('dropdown-states', 'value')])
-def update_states_selection_from_map(selected_data, drop_down_states):
-    """
-    Selecting the data on the Map Chart updates the values in the
-    Dropdown Menu on the left
-    :param selected_data:
-    :param drop_down_states:
-    :return: list of values for the Dropdown Menu
-    """
-    if selected_data is None:
-        return drop_down_states
-    else:
-        return [str(p['text']) for p in selected_data['points']]
+#     ctx = dash.callback_context
+#     ctx_msg = json.dumps({
+#         'states': ctx.states,
+#         'triggered': ctx.triggered,
+#         'inputs': ctx.inputs
+#     }, indent=2)
+#     return ctx_msg
 
 
 if __name__ == '__main__':
