@@ -125,6 +125,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Baden-Wuerttemberg,90.9,,,2020-05-17
 2020-05-18,Baden-Wuerttemberg,90.52,,,2020-05-18
 2020-05-19,Baden-Wuerttemberg,93.2,,,2020-05-19
+2020-05-20,Baden-Wuerttemberg,99.89,,,2020-05-20
+2020-05-21,Baden-Wuerttemberg,101.77,,,2020-05-21
 2020-01-13,Bavaria,100.0,,,2020-01-13
 2020-01-14,Bavaria,101.97,,,2020-01-14
 2020-01-15,Bavaria,102.79,,,2020-01-15
@@ -251,6 +253,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Bavaria,97.52,,,2020-05-17
 2020-05-18,Bavaria,95.87,,,2020-05-18
 2020-05-19,Bavaria,96.75,,,2020-05-19
+2020-05-20,Bavaria,101.94,,,2020-05-20
+2020-05-21,Bavaria,103.38,,,2020-05-21
 2020-01-13,Berlin,100.0,100.0,100.0,2020-01-13
 2020-01-14,Berlin,105.36,107.17,104.84,2020-01-14
 2020-01-15,Berlin,107.04,111.6,104.32,2020-01-15
@@ -377,6 +381,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Berlin,79.23,60.95,45.32,2020-05-17
 2020-05-18,Berlin,87.3,58.2,49.41,2020-05-18
 2020-05-19,Berlin,89.47,62.96,51.29,2020-05-19
+2020-05-20,Berlin,97.14,67.39,52.19,2020-05-20
+2020-05-21,Berlin,86.2,74.98,51.08,2020-05-21
 2020-01-13,Brandenburg,100.0,,,2020-01-13
 2020-01-14,Brandenburg,99.48,,,2020-01-14
 2020-01-15,Brandenburg,98.34,,,2020-01-15
@@ -503,6 +509,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Brandenburg,114.72,,,2020-05-17
 2020-05-18,Brandenburg,105.71,,,2020-05-18
 2020-05-19,Brandenburg,106.86,,,2020-05-19
+2020-05-20,Brandenburg,129.25,,,2020-05-20
+2020-05-21,Brandenburg,135.51,,,2020-05-21
 2020-01-13,Bremen,100.0,100.0,,2020-01-13
 2020-01-14,Bremen,101.19,88.14,,2020-01-14
 2020-01-15,Bremen,99.53,90.21,,2020-01-15
@@ -629,6 +637,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Bremen,78.48,72.45,,2020-05-17
 2020-05-18,Bremen,92.21,77.28,,2020-05-18
 2020-05-19,Bremen,94.15,74.1,,2020-05-19
+2020-05-20,Bremen,100.54,79.33,,2020-05-20
+2020-05-21,Bremen,82.52,89.36,,2020-05-21
 2020-01-13,Hamburg,100.0,100.0,100.0,2020-01-13
 2020-01-14,Hamburg,101.73,101.55,98.86,2020-01-14
 2020-01-15,Hamburg,102.87,110.08,99.74,2020-01-15
@@ -755,6 +765,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Hamburg,84.93,70.47,89.06,2020-05-17
 2020-05-18,Hamburg,96.29,78.21,94.17,2020-05-18
 2020-05-19,Hamburg,98.23,84.9,93.98,2020-05-19
+2020-05-20,Hamburg,111.42,89.24,94.9,2020-05-20
+2020-05-21,Hamburg,91.47,97.26,100.51,2020-05-21
 2020-01-13,Hesse,100.0,,,2020-01-13
 2020-01-14,Hesse,103.2,,,2020-01-14
 2020-01-15,Hesse,105.43,,,2020-01-15
@@ -881,6 +893,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Hesse,90.24,,,2020-05-17
 2020-05-18,Hesse,92.74,,,2020-05-18
 2020-05-19,Hesse,95.45,,,2020-05-19
+2020-05-20,Hesse,102.66,,,2020-05-20
+2020-05-21,Hesse,98.55,,,2020-05-21
 2020-01-13,Lower Saxony,100.0,,,2020-01-13
 2020-01-14,Lower Saxony,100.37,,,2020-01-14
 2020-01-15,Lower Saxony,101.27,,,2020-01-15
@@ -1007,6 +1021,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Lower Saxony,105.53,,,2020-05-17
 2020-05-18,Lower Saxony,104.21,,,2020-05-18
 2020-05-19,Lower Saxony,107.24,,,2020-05-19
+2020-05-20,Lower Saxony,122.23,,,2020-05-20
+2020-05-21,Lower Saxony,116.8,,,2020-05-21
 2020-01-13,Mecklenburg-Western Pomerania,100.0,,,2020-01-13
 2020-01-14,Mecklenburg-Western Pomerania,101.41,,,2020-01-14
 2020-01-15,Mecklenburg-Western Pomerania,104.39,,,2020-01-15
@@ -1133,6 +1149,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Mecklenburg-Western Pomerania,114.04,,,2020-05-17
 2020-05-18,Mecklenburg-Western Pomerania,112.65,,,2020-05-18
 2020-05-19,Mecklenburg-Western Pomerania,118.42,,,2020-05-19
+2020-05-20,Mecklenburg-Western Pomerania,134.54,,,2020-05-20
+2020-05-21,Mecklenburg-Western Pomerania,134.44,,,2020-05-21
 2020-01-13,North Rhine-Westphalia,100.0,,,2020-01-13
 2020-01-14,North Rhine-Westphalia,100.15,,,2020-01-14
 2020-01-15,North Rhine-Westphalia,101.64,,,2020-01-15
@@ -1259,6 +1277,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,North Rhine-Westphalia,88.24,,,2020-05-17
 2020-05-18,North Rhine-Westphalia,91.74,,,2020-05-18
 2020-05-19,North Rhine-Westphalia,94.08,,,2020-05-19
+2020-05-20,North Rhine-Westphalia,97.88,,,2020-05-20
+2020-05-21,North Rhine-Westphalia,92.62,,,2020-05-21
 2020-01-13,Rhineland-Palatinate,100.0,,,2020-01-13
 2020-01-14,Rhineland-Palatinate,97.2,,,2020-01-14
 2020-01-15,Rhineland-Palatinate,100.33,,,2020-01-15
@@ -1385,6 +1405,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Rhineland-Palatinate,101.19,,,2020-05-17
 2020-05-18,Rhineland-Palatinate,94.73,,,2020-05-18
 2020-05-19,Rhineland-Palatinate,97.35,,,2020-05-19
+2020-05-20,Rhineland-Palatinate,105.04,,,2020-05-20
+2020-05-21,Rhineland-Palatinate,119.03,,,2020-05-21
 2020-01-13,Saarland,100.0,,,2020-01-13
 2020-01-14,Saarland,105.48,,,2020-01-14
 2020-01-15,Saarland,102.86,,,2020-01-15
@@ -1511,6 +1533,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Saarland,102.42,,,2020-05-17
 2020-05-18,Saarland,104.33,,,2020-05-18
 2020-05-19,Saarland,105.54,,,2020-05-19
+2020-05-20,Saarland,111.48,,,2020-05-20
+2020-05-21,Saarland,103.79,,,2020-05-21
 2020-01-13,Saxony,100.0,,,2020-01-13
 2020-01-14,Saxony,99.74,,,2020-01-14
 2020-01-15,Saxony,99.45,,,2020-01-15
@@ -1637,6 +1661,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Saxony,99.73,,,2020-05-17
 2020-05-18,Saxony,102.5,,,2020-05-18
 2020-05-19,Saxony,104.67,,,2020-05-19
+2020-05-20,Saxony,123.26,,,2020-05-20
+2020-05-21,Saxony,115.11,,,2020-05-21
 2020-01-13,Saxony-Anhalt,100.0,,,2020-01-13
 2020-01-14,Saxony-Anhalt,101.59,,,2020-01-14
 2020-01-15,Saxony-Anhalt,99.36,,,2020-01-15
@@ -1763,6 +1789,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Saxony-Anhalt,104.34,,,2020-05-17
 2020-05-18,Saxony-Anhalt,109.96,,,2020-05-18
 2020-05-19,Saxony-Anhalt,113.36,,,2020-05-19
+2020-05-20,Saxony-Anhalt,129.34,,,2020-05-20
+2020-05-21,Saxony-Anhalt,112.17,,,2020-05-21
 2020-01-13,Schleswig-Holstein,100.0,,,2020-01-13
 2020-01-14,Schleswig-Holstein,102.57,,,2020-01-14
 2020-01-15,Schleswig-Holstein,101.97,,,2020-01-15
@@ -1889,6 +1917,8 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Schleswig-Holstein,110.27,,,2020-05-17
 2020-05-18,Schleswig-Holstein,118.96,,,2020-05-18
 2020-05-19,Schleswig-Holstein,120.21,,,2020-05-19
+2020-05-20,Schleswig-Holstein,135.78,,,2020-05-20
+2020-05-21,Schleswig-Holstein,141.23,,,2020-05-21
 2020-01-13,Thuringia,100.0,,,2020-01-13
 2020-01-14,Thuringia,100.94,,,2020-01-14
 2020-01-15,Thuringia,103.92,,,2020-01-15
@@ -2015,3 +2045,5 @@ date_index,land,driving,walking,transit,date
 2020-05-17,Thuringia,113.42,,,2020-05-17
 2020-05-18,Thuringia,109.15,,,2020-05-18
 2020-05-19,Thuringia,112.0,,,2020-05-19
+2020-05-20,Thuringia,124.67,,,2020-05-20
+2020-05-21,Thuringia,127.77,,,2020-05-21
