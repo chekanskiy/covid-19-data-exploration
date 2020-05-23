@@ -143,25 +143,25 @@ def plot_lines_plotly(df_unfiltered, lands, column, _colors=colors.diverging.Tem
                     )),
                 showlegend=False,
             ))
-            # Mark when we predict the perk to be reached
-            peak_index = df.loc[(df.land == l) & (df['peak_log_trend'] < 0), column].index.tolist()
-            fig.add_trace(go.Scatter(
-                x=peak_index,
-                # y=[df.loc[df['peak_log_trend'] < 0, column].max().round(2)],
-                y=df.loc[(df.index.isin(peak_index)) & (df.land == l), column].tolist(),
-                mode='lines+markers',
-                name=f"fc: {l}",
-                marker=dict(
-                    color=_colors[i],
-                    size=20,
-                    opacity=1,
-                    symbol='triangle-up',
-                    line=dict(
-                        color=_colors[i],
-                        width=1
-                    )),
-                showlegend=False,
-            ))
+            # # Mark when we predict the perk to be reached
+            # peak_index = df.loc[(df.land == l) & (df['peak_log_trend'] < 0), column].index.tolist()
+            # fig.add_trace(go.Scatter(
+            #     x=peak_index,
+            #     # y=[df.loc[df['peak_log_trend'] < 0, column].max().round(2)],
+            #     y=df.loc[(df.index.isin(peak_index)) & (df.land == l), column].tolist(),
+            #     mode='lines+markers',
+            #     name=f"fc: {l}",
+            #     marker=dict(
+            #         color=_colors[i],
+            #         size=20,
+            #         opacity=1,
+            #         symbol='triangle-up',
+            #         line=dict(
+            #             color=_colors[i],
+            #             width=1
+            #         )),
+            #     showlegend=False,
+            # ))
 
     # BUTTONS Changing Y Scale
     updatemenus = list([

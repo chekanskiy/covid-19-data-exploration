@@ -135,7 +135,7 @@ if __name__ == "__main__":
 
     # Pull the latest Data
     os.chdir(f'{APP_PATH}{JHU_INPUT}')
-    # os.system("git pull")
+    os.system("git pull")
     os.chdir(f'{APP_PATH}')
 
     # Load JHU Data

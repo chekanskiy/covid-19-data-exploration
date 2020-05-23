@@ -44,8 +44,12 @@ def select_template(date, APP_PATH):
         return f"{APP_PATH}/templates/2020-03-24-en.tabula-template.json"
     elif date <= '2020-05-19':
         return f"{APP_PATH}/templates/2020-05-18-en.tabula-template.json"
-    else:
+    elif date <= '2020-05-21':
         return f"{APP_PATH}/templates/2020-05-20-en.tabula-template.json"
+    elif date <= '2020-05-22':
+        return f"{APP_PATH}/templates/2020-05-22-en.tabula-template.json"
+    else:
+        return f"{APP_PATH}/templates/2020-05-23-en.tabula-template.json"
 
 
 def extract_text(l):
@@ -73,6 +77,10 @@ def extract_number(l):
             result = l.fillna(0).values[0]
         except:
             result = l.fillna(0).values
+        try:
+            result = round(result, 3)
+        except:
+            pass
         if '.' in str(result):
             if len(str(result).split('.')[1]) > 2:
                 # print(result)
@@ -87,12 +95,13 @@ def extract_number(l):
 
 
 def fix_misaligned_row(df):
-    land_first_names = ["Mecklenburg-", 'Baden-', 'North Rhine-', 'Rhineland-', 'Saxony-', 'Schleswig-', 'Lower']
+    land_first_names = ["Mecklenburg-", 'Baden-', 'North Rhine-', 'Rhineland-',
+                        'Saxony-', 'Schleswig-', 'Lower', 'Sachsen-']
     df = df.reset_index(drop=True)
     for row in df.itertuples():
         try:
             # if land is not empty and values are null and land is not the beginning of other names
-            if row.land != 'nan' and row.land not in land_first_names and pd.isnull(sum(row[2:])) == True:
+            if row.land != 'nan' and row.land.strip() not in land_first_names and pd.isnull(sum(row[2:])) == True:
                 prev_index = row[0]-1
                 df.loc[prev_index, 'land'] = (str(df.loc[prev_index, 'land']).replace('nan', '') + ' ' + str(row.land).replace('nan', '')).strip()
             if "Mecklenburg" in row.land or "Pomerania" in row.land:
@@ -106,7 +115,7 @@ def load_pdf(date, path, lang="en"):
     path += '{0}-{1}.pdf'.format(date, lang)
     template = select_template(date, APP_PATH)
     print(path, '\n', template)
-    dfs = read_pdf_with_template(path, pandas_options={'header': None},
+    dfs = read_pdf_with_template(path, pandas_options={'header': None, 'dtype': str},
                                  template_path=template)
     print(dfs, '\n'*2)
     df = dfs[0]
@@ -184,21 +193,28 @@ if __name__ == "__main__":
 
     df_new.loc[df_new['land'].str.contains('Schleswig-Holstein') == True, 'land'] = 'Schleswig-Holstein'
     df_new.loc[df_new['land'].str.contains('Baden-') == True, 'land'] = 'Baden-Wuerttemberg'
+    df_new.loc[df_new['land'].str.contains('Bayern') == True, 'land'] = 'Bavaria'
     df_new.loc[df_new['land'].str.contains('Wuerttemberg') == True, 'land'] = 'Baden-Wuerttemberg'
+    df_new.loc[df_new['land'].str.contains('Württemberg') == True, 'land'] = 'Baden-Wuerttemberg'
     df_new.loc[df_new['land'].str.contains('Saxony-') == True, 'land'] = 'Saxony-Anhalt'
     df_new.loc[df_new['land'].str.contains('Sachsen-') == True, 'land'] = 'Saxony-Anhalt'
+    df_new.loc[df_new['land'] == 'Sachsen', 'land'] = 'Saxony'
+    df_new.loc[df_new['land'].str.contains('Anhalt') == True, 'land'] = 'Saxony-Anhalt'
     df_new.loc[df_new['land'].str.contains('Mecklenburg-') == True, 'land'] = 'Mecklenburg-Western Pomerania'
     df_new.loc[df_new['land'].str.contains('Western Pomerania') == True, 'land'] = 'Mecklenburg-Western Pomerania'
+    df_new.loc[df_new['land'].str.contains('Pomerania') == True, 'land'] = 'Mecklenburg-Western Pomerania'
+    df_new.loc[df_new['land'].str.contains('Vorpommern') == True, 'land'] = 'Mecklenburg-Western Pomerania'
     df_new.loc[df_new['land'].str.contains('Westphalia') == True, 'land'] = 'North Rhine-Westphalia'
     df_new.loc[df_new['land'].str.contains('Rhineland-') == True, 'land'] = 'Rhineland-Palatinate'
     df_new.loc[df_new['land'].str.contains('Palatinate') == True, 'land'] = 'Rhineland-Palatinate'
-
+    df_new.loc[df_new['land'].str.contains('Pfalz') == True, 'land'] = 'Rhineland-Palatinate'
     df_new.loc[df_new['land'].str.contains('Nordrhein-Westfalen') == True, 'land'] = 'North Rhine-Westphalia'
-    df_new.loc[df_new['land'].str.contains('Sachsen') == True, 'land'] = 'Saxony'
+    df_new.loc[df_new['land'].str.contains('Westfalen') == True, 'land'] = 'North Rhine-Westphalia'
     df_new.loc[df_new['land'].str.contains('Rheinland-') == True, 'land'] = 'Rhineland-Palatinate'
     df_new.loc[df_new['land'].str.contains('Niedersachsen') == True, 'land'] = 'Lower Saxony'
     df_new.loc[df_new['land'].str.contains('Hessen') == True, 'land'] = 'Hesse'
     df_new.loc[df_new['land'].str.contains('Thüringen') == True, 'land'] = 'Thuringia'
+    df_new.loc[df_new['land'].str.contains('Holstein') == True, 'land'] = 'Schleswig-Holstein'
 
     # =========================================== PRINTING PARSING RESULT ======================================
     print('Printing Loaded Table')

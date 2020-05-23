@@ -33,7 +33,7 @@ def add_day_since(df, colunm, cutoff):
     return df
 
 
-def findpeak_trend(df):
+def peak_end_trend(df):
     df_peak_log = df.loc[:, ['confirmed_peak_log']].dropna()
 
     from sklearn.linear_model import LinearRegression
@@ -49,8 +49,6 @@ def findpeak_trend(df):
     peak_indixes = df.loc[df.confirmed_peak_date == 1].index.tolist()
     #     peak_indixes[0] = df_peak_log.index.min()
 
-    print(peak_indixes)
-
     # iterate over peak indixes
     for i, index in enumerate(peak_indixes):
         peak_index = peak_indixes[i]
@@ -65,8 +63,6 @@ def findpeak_trend(df):
             else:
                 if days_add < len(df):
                     days_add = len(df)
-
-            print(days_add)
 
             y = df_peak_log.loc[df_peak_log.index < peak_index +
                                 datetime.timedelta(days=days_add), 'confirmed_peak_log'].rolling(3).median().dropna()
@@ -158,6 +154,7 @@ def add_variables_covid(df, column='confirmed', population=False):
 
     if column == 'confirmed':
         df.loc[:, f'{column}_active_cases'] = df[f'{column}'] - df[f'{column}'].shift(12)
+        df[f'{column}_active_cases_change'] = df[f'{column}_active_cases'] - df[f'{column}_active_cases'].shift(1)
         df.loc[:, f'{column}_peak_log'] = np.log((df[f'{column}'] / df[f'{column}'].shift(12)).replace({0: np.NaN}))
 
         df.loc[:, f'{column}_active_cases_avg7'] = np.round(df.loc[:, f'{column}_active_cases'].rolling(7, win_type='triang') .mean(),0)
@@ -198,11 +195,9 @@ def add_variables_covid(df, column='confirmed', population=False):
                     df.loc[peak_end_index, f'{column}_peak_date'] = -1
                     peak_status -= 1
 
-        df = findpeak_trend(df)
-
         # Dropping technical columns
         df.drop([
-                 # f'{column}_active_cases_avg7',
+                 f'{column}_active_cases_avg7',
                  f'{column}_active_cases_avg7_l1',
                  ], axis=1, inplace=True)
 

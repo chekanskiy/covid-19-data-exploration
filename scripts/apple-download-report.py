@@ -1,14 +1,16 @@
 import os, sys
 import pathlib
-
+import datetime
 
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 sys.path.insert(0, APP_PATH)
 
 RELEASES_PATH = f'{APP_PATH}/../data-input/apple-mobility'
 
-link = f"https://covid19-static.cdn-apple.com/covid19-mobility-data/2008HotfixDev36/v3/en-us/applemobilitytrends-"
-report_date = '2020-05-17'
+api_revision = (datetime.datetime.now() - datetime.datetime(2020, 4, 15)).days
+# 38 on 23 or May 2020
+
+link = f"https://covid19-static.cdn-apple.com/covid19-mobility-data/2008HotfixDev{api_revision}/v3/en-us/applemobilitytrends-"
 
 
 def download_csv(date_report):
