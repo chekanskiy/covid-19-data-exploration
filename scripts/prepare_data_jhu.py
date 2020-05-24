@@ -78,7 +78,7 @@ def prepare_df_country(df_confirmed, df_dead, df_population, country, date_cutof
         print('No population data for :', country)
         return None
 
-    df_confirmed = add_variables_covid(df_confirmed, population=pop)
+    df_confirmed = add_variables_covid(df_confirmed, 'confirmed', population=pop)
 
     df = df_confirmed.merge(df_dead, how='outer', on=['country', 'state', 'date'])
 

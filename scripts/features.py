@@ -123,7 +123,7 @@ def peak_end_trend(df):
     return df
 
 
-def add_variables_covid(df, column='confirmed', population=False):
+def add_variables_covid(df, column, population=False):
 
     # df.loc[df[column] == 0, column] = np.NaN
     df.loc[df[column] < 0, column] = 0
@@ -195,15 +195,15 @@ def add_variables_covid(df, column='confirmed', population=False):
                     df.loc[peak_end_index, f'{column}_peak_date'] = -1
                     peak_status -= 1
 
-        if column == 'dead':
-            df['lethality'] = (
-                        df['dead_change'].rolling(7).sum() / df['confirmed_change'].rolling(7).sum() * 100).round(2)
-
         # Dropping technical columns
         df.drop([
                  f'{column}_active_cases_avg7',
                  f'{column}_active_cases_avg7_l1',
                  ], axis=1, inplace=True)
+
+    if column == 'dead':
+        df['lethality'] = (
+                    df['dead_change'].rolling(7).sum() / df['confirmed_change'].rolling(7).sum().shift(14) * 100).round(2)
 
     df = add_day_since(df, column, 10)
 
