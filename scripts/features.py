@@ -133,7 +133,7 @@ def add_variables_covid(df, column='confirmed', population=False):
     df.loc[:, f'{column}_avg3'] = np.round(df.loc[:, column].rolling(3, win_type='triang').mean(), 0)
     df.loc[:, f'{column}_avg3_l1'] = df.loc[:, f'{column}_avg3'].shift(1)
 
-    df[f'{column}_change'] = df[column] - df[f'{column}_l1']
+    df[f'{column}_change'] = (df[column].astype(float).round(0) - df[f'{column}_l1'].astype(float).round(0))
     df.loc[:, f'{column}_change_avg3'] = np.round(df.loc[:, f'{column}_change'].rolling(3, win_type='triang').mean(), 0)
 
     df.loc[:, f'{column}_change_3w'] = np.round(df.loc[:, f'{column}_change'].rolling(21).sum(), 0)
@@ -142,9 +142,9 @@ def add_variables_covid(df, column='confirmed', population=False):
     df = add_lag(df, f'{column}_change_avg3', 1)
     df = add_lag(df, f'{column}_change_3w', 1)
 
-    df[f'{column}_change_pct'] = df[f'{column}_change'] / df[f'{column}_l1'].replace({0: np.NaN})
-    df[f'{column}_change_pct_avg3'] = df[f'{column}_change_avg3'].divide(df[f'{column}_avg3_l1'].replace({0: np.NaN}))
-    df[f'{column}_change_pct_3w'] = df[f'{column}_change'].divide(df[f'{column}_change_3w_l1'].replace({0: np.NaN}))
+    df[f'{column}_change_pct'] = df[f'{column}_change'] / df[f'{column}_l1'].replace({0: np.NaN}) * 100
+    df[f'{column}_change_pct_avg3'] = df[f'{column}_change_avg3'].divide(df[f'{column}_avg3_l1'].replace({0: np.NaN})) * 100
+    df[f'{column}_change_pct_3w'] = df[f'{column}_change'].divide(df[f'{column}_change_3w_l1'].replace({0: np.NaN})) * 100
 
     df = add_doubling_time(df, f'{column}_change_pct', prefix=column)
     df = add_doubling_time(df, f'{column}_change_pct_3w', suffix='_3w', prefix=column)
@@ -213,13 +213,14 @@ def add_variables_covid(df, column='confirmed', population=False):
              ], axis=1, inplace=True)
 
     if population:
+        df[f'population_100k'] = round(population / 100000, 3)
         df[f'{column}_per_100k'] = df[f'{column}'] / round(population / 100000, 3)
         df[f'{column}_change_per_100k'] = df[f'{column}_change'] / round(population / 100000, 3)
         if column == 'confirmed':
             df.loc[:, f'{column}_active_cases_per_100k'] = df.loc[:, f'{column}_active_cases'] / round(population / 100000, 3)
             df.loc[:, f'{column}_active_cases_change_per_100k'] = df.loc[:, f'{column}_active_cases_change'] / round(population / 100000, 3)
 
-    df = df.round(3)
+    df = df.round(2)
 
     return df
 

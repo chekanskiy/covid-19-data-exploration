@@ -184,6 +184,8 @@ if __name__ == "__main__":
         df_jhu_processed.drop("Unnamed: 0", axis=1, inplace=True)
     df_jhu_processed.rename({'country': 'land'}, axis=1, inplace=True)
 
+    df_jhu_processed = df_jhu_processed.round(2)
+
     df_jhu_processed = df_jhu_processed.loc[df_jhu_processed.region_wb.isnull() == False]
     df_eu_countries = pd.read_csv(f'{path_input}eu_countries.csv')
     df_jhu_processed.loc[df_jhu_processed.land.isin(df_eu_countries.Country) == True, 'region_wb'] = 'European Union'
