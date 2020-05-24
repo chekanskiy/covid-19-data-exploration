@@ -164,7 +164,7 @@ def add_variables_covid(df, column='confirmed', population=False):
         df.loc[:, f'{column}_peak_date'] = 0
         decreasing_day_counter, increasing_day_counter = 0, 0
         peak_value_decrease = 0
-        peak_days_threshold = 7
+        peak_days_threshold = 5
         peak_status = -1  # Epidemic has started
         df.loc[df.index.min(), f'{column}_peak_date'] = -1  # Start of the initial Epidemic
         for row in df.loc[:, [f'{column}_active_cases_avg7', f'{column}_active_cases_avg7_l1']].itertuples():

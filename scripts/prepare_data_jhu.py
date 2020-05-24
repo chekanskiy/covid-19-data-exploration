@@ -180,6 +180,9 @@ if __name__ == "__main__":
 
     df_jhu_processed = country_iterate_jhu(df_covid_conf_t, df_covid_dead_t)
     df_jhu_processed.rename({'country': 'land'}, axis=1, inplace=True)
+    if "Unnamed: 0" in df_jhu_processed.columns:
+        df_jhu_processed.drop("Unnamed: 0", axis=1, inplace=True)
+    df_jhu_processed.rename({'country': 'land'}, axis=1, inplace=True)
 
     df_jhu_processed = df_jhu_processed.loc[df_jhu_processed.region_wb.isnull() == False]
     df_eu_countries = pd.read_csv(f'{path_input}eu_countries.csv')
