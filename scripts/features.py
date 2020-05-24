@@ -195,6 +195,10 @@ def add_variables_covid(df, column='confirmed', population=False):
                     df.loc[peak_end_index, f'{column}_peak_date'] = -1
                     peak_status -= 1
 
+        if column == 'dead':
+            df['lethality'] = (
+                        df['dead_change'].rolling(7).sum() / df['confirmed_change'].rolling(7).sum() * 100).round(2)
+
         # Dropping technical columns
         df.drop([
                  f'{column}_active_cases_avg7',

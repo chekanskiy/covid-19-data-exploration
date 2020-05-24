@@ -27,6 +27,7 @@ df_jh_world.rename_axis('date_index', axis=1, inplace=True)
 
 df_rki_orig = pd.read_csv('data/data_rki_apple_prepared_dash.csv').round(2)
 df_rki_orig['date'] = df_rki_orig['date'].astype('datetime64[ns]')
+
 json_geo_de = json.load(open('data/data_geo_de.json', 'r'))
 # ========================================= END LOAD DATA ====================================================
 
@@ -102,11 +103,14 @@ FEATURE_DROP_DOWN = {
     "dead": "Deaths: Total",
     "dead_per_100k": "Dead: Total per 100k of Population",
     "dead_change_per_100k": "Deaths: Daily per 100k of Population",
+    "lethality": "Deaths: % of Confirmed Cases",
     "dead_doubling_days": "Deaths: Days to Double Total Number",
     "driving": "Driving traffic relative to January 2020",
     "walking": "Walking traffic relative to January 2020",
     "transit": "Transit traffic relative to January 2020",
 }
+
+BASE_COLUMNS = ['land', 'date', 'iso_code', 'region_wb', 'population_100k', 'confirmed_peak_date']
 
 # TODO: REMOVE TEMP SOLUTION TO DISPLAY ALL COLUMNS
 for col in df_rki_orig.columns:
@@ -429,13 +433,11 @@ def moving_average_7d(df, selected_column, selected_states):
     :return:
     """
     df = df.loc[df.land.isin(selected_states)].reset_index(drop=True)
-    index = df.index
     ro = df.groupby('land').rolling(7, on='date').mean().reset_index(drop=False).loc[:,
          ['date', 'land', selected_column]].round(2)
     df = df.merge(ro, on=['date', 'land'], suffixes=('', '_weekly'))
     selected_column += '_weekly'
-    df.index = index
-    return df, selected_column
+    return df.dropna(how='all', subset=[selected_column]), selected_column
 
 
 @app.callback(
@@ -468,10 +470,15 @@ def update_left_chart(selected_column, selected_states, world_vs_germany, n_clic
                 selected_states = DEFAULT_VALUE_WORLD
 
     if len(selected_states) > 0:  # In case all states are deselected
+        df = df.loc[df.land.isin(selected_states), ['land', selected_column, 'date', 'confirmed_peak_date']]
+
         if weekly_button_logic(n_clicks)['action'] == 1:  # Button is clicked uneven number of times.
             df, selected_column = moving_average_7d(df, selected_column, selected_states)
 
-        figure = plot_lines_plotly(df, selected_states, selected_column,
+        df.set_index('date', inplace=True, drop=False)
+        df = df.dropna(how='all', subset=[selected_column])
+
+        figure = plot_lines_plotly(df, selected_column,
                                    show_doubling=True, doubling_days=7, showlegend=False,
                                    _colors=COLORS['charts'])
     else:  # Default figure is displayed initially, on refresh and when no states are selected
@@ -511,11 +518,15 @@ def update_left_chart_2(selected_states, selected_column, world_vs_germany, n_cl
                 selected_states = DEFAULT_VALUE_WORLD
 
     if len(selected_states) > 0:  # In case all states are deselected
+        df = df.loc[df.land.isin(selected_states), ['land', selected_column, 'date', 'confirmed_peak_date']]
 
         if weekly_button_logic(n_clicks)['action'] == 1:  # Button is clicked uneven number of times.
             df, selected_column = moving_average_7d(df, selected_column, selected_states)
 
-        figure = plot_lines_plotly(df, selected_states, selected_column,
+        df.set_index('date', inplace=True, drop=False)
+        df = df.dropna(how='all', subset=[selected_column])
+
+        figure = plot_lines_plotly(df, selected_column,
                                    show_doubling=False, doubling_days=7, showlegend=False,
                                    _colors=COLORS['charts'])
 
@@ -641,7 +652,8 @@ def update_right_chart_2(selected_column, selected_states, selected_data):
 
         if '100k' in selected_column or selected_column in \
                 ('confirmed_change_pct_3w', 'confirmed_doubling_days_3w_avg3',
-                 'dead_change_pct_3w', 'dead_doubling_days_3w_avg3'):
+                 'dead_change_pct_3w', 'dead_doubling_days_3w_avg3',
+                 'lethality'):
 
             if 'doubling_days' in selected_column:
                 df = df.loc[df[selected_column] > 0].sort_values(selected_column, ascending=True).head(30)

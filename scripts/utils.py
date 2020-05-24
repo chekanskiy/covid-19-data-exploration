@@ -14,6 +14,7 @@ FEATURE_DROP_DOWN = {
     "dead": "Deaths: Total",
     "dead_per_100k": "Dead: Total per 100k of Population",
     "dead_change_per_100k": "Deaths: Daily per 100k of Population",
+    "lethality": "Deaths: % of Confirmed Cases",
     "dead_doubling_days": "Deaths: Days to Double Total Number",
     "driving": "Driving traffic relative to January 2020",
     "walking": "Walking traffic relative to January 2020",
