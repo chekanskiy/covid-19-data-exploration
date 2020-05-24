@@ -5,7 +5,8 @@ import pathlib
 import os, sys
 import dotenv
 from features import add_variables_covid, add_variables_apple
-from utils import DASH_COLUMNS
+from utils import DASH_COLUMNS, FEATURE_DROP_DOWN
+DASH_COLUMNS = set(DASH_COLUMNS + list(FEATURE_DROP_DOWN.keys()))
 
 dotenv.load_dotenv()
 INPUT = os.environ.get("INPUT")
@@ -53,7 +54,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Process some integers.")
     parser.add_argument(
-        "--subset_columns", default=False, help="Take only a subset of columns for Dash Dashboard"
+        "--subset_columns", default=True, help="Take only a subset of columns for Dash Dashboard"
     )
 
     args = parser.parse_args()
@@ -122,7 +123,8 @@ if __name__ == "__main__":
     # RKI & APPLE
     if subset_columns:
         print("Taking a subset of all columns for Dash")
-        df_rki_germany_processed_dash = df_rki_germany_processed.loc[:, DASH_COLUMNS]
+        df_rki_germany_processed_dash = \
+            df_rki_germany_processed.loc[:, [c for c in df_rki_germany_processed.columns if c in DASH_COLUMNS]]
     else:
         print("Taking all columns for Dash")
         df_rki_germany_processed_dash = df_rki_germany_processed

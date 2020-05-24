@@ -7,7 +7,8 @@ import pathlib
 import os, sys
 import dotenv
 from features import add_variables_covid, add_variables_apple
-from utils import DASH_COLUMNS
+from utils import DASH_COLUMNS, FEATURE_DROP_DOWN
+DASH_COLUMNS = set(DASH_COLUMNS + list(FEATURE_DROP_DOWN.keys()))
 pd.set_option('display.max_columns', 300)
 
 warnings.filterwarnings("ignore")
@@ -122,7 +123,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Process some integers.")
     parser.add_argument(
-        "--subset_columns", default=False, help="Take only a subset of columns for Dash Dashboard"
+        "--subset_columns", default=True, help="Take only a subset of columns for Dash Dashboard"
     )
 
     args = parser.parse_args()
@@ -192,6 +193,6 @@ if __name__ == "__main__":
 
     df_jhu_processed.to_csv(f'{path_processed}data_jhu_world.csv', index=False)
     if subset_columns:
-        df_jhu_processed.loc[:, DASH_COLUMNS].to_csv(f'{path_processed_dash}data_jhu_world.csv', index=False)
+        df_jhu_processed.loc[:, [c for c in df_jhu_processed.columns if c in DASH_COLUMNS]].to_csv(f'{path_processed_dash}data_jhu_world.csv', index=False)
     else:
         df_jhu_processed.to_csv(f'{path_processed_dash}data_jhu_world.csv', index=False)
