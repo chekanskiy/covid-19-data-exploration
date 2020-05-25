@@ -48,8 +48,10 @@ def select_template(date, APP_PATH):
         return f"{APP_PATH}/templates/2020-05-20-en.tabula-template.json"
     elif date <= '2020-05-22':
         return f"{APP_PATH}/templates/2020-05-22-en.tabula-template.json"
-    else:
+    elif date <= '2020-05-23':
         return f"{APP_PATH}/templates/2020-05-23-en.tabula-template.json"
+    else:
+        return f"{APP_PATH}/templates/2020-05-24-en.tabula-template.json"
 
 
 def extract_text(l):
