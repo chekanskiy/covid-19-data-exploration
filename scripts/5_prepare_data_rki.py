@@ -20,19 +20,6 @@ sys.path.insert(0, APP_PATH)
 path_input = f'{APP_PATH}{INPUT}'
 path_processed = f'{APP_PATH}{PROCESSED}'
 save_path_dash = f'{APP_PATH}P{DASH_PROCESSED}'
-latest_apple_report = sorted(os.listdir(f'{APP_PATH}{INPUT}apple-mobility'), reverse=True)[0]
-print(f'Loading {latest_apple_report} report')
-
-
-def melt_apple_df(dfapple):
-    apple_melted = dfapple.melt(id_vars=[c for c in dfapple.columns if '2020-' not in c], value_vars=[c for c in dfapple.columns if '2020-' in c])
-    apple_melted.rename({'variable': 'date'}, axis=1, inplace=True)
-    apple_melted.loc[:, [c for c in apple_melted.columns if c != 'value']] = apple_melted.loc[:, [c for c in apple_melted.columns if c != 'value']].fillna('n/a')
-    apple_melted_pivoted = apple_melted.pivot_table(index=[c for c in apple_melted.columns if c not in ['value', 'transportation_type']],columns='transportation_type', values='value')
-    apple_melted_pivoted = apple_melted_pivoted.reset_index()
-    apple_melted_pivoted['date'] = apple_melted_pivoted['date'].astype('datetime64[ns]')
-    apple_melted_pivoted = apple_melted_pivoted.set_index('date', drop=False).rename_axis('date_index', axis=0)
-    return apple_melted_pivoted
 
 
 def melt_rki_df(df_rki_germany):
@@ -63,11 +50,12 @@ if __name__ == "__main__":
         subset_columns = False
 
     # ============================== LOAD DATA ===================================================
-    df_rki_germany = pd.read_csv(f"{path_processed}rki-reports.csv")
     df_population_de = pd.read_csv(f"{path_input}german_lander_population.csv")
     geojson_path = f"{path_input}deutschlandGeoJSON/2_bundeslaender/3_mittel.geo.json"
-    dfapple = pd.read_csv(f"{path_input}apple-mobility/{latest_apple_report}")
+    df_rki_germany = pd.read_csv(f"{path_processed}rki-reports.csv")
+    df_apple = pd.read_csv(f'{path_processed}/data_apple_prepared.csv')
 
+    print(f"Latest Apple Data: {df_apple.date.max()}")
     # ============================== LOAD AND SAVE SHAPE FILES ===================================
 
     df_geojson = gpd.read_file(geojson_path)
@@ -96,25 +84,15 @@ if __name__ == "__main__":
     print("RKI max date", max(df_rki_germany_processed.index))
 
     # ============================== PROCESS APPLE DATA FOR EACH REGION ==============================
-    df_apple_processed = melt_apple_df(dfapple)
-    apple_lands = {'Baden-Württemberg': 'Baden-Wuerttemberg',
-                   'The Free Hanseatic City of Bremen':'Bremen',
-                   'Mecklenburg-Vorpommern': 'Mecklenburg-Western Pomerania'
-                  }
-    df_apple_processed['region'] = df_apple_processed['region'].apply(lambda x: apple_lands.get(x) if apple_lands.get(x) is not None else x)
-
-    df_apple_processed_de = df_apple_processed.loc[df_apple_processed.region.isin(df_rki_germany_processed.land.unique()), ['region', 'driving', 'walking', 'transit']]
-    df_apple_processed_de['date'] = df_apple_processed_de.index
+    df_apple['date'] = df_apple['date'].astype('datetime64[ns]')
+    df_apple_processed_de = df_apple.loc[df_apple.region.isin(df_rki_germany_processed.land.unique()), ['region', 'date', 'driving', 'walking', 'transit']]
     df_apple_processed_de = df_apple_processed_de.rename(columns={'region': 'land'})
-
     # ============================== SAVE DATA ALL COLUMNS ==============================
     # RKI
     df_rki_germany_processed.rename_axis('date_index', axis=0, inplace=True)
     df_rki_germany_processed.sort_values(by=['land', 'date']).to_csv(f'{path_processed}/data_rki_prepared.csv')
 
     # APPLE
-    df_apple_processed.rename_axis('date_index', axis=0, inplace=True)
-    df_apple_processed.sort_values(by=['region', 'country', 'sub-region', 'date']).to_csv(f'{path_processed}/data_apple_prepared.csv')
     df_apple_processed_de.sort_values(by=['land', 'date']).to_csv(f'{path_processed}/data_apple_prepared_de.csv')
 
     # ============================== SAVE DATA DASH SUBSET ==============================
@@ -133,5 +111,7 @@ if __name__ == "__main__":
 
     df_rki_de_apple = df_apple_processed_de.merge(df_rki_germany_processed_dash, on=['date', 'land'], how='right')
     for l in df_rki_de_apple.land.unique():
-        df_rki_de_apple.loc[(df_rki_de_apple.land == l), ['driving', 'walking', 'transit']] = df_rki_de_apple.loc[ (df_rki_de_apple.land == l), ['driving', 'walking', 'transit']].fillna(method='ffill')
-    df_rki_de_apple.sort_values(by=['land', 'date']).to_csv(f'{APP_PATH}/../dash/data/data_rki_apple_prepared_dash.csv')
+        df_rki_de_apple.loc[(df_rki_de_apple.land == l), ['driving', 'walking', 'transit']] = \
+            df_rki_de_apple.loc[(df_rki_de_apple.land == l), ['driving', 'walking', 'transit']].fillna(method='ffill')
+    df_rki_de_apple.sort_values(by=['land', 'date']).to_csv(f'{APP_PATH}/../dash/data/data_rki_apple_prepared_dash.csv',
+                                                            index=False)
