@@ -1,13 +1,14 @@
-import pandas as pd
-import numpy as np
-import geopandas as gpd
-import json
-import warnings
+import os
 import pathlib
-import os, sys
+import sys
+import warnings
+
 import dotenv
-from features import add_variables_covid, add_variables_apple
+import numpy as np
+import pandas as pd
+from features import add_variables_covid
 from utils import DASH_COLUMNS, FEATURE_DROP_DOWN
+
 DASH_COLUMNS = set(DASH_COLUMNS + list(FEATURE_DROP_DOWN.keys()))
 pd.set_option('display.max_columns', 300)
 
@@ -131,6 +132,12 @@ if __name__ == "__main__":
     if str(subset_columns).lower() in ['false', '0', 'no']:
         subset_columns = False
 
+    # Load EU country list
+    df_eu_countries = pd.read_csv(f'{path_input}eu_countries.csv')
+
+    # Load Apple Data
+    # df_apple = pd.read_csv(f'{path_processed}/data_apple_prepared.csv')
+
     # Load WB Population Data
     df_population = pd.read_csv(f"{path_processed}wb/population.csv")
 
@@ -176,19 +183,29 @@ if __name__ == "__main__":
     print(f"Missing COVID data for {len(missing_covid_data)} countries\n")
     print(missing_covid_data.country.unique(), '\n')
 
+    # Melt JHU Data into long format
     df_covid_conf_t = melt_jhu_data(df_covid_conf, 'confirmed')
     df_covid_dead_t = melt_jhu_data(df_covid_dead, 'dead')
 
-    df_jhu_processed = country_iterate_jhu(df_covid_conf_t, df_covid_dead_t)
-    df_jhu_processed.rename({'country': 'land'}, axis=1, inplace=True)
-    if "Unnamed: 0" in df_jhu_processed.columns:
-        df_jhu_processed.drop("Unnamed: 0", axis=1, inplace=True)
+    # Prepare variables
+    df_jhu_processed = country_iterate_jhu(df_covid_conf_t, df_covid_dead_t).round(2)
     df_jhu_processed.rename({'country': 'land'}, axis=1, inplace=True)
 
-    df_jhu_processed = df_jhu_processed.round(2)
-
+    # Filter out countries where WB population data did not join
     df_jhu_processed = df_jhu_processed.loc[df_jhu_processed.region_wb.isnull() == False]
-    df_eu_countries = pd.read_csv(f'{path_input}eu_countries.csv')
+
+    # Join Apple Data
+    # df_apple['date'] = df_apple['date'].astype('datetime64[ns]')
+    # df_apple.rename({'country': 'land'}, axis=1, inplace=True)
+    # df_jhu_processed['date'] = df_jhu_processed['date'].astype('datetime64[ns]')
+    # df_jhu_processed = df_jhu_processed.merge(
+    #     df_apple.loc[:, ['land', 'date', 'driving', 'walking', 'transit']], on=['date', 'land'], how='left')
+    # print("merged", len(df_jhu_processed))
+    # for land in df_jhu_processed.land.unique():
+    #     df_jhu_processed.loc[(df_jhu_processed.land == land), ['driving', 'walking', 'transit']] = \
+    #         df_jhu_processed.loc[(df_jhu_processed.land == land), ['driving', 'walking', 'transit']].fillna(method='ffill')
+
+    # Add extra region "EU Countries"
     df_jhu_processed.loc[df_jhu_processed.land.isin(df_eu_countries.Country) == True, 'region_wb'] = 'European Union'
 
     df_jhu_processed.to_csv(f'{path_processed}data_jhu_world.csv', index=False)

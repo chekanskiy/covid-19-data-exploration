@@ -182,10 +182,12 @@ def add_variables_covid(df, column, population=False):
                 peak_index = row[0] - datetime.timedelta(days=peak_days_threshold)
                 peak_value_new = df.loc[peak_index, f'{column}_active_cases_avg7']
                 # and if the new peak value is higher than the ond one = so we don't spam decreasing trends
-                if peak_value_new > peak_value_decrease:
+                # if peak_value_new > peak_value_decrease:
+                if peak_status == -1:
                     df.loc[peak_index, f'{column}_peak_date'] = 1
                     peak_value_decrease = peak_value_new
                     peak_status += 1
+                    decreasing_day_counter = 0
             # if increasing for longer than threshold
             elif increasing_day_counter >= peak_days_threshold:
                 # take index 7 days before for the start of the trend
@@ -194,6 +196,7 @@ def add_variables_covid(df, column, population=False):
                 if peak_status == 0:
                     df.loc[peak_end_index, f'{column}_peak_date'] = -1
                     peak_status -= 1
+                    increasing_day_counter = 0
 
         # Dropping technical columns
         df.drop([
