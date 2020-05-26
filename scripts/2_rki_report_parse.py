@@ -7,6 +7,7 @@ import pathlib
 import sys
 
 import warnings
+
 warnings.simplefilter("ignore")
 
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
@@ -50,8 +51,10 @@ def select_template(date, APP_PATH):
         return f"{APP_PATH}/templates/2020-05-22-en.tabula-template.json"
     elif date <= '2020-05-23':
         return f"{APP_PATH}/templates/2020-05-23-en.tabula-template.json"
-    else:
+    elif date <= '2020-05-24':
         return f"{APP_PATH}/templates/2020-05-24-en.tabula-template.json"
+    else:
+        return f"{APP_PATH}/templates/2020-05-25-en.tabula-template.json"
 
 
 def extract_text(l):
@@ -68,8 +71,12 @@ def count_numbers(l):
 
 
 def extract_number(l):
+    def fix_string(l):
+        l = "".join([k for k in l if k.isdigit() is True]).lstrip().rstrip()
+        return l
+
     if type(l) == str:
-        result = "".join([k for k in l.values[0] if k.isdigit()]).lstrip().rstrip()
+        result = fix_string(l.values[0])
         if len(result) > 0:
             return int(result)
         else:
@@ -86,28 +93,33 @@ def extract_number(l):
         if '.' in str(result):
             if len(str(result).split('.')[1]) > 2:
                 # print(result)
-                result = int(str(result).replace('.', ''))
+                result = int(fix_string(str(result)).replace('.', ''))
                 return result
         elif ',' in str(result):
             if len(str(result).split(',')[1]) > 2:
                 # print(result)
-                result = int(str(result).replace(',', ''))
+                result = int(fix_string(str(result)).replace(',', ''))
                 return result
-        return int(result)
+        return int(fix_string(str(result)))
 
 
 def fix_misaligned_row(df):
     land_first_names = ["Mecklenburg-", 'Baden-', 'North Rhine-', 'Rhineland-',
                         'Saxony-', 'Schleswig-', 'Lower', 'Sachsen-']
+    land_single_word_names = ["Bavaria", 'Berlin', 'Brandenburg', 'Bremen',
+                              'Hamburg', 'Saarland', 'Thuringia', 'Hesse']
     df = df.reset_index(drop=True)
     for row in df.itertuples():
         try:
             # if land is not empty and values are null and land is not the beginning of other names
-            if row.land != 'nan' and row.land.strip() not in land_first_names and pd.isnull(sum(row[2:])) == True:
-                prev_index = row[0]-1
-                df.loc[prev_index, 'land'] = (str(df.loc[prev_index, 'land']).replace('nan', '') + ' ' + str(row.land).replace('nan', '')).strip()
-            if "Mecklenburg" in row.land or "Pomerania" in row.land:
-                df.loc[df.land == row.land, 'land'] = 'Mecklenburg-Western Pomerania'
+            if row.land != 'nan' and \
+                    row.land.strip() not in land_first_names and \
+                    pd.isnull(sum(row[2:])) == True:
+                prev_index = row[0] - 1
+                if df.loc[prev_index, 'land'] not in land_single_word_names:
+                    df.loc[prev_index, 'land'] = (
+                                str(df.loc[prev_index, 'land']).replace('nan', '') +
+                                ' ' + str(row.land).replace('nan', '')).strip()
         except:
             pass
     return df
@@ -119,7 +131,7 @@ def load_pdf(date, path, lang="en"):
     print(path, '\n', template)
     dfs = read_pdf_with_template(path, pandas_options={'header': None, 'dtype': str},
                                  template_path=template)
-    print(dfs, '\n'*2)
+    print(dfs, '\n' * 2)
     df = dfs[0]
     if len(df.columns) == 2:
         print("Extracting 2 data columns")
@@ -144,7 +156,7 @@ def load_pdf(date, path, lang="en"):
         df.columns = ['land', 'confirmed', 'daily', 'per_mil', 'dead', 'dead_per_100k']
     elif len(df.columns) == 8:
         print("Extracting 6 data columns")
-        df.columns = ['land', 'confirmed', 'daily', 'per_mil', '7day_sum','7day_100k', 'dead', 'dead_per_100k']
+        df.columns = ['land', 'confirmed', 'daily', 'per_mil', '7day_sum', '7day_100k', 'dead', 'dead_per_100k']
     else:
         print(f"Falied to exctract {len(df.columns)} data columns")
         print(df.head(20))
