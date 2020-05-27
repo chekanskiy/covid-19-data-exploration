@@ -130,27 +130,27 @@ def add_variables_covid(df, column, population=False):
 
     df = add_lag(df, column, 1)
 
-    df.loc[:, f'{column}_avg3'] = np.round(df.loc[:, column].rolling(3, win_type='triang').mean(), 0)
-    df.loc[:, f'{column}_avg3_l1'] = df.loc[:, f'{column}_avg3'].shift(1)
+    # df.loc[:, f'{column}_avg3'] = np.round(df.loc[:, column].rolling(3, win_type='triang').mean(), 0)
+    # df.loc[:, f'{column}_avg3_l1'] = df.loc[:, f'{column}_avg3'].shift(1)
 
     df[f'{column}_change'] = (df[column].astype(float).round(0) - df[f'{column}_l1'].astype(float).round(0))
-    df.loc[:, f'{column}_change_avg3'] = np.round(df.loc[:, f'{column}_change'].rolling(3, win_type='triang').mean(), 0)
+    # df.loc[:, f'{column}_change_avg3'] = np.round(df.loc[:, f'{column}_change'].rolling(3, win_type='triang').mean(), 0)
 
     df.loc[:, f'{column}_change_3w'] = np.round(df.loc[:, f'{column}_change'].rolling(21).sum(), 0)
 
     df = add_lag(df, f'{column}_change', 1)
-    df = add_lag(df, f'{column}_change_avg3', 1)
+    # df = add_lag(df, f'{column}_change_avg3', 1)
     df = add_lag(df, f'{column}_change_3w', 1)
 
     df[f'{column}_change_pct'] = df[f'{column}_change'] / df[f'{column}_l1'].replace({0: np.NaN}) * 100
-    df[f'{column}_change_pct_avg3'] = df[f'{column}_change_avg3'].divide(df[f'{column}_avg3_l1'].replace({0: np.NaN})) * 100
-    df[f'{column}_change_pct_3w'] = df[f'{column}_change'].divide(df[f'{column}_change_3w_l1'].replace({0: np.NaN})) * 100
+    # df[f'{column}_change_pct_avg3'] = df[f'{column}_change_avg3'].divide(df[f'{column}_avg3_l1'].replace({0: np.NaN})) * 100
+    df[f'{column}_growth_pct_3w'] = df[f'{column}_change'] / (df[f'{column}_change_3w_l1'].replace({0: np.NaN})) * 100
 
     df = add_doubling_time(df, f'{column}_change_pct', prefix=column)
-    df = add_doubling_time(df, f'{column}_change_pct_3w', suffix='_3w', prefix=column)
+    df = add_doubling_time(df, f'{column}_growth_pct_3w', suffix='_3w', prefix=column)
 
-    df.loc[:, f'{column}_doubling_days_avg3'] = np.round(df.loc[:, f'{column}_doubling_days'].rolling(3, win_type='triang').mean(), 0)
-    df.loc[:, f'{column}_doubling_days_3w_avg3'] = np.round(df.loc[:, f'{column}_doubling_days_3w'].rolling(3, win_type='triang').mean(), 0)
+    # df.loc[:, f'{column}_doubling_days_avg3'] = np.round(df.loc[:, f'{column}_doubling_days'].rolling(3, win_type='triang').mean(), 0)
+    # df.loc[:, f'{column}_doubling_days_3w_avg3'] = np.round(df.loc[:, f'{column}_doubling_days_3w'].rolling(3, win_type='triang').mean(), 0)
 
     if column == 'confirmed':
         df.loc[:, f'{column}_active_cases'] = df[f'{column}'] - df[f'{column}'].shift(12)
@@ -212,10 +212,10 @@ def add_variables_covid(df, column, population=False):
 
     # cleanup temp cols
     df.drop([f'{column}_l1',
-             f'{column}_avg3_l1',
+             # f'{column}_avg3_l1',
              f'{column}_change_l1',
              f'{column}_change_3w_l1',
-             f'{column}_change_avg3_l1',
+             # f'{column}_change_avg3_l1',
              #              '', '', '', '', '', ''
              ], axis=1, inplace=True)
 
