@@ -127,10 +127,15 @@ def fix_misaligned_row(df):
 
 def load_pdf(date, path, lang="en"):
     path += '{0}-{1}.pdf'.format(date, lang)
-    template = select_template(date, APP_PATH)
-    print(path, '\n', template)
-    dfs = read_pdf_with_template(path, pandas_options={'header': None, 'dtype': str},
-                                 template_path=template)
+    if date <= '2020-05-29':
+        template = select_template(date, APP_PATH)
+        print(path, '\n', template)
+        dfs = read_pdf_with_template(path, pandas_options={'header': None, 'dtype': str}, template_path=template)
+    else:
+        area = [321.26428945560474, 68.34220617294217, 692, 527]  # Top Y, Left X, Bottom Y, Right X
+        columns = [123, 180, 239, 293, 354, 395, 435.6, 528.5]  # X coordinates of column splits
+        dfs = read_pdf(path, pandas_options={'header': None, 'dtype': str}, stream=True, pages=2,  area=area, columns=columns)
+
     print(dfs, '\n' * 2)
     df = dfs[0]
     if len(df.columns) == 2:
@@ -205,7 +210,7 @@ if __name__ == "__main__":
 
     df_new = df_new[df_new.land != 'Federal State Total Number Number of Cases/ Number of'].drop_duplicates()
 
-    df_new.loc[df_new['land'].str.contains('Schleswig-Holstein') == True, 'land'] = 'Schleswig-Holstein'
+    df_new.loc[df_new['land'].str.contains('Schleswig-') == True, 'land'] = 'Schleswig-Holstein'
     df_new.loc[df_new['land'].str.contains('Baden-') == True, 'land'] = 'Baden-Wuerttemberg'
     df_new.loc[df_new['land'].str.contains('Bayern') == True, 'land'] = 'Bavaria'
     df_new.loc[df_new['land'].str.contains('Wuerttemberg') == True, 'land'] = 'Baden-Wuerttemberg'
