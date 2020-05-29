@@ -127,14 +127,14 @@ def fix_misaligned_row(df):
 
 def load_pdf(date, path, lang="en"):
     path += '{0}-{1}.pdf'.format(date, lang)
-    if date <= '2020-05-29':
+    if date <= '2020-05-27':
         template = select_template(date, APP_PATH)
         print(path, '\n', template)
         dfs = read_pdf_with_template(path, pandas_options={'header': None, 'dtype': str}, template_path=template)
     else:
-        area = [321.26428945560474, 68.34220617294217, 692, 527]  # Top Y, Left X, Bottom Y, Right X
-        columns = [123, 180, 239, 293, 354, 395, 435.6, 528.5]  # X coordinates of column splits
-        dfs = read_pdf(path, pandas_options={'header': None, 'dtype': str}, stream=True, pages=2,  area=area, columns=columns)
+        area = [321, 68, 692, 527]  # Points: Top Y, Left X, Bottom Y, Right X
+        columns = [160, 205, 254, 319, 370, 432, 476]  # X coordinates of column splits
+        dfs = read_pdf(path, pandas_options={'header': None, 'dtype': str}, stream=True, pages=2, area=area, columns=columns)
 
     print(dfs, '\n' * 2)
     df = dfs[0]
