@@ -132,8 +132,12 @@ def load_pdf(date, path, lang="en"):
         print(path, '\n', template)
         dfs = read_pdf_with_template(path, pandas_options={'header': None, 'dtype': str}, template_path=template)
     else:
-        area = [321, 68, 692, 527]  # Points: Top Y, Left X, Bottom Y, Right X
-        columns = [160, 205, 254, 319, 370, 432, 476]  # Points: X coordinates of column splits
+        if date <= '2020-05-28':
+            area = [304, 69, 674, 547]  # Points: Top Y, Left X, Bottom Y, Right X
+            columns = [160, 205, 254, 319, 370, 432, 476]  # Points: X coordinates of column splits
+        else:
+            area = [304, 69, 674, 547]   # Points: Top Y, Left X, Bottom Y, Right X
+            columns = [160, 205, 254, 319, 370, 432, 476]  # Points: X coordinates of column splits
         dfs = read_pdf(path, pandas_options={'header': None, 'dtype': str}, stream=True, pages=2, area=area, columns=columns)
 
     print(dfs, '\n' * 2)

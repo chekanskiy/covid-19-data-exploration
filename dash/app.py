@@ -19,6 +19,7 @@ from charts.chart_line_static import plot_lines_plotly
 from charts.chart_sunburst_static import plot_sunburst_static
 from charts.chart_bar_static import plot_bar_static
 from charts.chart_gauge_static import plot_gauges
+from charts.chart_number_static import plot_numbers
 
 # ============================================ LOAD DATA =====================================================
 df_jh_world = pd.read_csv('data/data_jhu_world.csv').round(2)
@@ -35,6 +36,36 @@ json_geo_de = json.load(open('data/data_geo_de.json', 'r'))
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__,
                 meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1.0"}], )
+
+app.index_string = '''
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168016375-1"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', 'UA-168016375-1');
+            </script>
+        {%metas%}
+        <title>{%title%}</title>
+        {%favicon%}
+        {%css%}
+    </head>
+    <body>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>
+'''
+
 # external_stylesheets=external_stylesheets)
 server = app.server
 
@@ -167,6 +198,7 @@ TAB_SELECTED_STYLE = {
     'padding': '2rem 0 0 0',
 }
 
+
 # ========================================= DEFINE LAYOUT ================================================
 app.layout = html.Div(
     id="root",
@@ -208,6 +240,9 @@ app.layout = html.Div(
                 'display': 'inline-block',
             }
         ),
+        html.Div(children=[
+            dcc.Graph(figure=plot_numbers(df_jh_world, 'confirmed', aggregate_by_column='region_wb'))
+        ]),
         html.Div(
             id="app-container",
             children=[
@@ -761,6 +796,12 @@ def update_left_chart_2_title(selected_column, n_clicks):
 #     }, indent=2)
 #     return ctx_msg
 
+# app.scripts.config.serve_locally = False
+# app.scripts.append_script({
+#     'external_url': 'https://dashboard-covid-19-dash.herokuapp.com/assets/ga.js'
+# })
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
