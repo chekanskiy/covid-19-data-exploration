@@ -1,5 +1,6 @@
 import plotly.graph_objects as go
 import scipy as sp
+import numpy as np
 
 
 def get_digit(s, place):
@@ -8,6 +9,29 @@ def get_digit(s, place):
         return s[place - 1]
     else:
         return -1
+
+
+# COLORS = {'paper_bgcolor': 'LightGray',
+#           'plot_bgcolor': 'LightGray',
+#           'xaxis': 'LightSteelBlue',
+#           'yaxis': 'LightSteelBlue',
+#           'font': 'DarkBlue',
+#           'elem1': 'DarkBlue',
+#           'elem2': 'white',
+#           'elem3': 'DarkGrey',
+#           'elem4': 'DarkGrey',
+#           }
+
+COLORS = {'paper_bgcolor': 'white',
+          'plot_bgcolor': 'white',
+          'xaxis': 'LightSteelBlue',
+          'yaxis': 'LightSteelBlue',
+          'font': 'Black',
+          'elem1': 'LightGray',
+          'elem2': 'Black',
+          'elem3': 'Black',
+          'elem4': 'DarkBlue',
+          }
 
 
 def bar(df, column, digit, df_benford, land):
@@ -38,34 +62,48 @@ def bar(df, column, digit, df_benford, land):
     # Create figure with secondary y-axis
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     #     fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        mode='lines',
-        line=dict(
-            color='DarkBlue',
-            width=5
-        ),
+
+    # ACTUAL VALUES
+    #     fig.add_trace(go.Scatter(
+    #         mode='lines',
+    #         line=dict(
+    #              color=COLORS['elem1'],
+    #              width=5
+    #          ),
+    #         x=d1.index,
+    #         y=d1[column],
+    #         name=f'{digit} place digit',
+    #         marker_color=COLORS['elem1']))
+    fig.add_trace(go.Bar(
         x=d1.index,
         y=d1[column],
-        name=f'{digit} place digit',
-        marker_color='DarkBlue'))
+        width=[0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, ],
+        marker=dict(color=COLORS['font'],
+                    # #                      opacity=0.8
+                    line=dict(width=1)
+                    ),
+        name=f'Actual, {digit} digit',
+        marker_color=COLORS['elem1']))
 
+    # BENFORD'S LAW
     fig.add_trace(go.Scatter(
-        mode='lines',
+        mode='lines+markers',
         line=dict(
-            color='white',
-            width=5,
-            dash='dot',
+            color=COLORS['elem2'],
+            width=1,
+            #              dash='dot',
         ),
         x=d1.index,
         y=d1[f'ben{digit}'],
-        name='Benford',
-        marker_color='white'))
+        name="Benford's Law",
+        marker_color=COLORS['elem2']))
 
     #     fig.add_trace(go.Indicator(
     #         mode='number',
     #         title='Correlation',
     #         value=d1.loc[:, [column, f'ben{digit}']].corr().iloc[0,1].round(2)*100))
 
+    # 0.05 P-Value
     fig.add_shape(
         # Line Diagonal
         type="line",
@@ -74,31 +112,43 @@ def bar(df, column, digit, df_benford, land):
         x1=9,
         y1=0.05,
         line=dict(
-            color="DarkGrey",
-            width=1.5,
-            dash="dash",
+            color=COLORS['elem3'],
+            width=1,
+            dash="dot",
         ),
         yref="y2"
     )
-
-    fig.add_trace(go.Bar(
+    # p-value
+    #     fig.add_trace(go.Bar(
+    #         x=d1.index,
+    #         y=d1['p'],
+    #         width=[0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],
+    #         name=f'p-value',
+    #         marker=dict(color=COLORS['elem4'],
+    # #                      opacity=0.8
+    # #                         line=dict(width=1)
+    #                      ),
+    #         ),
+    #         secondary_y=True)
+    fig.add_trace(go.Scatter(
+        mode="markers",
         x=d1.index,
         y=d1['p'],
-        width=[0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
         name=f'p-value',
-        marker=dict(color='DarkGrey',
+        marker=dict(color=COLORS['elem4'],
                     #                      opacity=0.8
                     #                         line=dict(width=1)
                     ),
-    ), secondary_y=True)
+    ),
+        secondary_y=True)
 
     fig.update_layout(
         margin=dict(l=0, r=0, t=35, b=0),
         autosize=False,
         width=800,
         height=250,
-        paper_bgcolor="LightGray",
-        plot_bgcolor='LightGray',  # '#1f2630'
+        paper_bgcolor=COLORS['paper_bgcolor'],
+        plot_bgcolor=COLORS['plot_bgcolor'],  # '#1f2630'
         title=f"{land}: {' '.join([x.capitalize() for x in column.split('_')])}, digit position {digit}",
         #         barmode='group',
         #         xaxis_title= f"{' '.join([x.capitalize() for x in column.split('_')])}, digit position {digit}",
@@ -106,12 +156,13 @@ def bar(df, column, digit, df_benford, land):
         xaxis_title='Number',
         yaxis2_title='p-value',
         xaxis=dict(
-            linecolor='LightSteelBlue',
+            linecolor=COLORS['xaxis'],
             showgrid=False,
             dtick=1),
-        yaxis=dict(showgrid=False, ),
-        font=dict(color='DarkBlue'),  # '#2cfec1'
-        yaxis2=dict(showgrid=False, range=[0, 0.2]))
+        yaxis=dict(showgrid=False, linecolor=COLORS['yaxis']),
+        font=dict(color=COLORS['font'], family='Garmond'),  # '#2cfec1'
+        #         yaxis2=dict(showgrid=False, range=[0, 0.2])
+    )
 
     #     print('Observations: ', obs)
     #     print("Correlation: ", f"{d1.loc[:, [column, f'ben{digit}']].corr().iloc[0,1].round(2)*100}%")
