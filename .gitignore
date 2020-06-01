@@ -4,3 +4,4 @@
 venv/
 jupyterhub.sqlite
 jupyterhub_config.py
+dash/
