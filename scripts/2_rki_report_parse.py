@@ -104,22 +104,31 @@ def extract_number(l):
 
 
 def fix_misaligned_row(df):
-    land_first_names = ["Mecklenburg-", 'Baden-', 'North Rhine-', 'Rhineland-',
+    land_first_names = ["Mecklenburg-", "Mecklenburg-Western", 'Baden-', 'North Rhine-', 'Rhineland-',
                         'Saxony-', 'Schleswig-', 'Lower', 'Sachsen-']
-    land_single_word_names = ["Bavaria", 'Berlin', 'Brandenburg', 'Bremen',
-                              'Hamburg', 'Saarland', 'Thuringia', 'Hesse']
+    land_second_names = ["Wuerttemberg", 'Pomerania', "Western Pomerania", 'Saxony', 'Westphalia',
+                        'Palatinate', 'Anhalt', 'Holstein', '-']
+    # land_single_word_names = ["Bavaria", 'Berlin', 'Brandenburg', 'Bremen', 'Bremen*',
+    #                           'Hamburg', 'Saarland', 'Thuringia', 'Hesse']
     df = df.reset_index(drop=True)
     for row in df.itertuples():
         try:
             # if land is not empty and values are null and land is not the beginning of other names
+            row_index = row[0]
+            row_index_plus1 = row_index + 1
+            row_index_plus2 = row_index + 2
             if row.land != 'nan' and \
-                    row.land.strip() not in land_first_names and \
-                    pd.isnull(sum(row[2:])) == True:
-                prev_index = row[0] - 1
-                if df.loc[prev_index, 'land'] not in land_single_word_names:
-                    df.loc[prev_index, 'land'] = (
-                                str(df.loc[prev_index, 'land']).replace('nan', '') +
-                                ' ' + str(row.land).replace('nan', '')).strip()
+                    row.land.strip().replace('*', '') in land_first_names and \
+                    pd.isnull(sum(row[2:])) is True:
+                if df.loc[row_index_plus1, 'land'].replace('*', '') in land_second_names:
+                    df.loc[row_index, 'land'] = (
+                            str(row.land).replace('nan', '')).strip() + ' ' + str(df.loc[row_index_plus1, 'land']).strip().replace('nan', '')
+                    if pd.isnull(df.loc[row_index_plus1, df.columns[1:]].sum()) != 0:
+                        df.loc[row_index, df.columns[1:]] = df.loc[row_index_plus1, df.columns[1:]]
+                        df.drop(axis=1, index=row_index_plus1, inplace=True)
+                    elif pd.isnull(df.loc[row_index_plus1, df.columns[1:]].sum()) == 0:
+                        df.loc[row_index, df.columns[1:]] = df.loc[row_index_plus2, df.columns[1:]]
+                        df.drop(axis=1, index=row_index_plus2, inplace=True)
         except:
             pass
     return df
@@ -178,7 +187,6 @@ def load_pdf(date, path, lang="en"):
         df.loc[:, ['dead']] = df.loc[:, ['dead']].apply(extract_number, axis=1)
     else:
         df['dead'] = 0
-    df.loc[df.land.isnull() == True, 'land'] = 'Mecklenburg-Western Pomerania'
     df = df.loc[(df.land.str.contains('cases') == False) & (df.land != 'Total')
                 & (df.land.str.contains('Gesamt') == False), :]
     try:

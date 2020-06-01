@@ -113,5 +113,5 @@ if __name__ == "__main__":
     for l in df_rki_de_apple.land.unique():
         df_rki_de_apple.loc[(df_rki_de_apple.land == l), ['driving', 'walking', 'transit']] = \
             df_rki_de_apple.loc[(df_rki_de_apple.land == l), ['driving', 'walking', 'transit']].fillna(method='ffill')
-    df_rki_de_apple.sort_values(by=['land', 'date']).to_csv(f'{APP_PATH}/../dash/data/data_rki_apple_prepared_dash.csv',
+    df_rki_de_apple.sort_values(by=['land', 'date']).to_csv(f'{APP_PATH}{DASH_PROCESSED}data_rki_apple_prepared_dash.csv',
                                                             index=False)
