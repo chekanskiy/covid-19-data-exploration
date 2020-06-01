@@ -1,6 +1,7 @@
 import pyarrow as pa
 import redis
-redis_conf = {'host': 'localhost', "port": 6379, 'db': 0}
+
+redis_conf = {"host": "localhost", "port": 6379, "db": 0}
 
 redis_pool = None
 
@@ -8,18 +9,20 @@ redis_pool = None
 def init():
     global redis_pool
     print("PID %d: initializing redis pool..." % os.getpid())
-    redis_pool = redis.ConnectionPool(host=redis_conf['host'], port=redis_conf['port'], db=redis_conf['db'])
+    redis_pool = redis.ConnectionPool(
+        host=redis_conf["host"], port=redis_conf["port"], db=redis_conf["db"]
+    )
 
 
-def cache_df(alias,df):
+def cache_df(alias, df):
 
     cur = redis.Redis(connection_pool=redis_pool)
     context = pa.default_serialization_context()
-    df_compressed =  context.serialize(df).to_buffer().to_pybytes()
+    df_compressed = context.serialize(df).to_buffer().to_pybytes()
 
-    res = cur.set(alias,df_compressed)
+    res = cur.set(alias, df_compressed)
     if res == True:
-        print('df cached')
+        print("df cached")
 
 
 def get_cached_df(alias):

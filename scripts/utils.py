@@ -1,4 +1,11 @@
-DASH_COLUMNS = ['land', 'date', 'iso_code', 'region_wb', 'population_100k', 'confirmed_peak_date']
+DASH_COLUMNS = [
+    "land",
+    "date",
+    "iso_code",
+    "region_wb",
+    "population_100k",
+    "confirmed_peak_date",
+]
 
 FEATURE_DROP_DOWN = {
     "confirmed_change": "Cases: Daily",

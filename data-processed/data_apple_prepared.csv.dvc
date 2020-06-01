@@ -1,0 +1,7 @@
+md5: 942d702b51577cea38689863e2ee6f86
+outs:
+- md5: ecb3886fa9a5ca563589c5daa92df3d9
+  path: data_apple_prepared.csv
+  cache: true
+  metric: false
+  persist: false

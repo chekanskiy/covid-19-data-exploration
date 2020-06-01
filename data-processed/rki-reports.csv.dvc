@@ -1,0 +1,7 @@
+md5: d1a3ab0572bd2feeb1c310fcd77581c5
+outs:
+- md5: b0d27994314261ed0b794add9c3196c2
+  path: rki-reports.csv
+  cache: true
+  metric: false
+  persist: false

@@ -5,7 +5,7 @@ import datetime
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 sys.path.insert(0, APP_PATH)
 
-RELEASES_PATH = f'{APP_PATH}/../data-input/apple-mobility'
+RELEASES_PATH = f"{APP_PATH}/../data-input/apple-mobility"
 
 api_revision = (datetime.datetime.now() - datetime.datetime(2020, 5, 18)).days
 # 38 on 23 or May 2020
@@ -37,5 +37,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     date = args.date
 
-    print(f'Downloading Report for {date}')
+    print(f"Downloading Report for {date}")
     download_csv(date)

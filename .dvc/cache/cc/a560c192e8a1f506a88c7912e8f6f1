@@ -1,0 +1,219 @@
+id,region,country_wb,population,iso_code
+ABW,Latin America & Caribbean ,Aruba,105845.0,ABW
+AFG,South Asia,Afghanistan,37172386.0,AFG
+AGO,Sub-Saharan Africa ,Angola,30809762.0,AGO
+ALB,Europe & Central Asia,Albania,2866376.0,ALB
+AND,Europe & Central Asia,Andorra,77006.0,AND
+ARE,Middle East & North Africa,United Arab Emirates,9630959.0,ARE
+ARG,Latin America & Caribbean ,Argentina,44494502.0,ARG
+ARM,Europe & Central Asia,Armenia,2951776.0,ARM
+ASM,East Asia & Pacific,American Samoa,55465.0,ASM
+ATG,Latin America & Caribbean ,Antigua and Barbuda,96286.0,ATG
+AUS,East Asia & Pacific,Australia,24982688.0,AUS
+AUT,Europe & Central Asia,Austria,8840521.0,AUT
+AZE,Europe & Central Asia,Azerbaijan,9939800.0,AZE
+BDI,Sub-Saharan Africa ,Burundi,11175378.0,BDI
+BEL,Europe & Central Asia,Belgium,11433256.0,BEL
+BEN,Sub-Saharan Africa ,Benin,11485048.0,BEN
+BFA,Sub-Saharan Africa ,Burkina Faso,19751535.0,BFA
+BGD,South Asia,Bangladesh,161356039.0,BGD
+BGR,Europe & Central Asia,Bulgaria,7025037.0,BGR
+BHR,Middle East & North Africa,Bahrain,1569439.0,BHR
+BHS,Latin America & Caribbean ,"Bahamas, The",385640.0,BHS
+BIH,Europe & Central Asia,Bosnia and Herzegovina,3323929.0,BIH
+BLR,Europe & Central Asia,Belarus,9483499.0,BLR
+BLZ,Latin America & Caribbean ,Belize,383071.0,BLZ
+BMU,North America,Bermuda,63973.0,BMU
+BOL,Latin America & Caribbean ,Bolivia,11353142.0,BOL
+BRA,Latin America & Caribbean ,Brazil,209469333.0,BRA
+BRB,Latin America & Caribbean ,Barbados,286641.0,BRB
+BRN,East Asia & Pacific,Brunei Darussalam,428962.0,BRN
+BTN,South Asia,Bhutan,754394.0,BTN
+BWA,Sub-Saharan Africa ,Botswana,2254126.0,BWA
+CAF,Sub-Saharan Africa ,Central African Republic,4666377.0,CAF
+CAN,North America,Canada,37057765.0,CAN
+CHE,Europe & Central Asia,Switzerland,8513227.0,CHE
+CHI,Europe & Central Asia,Channel Islands,170499.0,CHI
+CHL,Latin America & Caribbean ,Chile,18729160.0,CHL
+CHN,East Asia & Pacific,China,1392730000.0,CHN
+CIV,Sub-Saharan Africa ,Cote d'Ivoire,25069229.0,CIV
+CMR,Sub-Saharan Africa ,Cameroon,25216237.0,CMR
+COD,Sub-Saharan Africa ,"Congo, Dem. Rep.",84068091.0,COD
+COG,Sub-Saharan Africa ,"Congo, Rep.",5244363.0,COG
+COL,Latin America & Caribbean ,Colombia,49648685.0,COL
+COM,Sub-Saharan Africa ,Comoros,832322.0,COM
+CPV,Sub-Saharan Africa ,Cabo Verde,543767.0,CPV
+CRI,Latin America & Caribbean ,Costa Rica,4999441.0,CRI
+CUB,Latin America & Caribbean ,Cuba,11338138.0,CUB
+CUW,Latin America & Caribbean ,Curacao,159800.0,CUW
+CYM,Latin America & Caribbean ,Cayman Islands,64174.0,CYM
+CYP,Europe & Central Asia,Cyprus,1189265.0,CYP
+CZE,Europe & Central Asia,Czech Republic,10629928.0,CZE
+DEU,Europe & Central Asia,Germany,82905782.0,DEU
+DJI,Middle East & North Africa,Djibouti,958920.0,DJI
+DMA,Latin America & Caribbean ,Dominica,71625.0,DMA
+DNK,Europe & Central Asia,Denmark,5793636.0,DNK
+DOM,Latin America & Caribbean ,Dominican Republic,10627165.0,DOM
+DZA,Middle East & North Africa,Algeria,42228429.0,DZA
+ECU,Latin America & Caribbean ,Ecuador,17084357.0,ECU
+EGY,Middle East & North Africa,"Egypt, Arab Rep.",98423595.0,EGY
+ERI,Sub-Saharan Africa ,Eritrea,,ERI
+ESP,Europe & Central Asia,Spain,46796540.0,ESP
+EST,Europe & Central Asia,Estonia,1321977.0,EST
+ETH,Sub-Saharan Africa ,Ethiopia,109224559.0,ETH
+FIN,Europe & Central Asia,Finland,5515525.0,FIN
+FJI,East Asia & Pacific,Fiji,883483.0,FJI
+FRA,Europe & Central Asia,France,66977107.0,FRA
+FRO,Europe & Central Asia,Faroe Islands,48497.0,FRO
+FSM,East Asia & Pacific,"Micronesia, Fed. Sts.",112640.0,FSM
+GAB,Sub-Saharan Africa ,Gabon,2119275.0,GAB
+GBR,Europe & Central Asia,United Kingdom,66460344.0,GBR
+GEO,Europe & Central Asia,Georgia,3726549.0,GEO
+GHA,Sub-Saharan Africa ,Ghana,29767108.0,GHA
+GIB,Europe & Central Asia,Gibraltar,33718.0,GIB
+GIN,Sub-Saharan Africa ,Guinea,12414318.0,GIN
+GMB,Sub-Saharan Africa ,"Gambia, The",2280102.0,GMB
+GNB,Sub-Saharan Africa ,Guinea-Bissau,1874309.0,GNB
+GNQ,Sub-Saharan Africa ,Equatorial Guinea,1308974.0,GNQ
+GRC,Europe & Central Asia,Greece,10731726.0,GRC
+GRD,Latin America & Caribbean ,Grenada,111454.0,GRD
+GRL,Europe & Central Asia,Greenland,56025.0,GRL
+GTM,Latin America & Caribbean ,Guatemala,17247807.0,GTM
+GUM,East Asia & Pacific,Guam,165768.0,GUM
+GUY,Latin America & Caribbean ,Guyana,779004.0,GUY
+HKG,East Asia & Pacific,"Hong Kong SAR, China",7451000.0,HKG
+HND,Latin America & Caribbean ,Honduras,9587522.0,HND
+HRV,Europe & Central Asia,Croatia,4087843.0,HRV
+HTI,Latin America & Caribbean ,Haiti,11123176.0,HTI
+HUN,Europe & Central Asia,Hungary,9775564.0,HUN
+IDN,East Asia & Pacific,Indonesia,267663435.0,IDN
+IMN,Europe & Central Asia,Isle of Man,84077.0,IMN
+IND,South Asia,India,1352617328.0,IND
+IRL,Europe & Central Asia,Ireland,4867309.0,IRL
+IRN,Middle East & North Africa,"Iran, Islamic Rep.",81800269.0,IRN
+IRQ,Middle East & North Africa,Iraq,38433600.0,IRQ
+ISL,Europe & Central Asia,Iceland,352721.0,ISL
+ISR,Middle East & North Africa,Israel,8882800.0,ISR
+ITA,Europe & Central Asia,Italy,60421760.0,ITA
+JAM,Latin America & Caribbean ,Jamaica,2934855.0,JAM
+JOR,Middle East & North Africa,Jordan,9956011.0,JOR
+JPN,East Asia & Pacific,Japan,126529100.0,JPN
+KAZ,Europe & Central Asia,Kazakhstan,18272430.0,KAZ
+KEN,Sub-Saharan Africa ,Kenya,51393010.0,KEN
+KGZ,Europe & Central Asia,Kyrgyz Republic,6322800.0,KGZ
+KHM,East Asia & Pacific,Cambodia,16249798.0,KHM
+KIR,East Asia & Pacific,Kiribati,115847.0,KIR
+KNA,Latin America & Caribbean ,St. Kitts and Nevis,52441.0,KNA
+KOR,East Asia & Pacific,"Korea, Rep.",51606633.0,KOR
+KWT,Middle East & North Africa,Kuwait,4137309.0,KWT
+LAO,East Asia & Pacific,Lao PDR,7061507.0,LAO
+LBN,Middle East & North Africa,Lebanon,6848925.0,LBN
+LBR,Sub-Saharan Africa ,Liberia,4818977.0,LBR
+LBY,Middle East & North Africa,Libya,6678567.0,LBY
+LCA,Latin America & Caribbean ,St. Lucia,181889.0,LCA
+LIE,Europe & Central Asia,Liechtenstein,37910.0,LIE
+LKA,South Asia,Sri Lanka,21670000.0,LKA
+LSO,Sub-Saharan Africa ,Lesotho,2108132.0,LSO
+LTU,Europe & Central Asia,Lithuania,2801543.0,LTU
+LUX,Europe & Central Asia,Luxembourg,607950.0,LUX
+LVA,Europe & Central Asia,Latvia,1927174.0,LVA
+MAC,East Asia & Pacific,"Macao SAR, China",631636.0,MAC
+MAF,Latin America & Caribbean ,St. Martin (French part),37264.0,MAF
+MAR,Middle East & North Africa,Morocco,36029138.0,MAR
+MCO,Europe & Central Asia,Monaco,38682.0,MCO
+MDA,Europe & Central Asia,Moldova,2706049.0,MDA
+MDG,Sub-Saharan Africa ,Madagascar,26262368.0,MDG
+MDV,South Asia,Maldives,515696.0,MDV
+MEX,Latin America & Caribbean ,Mexico,126190788.0,MEX
+MHL,East Asia & Pacific,Marshall Islands,58413.0,MHL
+MKD,Europe & Central Asia,North Macedonia,2082958.0,MKD
+MLI,Sub-Saharan Africa ,Mali,19077690.0,MLI
+MLT,Middle East & North Africa,Malta,484630.0,MLT
+MMR,East Asia & Pacific,Myanmar,53708395.0,MMR
+MNE,Europe & Central Asia,Montenegro,622227.0,MNE
+MNG,East Asia & Pacific,Mongolia,3170208.0,MNG
+MNP,East Asia & Pacific,Northern Mariana Islands,56882.0,MNP
+MOZ,Sub-Saharan Africa ,Mozambique,29495962.0,MOZ
+MRT,Sub-Saharan Africa ,Mauritania,4403319.0,MRT
+MUS,Sub-Saharan Africa ,Mauritius,1265303.0,MUS
+MWI,Sub-Saharan Africa ,Malawi,18143315.0,MWI
+MYS,East Asia & Pacific,Malaysia,31528585.0,MYS
+NAM,Sub-Saharan Africa ,Namibia,2448255.0,NAM
+NCL,East Asia & Pacific,New Caledonia,284060.0,NCL
+NER,Sub-Saharan Africa ,Niger,22442948.0,NER
+NGA,Sub-Saharan Africa ,Nigeria,195874740.0,NGA
+NIC,Latin America & Caribbean ,Nicaragua,6465513.0,NIC
+NLD,Europe & Central Asia,Netherlands,17231624.0,NLD
+NOR,Europe & Central Asia,Norway,5311916.0,NOR
+NPL,South Asia,Nepal,28087871.0,NPL
+NRU,East Asia & Pacific,Nauru,12704.0,NRU
+NZL,East Asia & Pacific,New Zealand,4841000.0,NZL
+OMN,Middle East & North Africa,Oman,4829483.0,OMN
+PAK,South Asia,Pakistan,212215030.0,PAK
+PAN,Latin America & Caribbean ,Panama,4176873.0,PAN
+PER,Latin America & Caribbean ,Peru,31989256.0,PER
+PHL,East Asia & Pacific,Philippines,106651922.0,PHL
+PLW,East Asia & Pacific,Palau,17907.0,PLW
+PNG,East Asia & Pacific,Papua New Guinea,8606316.0,PNG
+POL,Europe & Central Asia,Poland,37974750.0,POL
+PRI,Latin America & Caribbean ,Puerto Rico,3195153.0,PRI
+PRK,East Asia & Pacific,"Korea, Dem. People’s Rep.",25549819.0,PRK
+PRT,Europe & Central Asia,Portugal,10283822.0,PRT
+PRY,Latin America & Caribbean ,Paraguay,6956071.0,PRY
+PSE,Middle East & North Africa,West Bank and Gaza,4569087.0,PSE
+PYF,East Asia & Pacific,French Polynesia,277679.0,PYF
+QAT,Middle East & North Africa,Qatar,2781677.0,QAT
+ROU,Europe & Central Asia,Romania,19466145.0,ROU
+RUS,Europe & Central Asia,Russian Federation,144478050.0,RUS
+RWA,Sub-Saharan Africa ,Rwanda,12301939.0,RWA
+SAU,Middle East & North Africa,Saudi Arabia,33699947.0,SAU
+SDN,Sub-Saharan Africa ,Sudan,41801533.0,SDN
+SEN,Sub-Saharan Africa ,Senegal,15854360.0,SEN
+SGP,East Asia & Pacific,Singapore,5638676.0,SGP
+SLB,East Asia & Pacific,Solomon Islands,652858.0,SLB
+SLE,Sub-Saharan Africa ,Sierra Leone,7650154.0,SLE
+SLV,Latin America & Caribbean ,El Salvador,6420744.0,SLV
+SMR,Europe & Central Asia,San Marino,33785.0,SMR
+SOM,Sub-Saharan Africa ,Somalia,15008154.0,SOM
+SRB,Europe & Central Asia,Serbia,6982604.0,SRB
+SSD,Sub-Saharan Africa ,South Sudan,10975920.0,SSD
+STP,Sub-Saharan Africa ,Sao Tome and Principe,211028.0,STP
+SUR,Latin America & Caribbean ,Suriname,575991.0,SUR
+SVK,Europe & Central Asia,Slovak Republic,5446771.0,SVK
+SVN,Europe & Central Asia,Slovenia,2073894.0,SVN
+SWE,Europe & Central Asia,Sweden,10175214.0,SWE
+SWZ,Sub-Saharan Africa ,Eswatini,1136191.0,SWZ
+SXM,Latin America & Caribbean ,Sint Maarten (Dutch part),40654.0,SXM
+SYC,Sub-Saharan Africa ,Seychelles,96762.0,SYC
+SYR,Middle East & North Africa,Syrian Arab Republic,16906283.0,SYR
+TCA,Latin America & Caribbean ,Turks and Caicos Islands,37665.0,TCA
+TCD,Sub-Saharan Africa ,Chad,15477751.0,TCD
+TGO,Sub-Saharan Africa ,Togo,7889094.0,TGO
+THA,East Asia & Pacific,Thailand,69428524.0,THA
+TJK,Europe & Central Asia,Tajikistan,9100837.0,TJK
+TKM,Europe & Central Asia,Turkmenistan,5850908.0,TKM
+TLS,East Asia & Pacific,Timor-Leste,1267972.0,TLS
+TON,East Asia & Pacific,Tonga,103197.0,TON
+TTO,Latin America & Caribbean ,Trinidad and Tobago,1389858.0,TTO
+TUN,Middle East & North Africa,Tunisia,11565204.0,TUN
+TUR,Europe & Central Asia,Turkey,82319724.0,TUR
+TUV,East Asia & Pacific,Tuvalu,11508.0,TUV
+TWN,East Asia & Pacific,"Taiwan, China",,TWN
+TZA,Sub-Saharan Africa ,Tanzania,56318348.0,TZA
+UGA,Sub-Saharan Africa ,Uganda,42723139.0,UGA
+UKR,Europe & Central Asia,Ukraine,44622516.0,UKR
+URY,Latin America & Caribbean ,Uruguay,3449299.0,URY
+USA,North America,United States,326687501.0,USA
+UZB,Europe & Central Asia,Uzbekistan,32955400.0,UZB
+VCT,Latin America & Caribbean ,St. Vincent and the Grenadines,110210.0,VCT
+VEN,Latin America & Caribbean ,"Venezuela, RB",28870195.0,VEN
+VGB,Latin America & Caribbean ,British Virgin Islands,29802.0,VGB
+VIR,Latin America & Caribbean ,Virgin Islands (U.S.),106977.0,VIR
+VNM,East Asia & Pacific,Vietnam,95540395.0,VNM
+VUT,East Asia & Pacific,Vanuatu,292680.0,VUT
+WSM,East Asia & Pacific,Samoa,196130.0,WSM
+XKX,Europe & Central Asia,Kosovo,1845300.0,XKS
+YEM,Middle East & North Africa,"Yemen, Rep.",28498687.0,YEM
+ZAF,Sub-Saharan Africa ,South Africa,57779622.0,ZAF
+ZMB,Sub-Saharan Africa ,Zambia,17351822.0,ZMB
+ZWE,Sub-Saharan Africa ,Zimbabwe,14439018.0,ZWE

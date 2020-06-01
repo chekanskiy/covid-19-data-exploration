@@ -1,4 +1,5 @@
 import os
+
 # import dotenv
 # dotenv.load_dotenv(verbose=True)
 # RELEASES_PATH = os.getenv("RELEASES_PATH")
@@ -8,7 +9,7 @@ import sys
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 sys.path.insert(0, APP_PATH)
 
-RELEASES_PATH = f'{APP_PATH}/../data-input/rki-reports'
+RELEASES_PATH = f"{APP_PATH}/../data-input/rki-reports"
 
 
 def download_csv(date_report, language="en"):
@@ -29,7 +30,9 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Process some integers.")
     parser.add_argument(
-        "--language", default="en", help="Report language: en for English, de for German"
+        "--language",
+        default="en",
+        help="Report language: en for English, de for German",
     )
     parser.add_argument(
         "--date", default=date_yesterday, help="Report Date: YYYY-MM-DD",
@@ -39,5 +42,5 @@ if __name__ == "__main__":
     date = args.date
     language = args.language
 
-    print(f'Downloading Report in {language} for {date}')
+    print(f"Downloading Report in {language} for {date}")
     download_csv(date, language=language)

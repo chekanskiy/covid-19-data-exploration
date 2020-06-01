@@ -1,0 +1,7 @@
+md5: 94c3dcee1950e72530ef67ec712537dd
+outs:
+- md5: fe963ae862f4a7d0840bf658e65338f3
+  path: data_jhu_world.csv
+  cache: true
+  metric: false
+  persist: false
