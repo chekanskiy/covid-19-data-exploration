@@ -126,8 +126,8 @@ def fix_misaligned_row(df):
         "Holstein",
         "-",
     ]
-    # land_single_word_names = ["Bavaria", 'Berlin', 'Brandenburg', 'Bremen', 'Bremen*',
-    #                           'Hamburg', 'Saarland', 'Thuringia', 'Hesse']
+    land_single_word_names = ["Bavaria", 'Berlin', 'Brandenburg', 'Bremen', 'Bremen*',
+                              'Hamburg', 'Saarland', 'Thuringia', 'Hesse']
     df = df.reset_index(drop=True)
     for row in df.itertuples():
         try:
@@ -141,9 +141,10 @@ def fix_misaligned_row(df):
                 and pd.isnull(sum(row[2:])) is True
             ):
                 if (
-                    df.loc[row_index_plus1, "land"].replace("*", "")
-                    in land_second_names
+                    str(df.loc[row_index_plus1, "land"]).replace("*", "")
+                    not in set(land_first_names).intersection(set(land_single_word_names))
                 ):
+                    print('clause 2')
                     df.loc[row_index, "land"] = (
                         (str(row.land).replace("nan", "")).strip()
                         + " "
@@ -151,12 +152,14 @@ def fix_misaligned_row(df):
                         .strip()
                         .replace("nan", "")
                     )
-                    if pd.isnull(df.loc[row_index_plus1, df.columns[1:]].sum()) != 0:
+                    if pd.isnull(df.loc[row_index_plus1, df.columns[2]]) is False:
+                        print('Taking next row')
                         df.loc[row_index, df.columns[1:]] = df.loc[
                             row_index_plus1, df.columns[1:]
                         ]
                         df.drop(axis=1, index=row_index_plus1, inplace=True)
-                    elif pd.isnull(df.loc[row_index_plus1, df.columns[1:]].sum()) == 0:
+                    else:
+                        print('Taking next row + 1')
                         df.loc[row_index, df.columns[1:]] = df.loc[
                             row_index_plus2, df.columns[1:]
                         ]
@@ -175,28 +178,18 @@ def load_pdf(date, path, lang="en"):
             path, pandas_options={"header": None, "dtype": str}, template_path=template
         )
     else:
+        # fmt: off
         if date <= "2020-05-28":
             area = [304, 69, 674, 547]  # Points: Top Y, Left X, Bottom Y, Right X
-            columns = [
-                160,
-                205,
-                254,
-                319,
-                370,
-                432,
-                476,
-            ]  # Points: X coordinates of column splits
+            columns = [160, 205, 254, 319, 370, 432, 476, ]  # Points: X coordinates of column splits
+
+        elif date <= "2020-06-01":
+            area = [304, 69, 816, 547]  # Points: Top Y, Left X, Bottom Y, Right X
+            columns = [160, 205, 254, 319, 370, 432, 476, ]  # Points: X coordinates of column splits
+
         else:
-            area = [304, 69, 674, 547]  # Points: Top Y, Left X, Bottom Y, Right X
-            columns = [
-                160,
-                205,
-                254,
-                319,
-                370,
-                432,
-                476,
-            ]  # Points: X coordinates of column splits
+            area = [426, 69, 940, 547]  # Points: Top Y, Left X, Bottom Y, Right X
+            columns = [160, 205, 254, 319, 370, 432, 476,]  # Points: X coordinates of column splits
         dfs = read_pdf(
             path,
             pandas_options={"header": None, "dtype": str},
@@ -205,7 +198,7 @@ def load_pdf(date, path, lang="en"):
             area=area,
             columns=columns,
         )
-
+    # fmt: on
     print(dfs, "\n" * 2)
     df = dfs[0]
     if len(df.columns) == 2:
@@ -310,12 +303,13 @@ if __name__ == "__main__":
     df_new.loc[df_new['land'].str.contains('Western Pomerania') == True, 'land'] = 'Mecklenburg-Western Pomerania'
     df_new.loc[df_new['land'].str.contains('Pomerania') == True, 'land'] = 'Mecklenburg-Western Pomerania'
     df_new.loc[df_new['land'].str.contains('Vorpommern') == True, 'land'] = 'Mecklenburg-Western Pomerania'
+    df_new.loc[df_new['land'].str.contains('North') == True, 'land'] = 'North Rhine-Westphalia'
     df_new.loc[df_new['land'].str.contains('Westphalia') == True, 'land'] = 'North Rhine-Westphalia'
+    df_new.loc[df_new['land'].str.contains('Westfalen') == True, 'land'] = 'North Rhine-Westphalia'
+    # df_new.loc[df_new['land'].str.contains('Nordrhein-Westfalen') == True, 'land'] = 'North Rhine-Westphalia'
     df_new.loc[df_new['land'].str.contains('Rhineland-') == True, 'land'] = 'Rhineland-Palatinate'
     df_new.loc[df_new['land'].str.contains('Palatinate') == True, 'land'] = 'Rhineland-Palatinate'
     df_new.loc[df_new['land'].str.contains('Pfalz') == True, 'land'] = 'Rhineland-Palatinate'
-    df_new.loc[df_new['land'].str.contains('Nordrhein-Westfalen') == True, 'land'] = 'North Rhine-Westphalia'
-    df_new.loc[df_new['land'].str.contains('Westfalen') == True, 'land'] = 'North Rhine-Westphalia'
     df_new.loc[df_new['land'].str.contains('Rheinland-') == True, 'land'] = 'Rhineland-Palatinate'
     df_new.loc[df_new['land'].str.contains('Niedersachsen') == True, 'land'] = 'Lower Saxony'
     df_new.loc[df_new['land'].str.contains('Hessen') == True, 'land'] = 'Hesse'
