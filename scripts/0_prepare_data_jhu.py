@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from features import add_variables_covid
 from utils import DASH_COLUMNS, FEATURE_DROP_DOWN
+from redisConnection import RedisConnection
 
 DASH_COLUMNS = set(DASH_COLUMNS + list(FEATURE_DROP_DOWN.keys()))
 pd.set_option("display.max_columns", 300)
@@ -237,10 +238,19 @@ if __name__ == "__main__":
         df_jhu_processed.land.isin(df_eu_countries.Country) == True, "region_wb"
     ] = "European Union"
 
+    # Saving Data
     df_jhu_processed.to_csv(f"{path_processed}data_jhu_world.csv", index=False)
+
     if subset_columns:
-        df_jhu_processed.loc[
-            :, [c for c in df_jhu_processed.columns if c in DASH_COLUMNS]
-        ].to_csv(f"{path_processed_dash}data_jhu_world.csv", index=False)
-    else:
-        df_jhu_processed.to_csv(f"{path_processed_dash}data_jhu_world.csv", index=False)
+        df_jhu_processed = df_jhu_processed.loc[:, [c for c in df_jhu_processed.columns if c in DASH_COLUMNS]]
+
+    df_jhu_processed.to_csv(f"{path_processed_dash}data_jhu_world.csv", index=False)
+
+    # Uploading to Redis
+    try:
+        redis_conn = RedisConnection()
+        redis_conn.cache_df('df_jh_world', df_jhu_processed)
+        redis_conn.disconnect()
+    except Exception as e:
+        print('Exception Writing to Redis: \n')
+        print(e)

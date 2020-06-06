@@ -6,6 +6,7 @@ import os, sys
 import dotenv
 from features import add_variables_covid, add_variables_apple
 from utils import DASH_COLUMNS, FEATURE_DROP_DOWN
+from redisConnection import RedisConnection
 
 DASH_COLUMNS = set(DASH_COLUMNS + list(FEATURE_DROP_DOWN.keys()))
 
@@ -114,8 +115,8 @@ if __name__ == "__main__":
     if subset_columns:
         print("Taking a subset of all columns for Dash")
         df_rki_germany_processed_dash = df_rki_germany_processed.loc[
-            :, [c for c in df_rki_germany_processed.columns if c in DASH_COLUMNS]
-        ]
+                                        :, [c for c in df_rki_germany_processed.columns if c in DASH_COLUMNS]
+                                        ]
     else:
         print("Taking all columns for Dash")
         df_rki_germany_processed_dash = df_rki_germany_processed
@@ -136,3 +137,13 @@ if __name__ == "__main__":
     df_rki_de_apple.sort_values(by=["land", "date"]).to_csv(
         f"{APP_PATH}{DASH_PROCESSED}data_rki_apple_prepared_dash.csv", index=False
     )
+
+    try:
+        df_rki_de_apple = pd.read_csv(f"{APP_PATH}{DASH_PROCESSED}data_rki_apple_prepared_dash.csv")
+        redis_conn = RedisConnection()
+        redis_conn.cache_df('df_rki_orig', df_rki_de_apple)
+        redis_conn.cache_df('json_geo_de', geojson)
+        redis_conn.disconnect()
+    except Exception as e:
+        print('Exception Writing to Redis: \n')
+        print(e)
