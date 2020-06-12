@@ -205,6 +205,11 @@ def add_variables_covid(df, column, population=False):
     # df.loc[:, f'{column}_doubling_days_3w_avg3'] = np.round(df.loc[:, f'{column}_doubling_days_3w'].rolling(3, win_type='triang').mean(), 0)
 
     if column == "confirmed":
+        # Rt
+        df.loc[:, f'{column}_avg3'] = np.round(df.loc[:, column].rolling(3, win_type='triang').mean(), 0)
+        df = add_lag(df, f'{column}_avg3', 4)
+        df['Rt'] = df[f'{column}_avg3'] / df[f'{column}_avg3_l4']
+
         df.loc[:, f"{column}_active_cases"] = df[f"{column}"] - df[f"{column}"].shift(
             12
         )
@@ -264,7 +269,11 @@ def add_variables_covid(df, column, population=False):
 
         # Dropping technical columns
         df.drop(
-            [f"{column}_active_cases_avg7", f"{column}_active_cases_avg7_l1",],
+            [f"{column}_active_cases_avg7",
+             f"{column}_active_cases_avg7_l1",
+             f"{column}_avg3",
+             f'{column}_avg3_l4',
+             ],
             axis=1,
             inplace=True,
         )
