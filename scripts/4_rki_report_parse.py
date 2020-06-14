@@ -347,6 +347,10 @@ if __name__ == "__main__":
         "\n",
     )
 
+    # =========================================== SAVING PARSED RESULT ======================================
+    df_new.to_csv(
+        f"{APP_PATH}/../data-processed/tmp_rki_report.csv", index=False
+    )
     # =========================================== LOADING ACCUMULATED DATA TABLE =======================================
     result_all = pd.read_csv(f"{APP_PATH}/../data-processed/rki-reports.csv")
     result_all["date"] = result_all["date"].astype("datetime64[ns]")

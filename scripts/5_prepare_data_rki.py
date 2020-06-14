@@ -44,7 +44,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process some integers.")
     parser.add_argument(
         "--subset_columns",
-        default=True,
+        default=False,
         help="Take only a subset of columns for Dash Dashboard",
     )
 
