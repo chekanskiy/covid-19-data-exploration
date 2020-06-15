@@ -206,9 +206,9 @@ def add_variables_covid(df, column, population=False):
 
     if column == "confirmed":
         # Rt
-        df.loc[:, f'{column}_change_avg3'] = np.round(df.loc[:, f'{column}_change'].rolling(3, win_type='triang').mean(), 0)
-        df = add_lag(df, f'{column}_change_avg3', 4)
-        df['Rt'] = df[f'{column}_change_avg3'] / df[f'{column}_change_avg3_l4']
+        df.loc[:, f'{column}_change_avg7'] = np.round(df.loc[:, f'{column}_change'].rolling(7, win_type='triang').mean(), 0)
+        df = add_lag(df, f'{column}_change_avg7', 4)
+        df['Rt'] = df[f'{column}_change_avg7'] / df[f'{column}_change_avg7_l4']
 
         df.loc[:, f"{column}_active_cases"] = df[f"{column}"] - df[f"{column}"].shift(
             12
@@ -271,8 +271,8 @@ def add_variables_covid(df, column, population=False):
         df.drop(
             [f"{column}_active_cases_avg7",
              f"{column}_active_cases_avg7_l1",
-             f"{column}_change_avg3",
-             f'{column}_change_avg3_l4',
+             f"{column}_change_avg7",
+             f'{column}_change_avg7_l4',
              ],
             axis=1,
             inplace=True,
