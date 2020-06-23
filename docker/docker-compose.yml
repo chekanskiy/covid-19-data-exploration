@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+
+  covid-dashboard-data:
+    image: covid-dashboard-data:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ~/Documents/projects:/projects
