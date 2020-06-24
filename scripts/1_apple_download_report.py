@@ -7,7 +7,7 @@ sys.path.insert(0, APP_PATH)
 
 RELEASES_PATH = f"{APP_PATH}/../data-input/apple-mobility"
 
-api_revision = (datetime.datetime.now() - datetime.datetime(2020, 5, 29)).days
+api_revision = (datetime.datetime.now() - datetime.datetime(2020, 5, 28)).days
 # 38 on 23 or May 2020
 
 link = f"https://covid19-static.cdn-apple.com/covid19-mobility-data/2010HotfixDev{api_revision}/v3/en-us/applemobilitytrends-"
@@ -20,7 +20,9 @@ def download_csv(date_report):
         f"{date_report}.csv"
     )
     print(call)
-    os.system(call)
+    output = os.system(call)
+    if output != 0:
+        raise Exception("Failed Download")
 
 
 if __name__ == "__main__":

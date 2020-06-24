@@ -19,7 +19,9 @@ def download_csv(date_report, language="en"):
         f"{date_report}-{language}.pdf?__blob=publicationFile"
     )
     print(call)
-    os.system(call)
+    output = os.system(call)
+    if output != 0:
+        raise Exception("Failed Download")
 
 
 if __name__ == "__main__":
