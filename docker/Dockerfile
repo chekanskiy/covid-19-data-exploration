@@ -16,6 +16,9 @@ RUN apt-get -y update && apt-get install -f --no-install-recommends -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+RUN  git config --global user.email "auto@commit.com" \
+     && git config --global user.name "Update Bot"
+
 #COPY ./requirements.txt /
 #RUN pip install -r requirements.txt
 
@@ -45,4 +48,3 @@ RUN pip install \
         tabulate==0.8.7 \
         tqdm==4.46.0 \
         world-bank-data==0.1.3 \
-
