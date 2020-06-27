@@ -308,6 +308,8 @@ def add_variables_covid(df, column, population=False):
             population / 100000, 3
         )
         if column == "confirmed":
+            df[f"{column}_change_sum7d_per_100k"] = df[
+                f"{column}_change"].rolling(7).sum() / round(population / 100000, 3)
             df.loc[:, f"{column}_active_cases_per_100k"] = df.loc[
                 :, f"{column}_active_cases"
             ] / round(population / 100000, 3)
