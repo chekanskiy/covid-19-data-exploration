@@ -8,6 +8,7 @@ RUN mkdir -p /usr/share/man/man1
 RUN apt-get -y update && apt-get install -f --no-install-recommends -y \
   curl \
   software-properties-common \
+  git \
   default-jre \
 #    && apt-get -y update \
 #    && add-apt-repository ppa:webupd8team/java \
