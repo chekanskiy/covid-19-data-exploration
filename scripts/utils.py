@@ -17,6 +17,7 @@ FEATURE_DROP_DOWN = {
     "confirmed_change_per_100k": "Cases: Daily per 100k of Population",
     "confirmed_change_pct_3w": "Cases: Daily as % of Rolling 3 Week Sum",
     "confirmed_change_sum7d_per_100k": "Cases: 7d sum per 100k of Population",
+    "confirmed_change_sum7d": "Cases: 7d sum",
     "confirmed_doubling_days_3w_avg3": "Cases: Days to Double Rolling 3 Week Sum",
     "Rt": "Rt coefficient",
     "dead_change": "Deaths: Daily",

@@ -242,15 +242,17 @@ if __name__ == "__main__":
     df_jhu_processed.to_csv(f"{path_processed}data_jhu_world.csv", index=False)
 
     if subset_columns:
-        df_jhu_processed = df_jhu_processed.loc[:, [c for c in df_jhu_processed.columns if c in DASH_COLUMNS]]
+        df_jhu_processed = df_jhu_processed.loc[
+            :, [c for c in df_jhu_processed.columns if c in DASH_COLUMNS]
+        ]
 
     df_jhu_processed.to_csv(f"{path_processed_dash}data_jhu_world.csv", index=False)
 
     # Uploading to Redis
     try:
         redis_conn = RedisConnection()
-        redis_conn.cache_df('df_jh_world', df_jhu_processed)
+        redis_conn.cache_df("df_jh_world", df_jhu_processed)
         redis_conn.disconnect()
     except Exception as e:
-        print('Exception Writing to Redis: \n')
+        print("Exception Writing to Redis: \n")
         print(e)
