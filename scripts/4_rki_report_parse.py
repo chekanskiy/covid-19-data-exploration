@@ -196,7 +196,7 @@ def load_pdf(date, path, lang="en"):
             path,
             pandas_options={"header": None, "dtype": str},
             stream=True,
-            pages=2,
+            pages=3,
             area=area,
             columns=columns,
         )
@@ -241,8 +241,12 @@ def load_pdf(date, path, lang="en"):
         print(df.head(20))
         raise Exception
     df = fix_misaligned_row(df)
+
+    # Replace with a clause: if all columns except land contain numbers
     df["c"] = df.loc[:, "confirmed"].apply(count_numbers)
-    df = df.loc[df.c != 0, :]
+    df["d"] = df.loc[:, "dead"].apply(count_numbers)
+    df = df.loc[(df.c != 0) & (df.d != 0), :]
+
     df.loc[:, ["confirmed"]] = df.loc[:, ["confirmed"]].apply(extract_number, axis=1)
     if "dead" in df.columns:
         df.loc[:, ["dead"]] = df.loc[:, ["dead"]].apply(extract_number, axis=1)
