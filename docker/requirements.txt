@@ -12,7 +12,7 @@ Pillow==7.1.2
 plotly==4.6.0
 pyarrow==0.17.1
 python-dotenv==0.13.0
-PyYAML==5.3.1
+PyYAML==5.4
 redis==3.5.2
 requests==2.23.0
 scikit-learn==0.22.2.post1
